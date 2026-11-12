@@ -1,21 +1,21 @@
 import { chromium } from "playwright";
 import { readFile, writeFile, mkdir, rename } from "node:fs/promises";
 import { createHash } from "node:crypto";
+import { loadProject, projectId } from "./project.mjs";
 
 // Preparation is deliberately local. Never send cookies or credentials to the sources.
-const project = JSON.parse(await readFile("public/project.json", "utf8"));
+const project = await loadProject();
+const dir = `projects/${projectId}/captures`;
 const args = new Set(process.argv.slice(2));
 const sides = args.has("--after-only") ? ["after"] : ["before", "after"];
 const replace = args.has("--replace-baseline");
 let manifest = { version: 1, projectId: project.id, captures: {} };
 try {
-  manifest = JSON.parse(
-    await readFile("public/captures/manifest.json", "utf8"),
-  );
+  manifest = JSON.parse(await readFile(`${dir}/manifest.json`, "utf8"));
 } catch (e) {
   if (e.code !== "ENOENT") throw e;
 }
-await mkdir("public/captures", { recursive: true });
+await mkdir(dir, { recursive: true });
 const browser = await chromium.launch();
 let failures = 0;
 try {
@@ -92,7 +92,7 @@ try {
             );
           if (imageFailures.length)
             throw new Error(`Visible images failed: ${imageFailures.length}`);
-          const target = `public/captures/${key}.png`;
+          const target = `${dir}/${key}.png`;
           const buffer = await page.screenshot({ animations: "disabled" });
           await writeFile(`${target}.tmp`, buffer);
           await rename(`${target}.tmp`, target);
@@ -108,7 +108,7 @@ try {
             status: response.status(),
           };
           await writeFile(
-            "public/captures/manifest.json",
+            `${dir}/manifest.json`,
             JSON.stringify(manifest, null, 2) + "\n",
           );
           console.log(`Captured ${key}: ${title}`);

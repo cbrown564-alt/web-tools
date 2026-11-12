@@ -1,5 +1,5 @@
 import { jsPDF } from "jspdf";
-import { captureFor, dateLabel } from "./model.js";
+import { captureFor, dateLabel, ordinal } from "./model.js";
 
 const colours = {
   ink: "#263536",
@@ -35,7 +35,7 @@ export async function createPdf({ project, pages, manifest, device }) {
   doc.addFont("Lato-Bold.ttf", "Lato", "bold");
   doc.setProperties({
     title: `${project.name} | Before & After`,
-    subject: `${device} website comparison - proposed redesign`,
+    subject: `${device} website comparison - ${project.labels.after.toLowerCase()}`,
     author: "Web Tools",
     creator: "Before & After",
   });
@@ -76,7 +76,7 @@ export async function createPdf({ project, pages, manifest, device }) {
     });
     doc.setDrawColor(colours.line);
     doc.line(16, 25, 404, 25);
-    text(`0${index + 1} / ${page.label.toUpperCase()}`, 16, 35, {
+    text(`${ordinal(index + 1)} / ${page.label.toUpperCase()}`, 16, 35, {
       size: 9,
       colour: colours.accent,
       bold: true,
@@ -94,9 +94,7 @@ export async function createPdf({ project, pages, manifest, device }) {
       if (!capture)
         throw new Error(`Missing ${page.id} ${device} ${side} capture`);
       text(
-        side === "before"
-          ? "BEFORE / CURRENT WEBSITE"
-          : "AFTER / PROPOSED REDESIGN",
+        `${side === "before" ? "BEFORE" : "AFTER"} / ${project.labels[side].toUpperCase()}`,
         x,
         80,
         {
@@ -132,7 +130,9 @@ export async function createPdf({ project, pages, manifest, device }) {
         { size: 8, colour: colours.muted },
       );
       text(
-        side === "before" ? "THE STARTING POINT" : "THE PROPOSED CHANGE",
+        side === "before"
+          ? "THE STARTING POINT"
+          : project.labels.afterNote.toUpperCase(),
         x,
         241,
         {
@@ -151,18 +151,14 @@ export async function createPdf({ project, pages, manifest, device }) {
     }
     doc.setDrawColor(colours.line);
     doc.line(16, 280, 404, 280);
-    text(
-      "First-screen captures. Preview for discussion. Not client approval or a production launch.",
-      16,
-      287,
-      { size: 8, colour: colours.muted },
-    );
-    text(
-      `${String(index + 1).padStart(2, "0")} / ${String(pages.length).padStart(2, "0")}`,
-      388,
-      287,
-      { size: 9, colour: colours.muted },
-    );
+    text(`First-screen captures. ${project.labels.disclaimer}`, 16, 287, {
+      size: 8,
+      colour: colours.muted,
+    });
+    text(`${ordinal(index + 1)} / ${ordinal(pages.length)}`, 388, 287, {
+      size: 9,
+      colour: colours.muted,
+    });
   }
   return doc.output("blob");
 }

@@ -5,24 +5,32 @@ import { readFile, mkdir, stat } from "node:fs/promises";
 import { resolve, extname } from "node:path";
 import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
+import { loadProject, projectId, projectDir } from "./project.mjs";
 
-await mkdir("output/verification", { recursive: true });
+const out = `output/verification/${projectId}`;
+await mkdir(out, { recursive: true });
 await mkdir("output/pdf", { recursive: true });
-const project = JSON.parse(await readFile("public/project.json"));
-const manifest = JSON.parse(await readFile("public/captures/manifest.json"));
+const project = await loadProject();
+const manifest = JSON.parse(
+  await readFile(`${projectDir}/captures/manifest.json`),
+);
+assert.equal(manifest.projectId, project.id);
+const [first, second] = project.pages;
+let captureCount = 0;
 for (const page of project.pages)
   for (const device of Object.keys(project.devices))
     for (const side of ["before", "after"]) {
       const c = manifest.captures[`${page.id}-${device}-${side}`];
       assert(c, `Missing ${page.id} ${device} ${side}`);
-      const data = await readFile(`public/${c.src}`);
+      const data = await readFile(`${projectDir}/${c.src}`);
+      captureCount++;
       assert.equal(createHash("sha256").update(data).digest("hex"), c.sha256);
       assert.equal(data.readUInt32BE(16), c.viewport.width);
       assert.equal(data.readUInt32BE(20), c.viewport.height);
       assert.deepEqual(c.viewport, project.devices[device]);
     }
 console.log(
-  "PASS: all 16 captures match manifest hashes and viewport dimensions",
+  `PASS: all ${captureCount} ${project.name} captures match manifest hashes and viewport dimensions`,
 );
 const types = {
   ".html": "text/html",
@@ -81,7 +89,7 @@ try {
   await waitReady(page);
   assert.equal(await page.locator(".capture-card").count(), 2);
   await page.screenshot({
-    path: "output/verification/desktop.png",
+    path: `${out}/desktop.png`,
     fullPage: true,
   });
   const desktopAxe = await new AxeBuilder({ page })
@@ -109,7 +117,7 @@ try {
       new RegExp(p.heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")),
     );
   }
-  await page.locator('[data-page="home"]').click();
+  await page.locator(`[data-page="${first.id}"]`).click();
   await click("Toggle");
   await click("Before");
   assert.equal(await page.locator(".capture-card").count(), 1);
@@ -117,7 +125,7 @@ try {
   await click("After");
   await click("Side by side");
   await page
-    .getByRole("button", { name: "Enlarge after Home capture" })
+    .getByRole("button", { name: `Enlarge after ${first.label} capture` })
     .click();
   assert(await page.locator("#inspector").evaluate((d) => d.open));
   for (const viewport of [
@@ -149,7 +157,7 @@ try {
     );
   }
   await page.setViewportSize({ width: 1543, height: 983 });
-  await page.screenshot({ path: "output/verification/inspector-fit.png" });
+  await page.screenshot({ path: `${out}/inspector-fit.png` });
   await click("Original size");
   assert(
     await page
@@ -176,7 +184,7 @@ try {
     [],
   );
   await page
-    .getByRole("textbox", { name: "The proposed change" })
+    .getByRole("textbox", { name: project.labels.afterNote })
     .fill("Verified edit: a warmer welcome for members.");
   await page.getByRole("button", { name: "Save notes" }).click();
   await page.reload();
@@ -188,12 +196,12 @@ try {
   const pdfDownload = page.waitForEvent("download", { timeout: 60000 });
   await click("Export PDF");
   const editedPdf = await pdfDownload;
-  await editedPdf.saveAs("output/verification/edited-notes.pdf");
+  await editedPdf.saveAs(`${out}/edited-notes.pdf`);
   await click("Project notes");
   const backup = page.waitForEvent("download");
   await click("Download notes");
   const notesFile = await backup;
-  await notesFile.saveAs("output/verification/notes.json");
+  await notesFile.saveAs(`${out}/notes.json`);
   await page.locator("#import-notes").setInputFiles({
     name: "bad.json",
     mimeType: "application/json",
@@ -233,9 +241,7 @@ try {
   await click("Reset all notes");
   await click("Yes, reset notes");
   await click("Project notes");
-  await page
-    .locator("#import-notes")
-    .setInputFiles("output/verification/notes.json");
+  await page.locator("#import-notes").setInputFiles(`${out}/notes.json`);
   await page.waitForFunction(() =>
     document
       .querySelector("#manager-status")
@@ -257,7 +263,7 @@ try {
   await click("Export PDF");
   await (
     await canonical
-  ).saveAs("output/pdf/research-network-comparison-desktop.pdf");
+  ).saveAs(`output/pdf/${project.id}-comparison-desktop.pdf`);
   await page.waitForFunction(() => !document.querySelector("#export").disabled);
   await click("Mobile");
   await waitReady(page);
@@ -265,14 +271,14 @@ try {
   await click("Export PDF");
   await (
     await mobilePdf
-  ).saveAs("output/pdf/research-network-comparison-mobile.pdf");
+  ).saveAs(`output/pdf/${project.id}-comparison-mobile.pdf`);
   await page.setViewportSize({ width: 390, height: 844 });
   await waitReady(page);
   await page.waitForFunction(
     () => !document.querySelector("#notice").textContent,
   );
   await page.screenshot({
-    path: "output/verification/mobile.png",
+    path: `${out}/mobile.png`,
     fullPage: true,
   });
   const mobileAxe = await new AxeBuilder({ page })
@@ -301,19 +307,23 @@ try {
   await click("Desktop");
   await waitReady(page);
   await page.screenshot({
-    path: "output/verification/mobile-desktop-captures.png",
+    path: `${out}/mobile-desktop-captures.png`,
     fullPage: true,
   });
   // Capture failure is visible and retry recovers without losing notes.
-  await page.route("**/captures/home-mobile-before.png", (r) => r.abort());
+  await page.route(`**/captures/${first.id}-mobile-before.png`, (r) =>
+    r.abort(),
+  );
   await click("Mobile");
   await page.reload();
   await page.locator(".image-error:not([hidden])").waitFor();
-  await page.unroute("**/captures/home-mobile-before.png");
+  await page.unroute(`**/captures/${first.id}-mobile-before.png`);
   await page.getByRole("button", { name: "Retry image" }).click();
   await waitReady(page);
   // PDF failure releases the control and permits a successful retry.
-  await page.route("**/captures/events-mobile-after.png", (r) => r.abort());
+  await page.route(`**/captures/${second.id}-mobile-after.png`, (r) =>
+    r.abort(),
+  );
   await click("Export PDF");
   await page.waitForFunction(() =>
     document
@@ -321,10 +331,10 @@ try {
       .textContent.startsWith("PDF export failed"),
   );
   assert.equal(await page.locator("#export").isDisabled(), false);
-  await page.unroute("**/captures/events-mobile-after.png");
+  await page.unroute(`**/captures/${second.id}-mobile-after.png`);
   const retry = page.waitForEvent("download", { timeout: 60000 });
   await click("Export PDF");
-  await (await retry).saveAs("output/verification/retried.pdf");
+  await (await retry).saveAs(`${out}/retried.pdf`);
   console.log(
     "PASS: static subdirectory build, navigation, devices, views, inspector, persistence, import/reset and PDF success/failure/retry",
   );
@@ -341,7 +351,7 @@ try {
   await waitReady(recovery);
   await recovery.locator(".edit-notes").click();
   await recovery
-    .getByRole("textbox", { name: "The proposed change" })
+    .getByRole("textbox", { name: project.labels.afterNote })
     .fill("Unsaved recovery note");
   await recovery.getByRole("button", { name: "Save notes" }).click();
   assert.match(
@@ -359,9 +369,7 @@ try {
   await recovery
     .getByRole("button", { name: "Download notes", exact: true })
     .click();
-  await (
-    await recoveryDownload
-  ).saveAs("output/verification/storage-recovery.json");
+  await (await recoveryDownload).saveAs(`${out}/storage-recovery.json`);
   await blocked.close();
   const failed = await browser.newContext();
   const fallback = await failed.newPage();

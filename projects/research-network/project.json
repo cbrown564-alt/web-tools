@@ -5,7 +5,15 @@
   "eyebrow": "Website review / 01",
   "title": "A familiar network.\nA fresh invitation.",
   "intro": "A closer look at the Research Network website, then and next. Four pages, the same community, and a new way to bring people together.",
-  "status": "Proposed redesign · Not yet launched",
+  "labels": {
+    "before": "Current website",
+    "after": "Proposed redesign",
+    "afterNote": "The proposed change",
+    "statusDetail": "Preview for discussion. Not yet launched.",
+    "context": "The redesign is an EmDash preview. This comparison does not establish client approval, a production launch or measured performance improvements.",
+    "footer": "A proposal, open for discussion",
+    "disclaimer": "Preview for discussion. Not client approval or a production launch."
+  },
   "beforeBase": "https://www.research-network.org.uk",
   "afterBase": "https://research-network.empty-union-f39d.workers.dev",
   "devices": {

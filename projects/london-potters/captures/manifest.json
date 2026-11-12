@@ -1,0 +1,286 @@
+{
+  "version": 1,
+  "projectId": "london-potters",
+  "captures": {
+    "home-desktop-before": {
+      "src": "captures/home-desktop-before.png",
+      "url": "https://londonpotters.com/",
+      "resolvedUrl": "https://londonpotters.com/",
+      "title": "Welcome to London Potters",
+      "capturedAt": "2026-11-12T13:33:26.090Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "fad1769ba62f0d2c3c43a971411e33dab733145ad18f27c1c59fed77792122d0",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "home-desktop-after": {
+      "src": "captures/home-desktop-after.png",
+      "url": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/",
+      "resolvedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/",
+      "title": "Welcome to London Potters | London Potters EmDash prototype",
+      "capturedAt": "2026-11-12T13:33:29.069Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "6190bac1617659770811b424ae3a2d330a373f2db7dfcd5740037ce3730f4e96",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "gallery-desktop-before": {
+      "src": "captures/gallery-desktop-before.png",
+      "url": "https://londonpotters.com/members-gallery/",
+      "resolvedUrl": "https://londonpotters.com/members-gallery/",
+      "title": "Gallery - London Potters",
+      "capturedAt": "2026-11-12T13:33:31.359Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "2525edc8b744657fa8516bb3c502cd903ad361812274858e8f3bf86182c5c5bc",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "gallery-desktop-after": {
+      "src": "captures/gallery-desktop-after.png",
+      "url": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/members-gallery/",
+      "resolvedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/members-gallery/",
+      "title": "Gallery | London Potters EmDash prototype",
+      "capturedAt": "2026-11-12T13:33:34.373Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "66b4fb8367e25fc0b97ac5052afe9ff605bfa854ba1a2b733731d5296f3f78be",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "events-desktop-before": {
+      "src": "captures/events-desktop-before.png",
+      "url": "https://londonpotters.com/events/",
+      "resolvedUrl": "https://londonpotters.com/events/",
+      "title": "Events from November 18th – London Potters",
+      "capturedAt": "2026-11-12T13:33:39.332Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "31051c774ced404a5ffb8ca394e78c79b869184d3904d8cb0ef579ce027c46b1",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "events-desktop-after": {
+      "src": "captures/events-desktop-after.png",
+      "url": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/",
+      "resolvedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/",
+      "title": "Events | London Potters EmDash prototype",
+      "capturedAt": "2026-11-12T13:33:41.395Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "c4ea02586ed51c31e0f18f2ead6eab9bccfc3d1ecd01eaf37245a1545a586f08",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "news-desktop-before": {
+      "src": "captures/news-desktop-before.png",
+      "url": "https://londonpotters.com/news/",
+      "resolvedUrl": "https://londonpotters.com/news/",
+      "title": "News - London Potters",
+      "capturedAt": "2026-11-12T13:33:43.712Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "5d08825750161bd59161f956467b870b4cf2502725988c0a0e64ee3312d98890",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "news-desktop-after": {
+      "src": "captures/news-desktop-after.png",
+      "url": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/news/",
+      "resolvedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/news/",
+      "title": "News | London Potters EmDash prototype",
+      "capturedAt": "2026-11-12T13:33:47.079Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "955a6815ac141a9d9a33e956b2b03232cb8577b10ec600fde473b5b937441741",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "membership-desktop-before": {
+      "src": "captures/membership-desktop-before.png",
+      "url": "https://londonpotters.com/join-london-potters/",
+      "resolvedUrl": "https://londonpotters.com/join-london-potters/",
+      "title": "Join London Potters - London Potters",
+      "capturedAt": "2026-11-12T13:33:49.312Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "910508f1fb68b497be8832b7eb1c07e0529dedf8333b70dd721e8506a4282af1",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "membership-desktop-after": {
+      "src": "captures/membership-desktop-after.png",
+      "url": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/join-london-potters/",
+      "resolvedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/join-london-potters/",
+      "title": "Join London Potters | London Potters EmDash prototype",
+      "capturedAt": "2026-11-12T13:33:51.309Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "c30fff89a0f5170a6b869ecf3d62ef3ea56706d544698e1c1d4da9a3222fe56f",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "home-mobile-before": {
+      "src": "captures/home-mobile-before.png",
+      "url": "https://londonpotters.com/",
+      "resolvedUrl": "https://londonpotters.com/",
+      "title": "Welcome to London Potters",
+      "capturedAt": "2026-11-12T13:33:53.696Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "21d8b8e3447b1118fb65e9d8dd42b28d9e3028e121d9de338451253b4c9146b8",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "home-mobile-after": {
+      "src": "captures/home-mobile-after.png",
+      "url": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/",
+      "resolvedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/",
+      "title": "Welcome to London Potters | London Potters EmDash prototype",
+      "capturedAt": "2026-11-12T13:33:56.461Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "864a650c3434f7987dd4e65b24cc94d736a85499ff2fa5723883173d769a2ce2",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "gallery-mobile-before": {
+      "src": "captures/gallery-mobile-before.png",
+      "url": "https://londonpotters.com/members-gallery/",
+      "resolvedUrl": "https://londonpotters.com/members-gallery/",
+      "title": "Gallery - London Potters",
+      "capturedAt": "2026-11-12T13:33:58.961Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "acbfb1fd6b7a4dc803dce9ae51ecbba63f5ea3f2690aeaa25e312ea1e3f810d9",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "gallery-mobile-after": {
+      "src": "captures/gallery-mobile-after.png",
+      "url": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/members-gallery/",
+      "resolvedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/members-gallery/",
+      "title": "Gallery | London Potters EmDash prototype",
+      "capturedAt": "2026-11-12T13:34:01.541Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "a6040d50134ba00ffa76b55a924f6fd85c8edeb3d2ce25a2ed9d905a90a291a2",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "events-mobile-before": {
+      "src": "captures/events-mobile-before.png",
+      "url": "https://londonpotters.com/events/",
+      "resolvedUrl": "https://londonpotters.com/events/",
+      "title": "Events from November 18th – London Potters",
+      "capturedAt": "2026-11-12T13:34:06.061Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "0511832a346c9969857154c84d5376586cda3afd4a2f2b72625c3d8773bf7e13",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "events-mobile-after": {
+      "src": "captures/events-mobile-after.png",
+      "url": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/",
+      "resolvedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/",
+      "title": "Events | London Potters EmDash prototype",
+      "capturedAt": "2026-11-12T13:34:08.074Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "8f990e1e7afc64f79482c98dd39f81e323b4eb18ca2ca5d118dda89963332db1",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "news-mobile-before": {
+      "src": "captures/news-mobile-before.png",
+      "url": "https://londonpotters.com/news/",
+      "resolvedUrl": "https://londonpotters.com/news/",
+      "title": "News - London Potters",
+      "capturedAt": "2026-11-12T13:34:10.114Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "ffbbdc3c111b083c17310cca44265fb35dbe74fe2b295d24d954ba15eb2f8ae2",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "news-mobile-after": {
+      "src": "captures/news-mobile-after.png",
+      "url": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/news/",
+      "resolvedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/news/",
+      "title": "News | London Potters EmDash prototype",
+      "capturedAt": "2026-11-12T13:34:12.320Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "625e99f4e49aa3fbd2430960961d67d5bd3d816cf3e40b73df0cecfefb3c8fd2",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "membership-mobile-before": {
+      "src": "captures/membership-mobile-before.png",
+      "url": "https://londonpotters.com/join-london-potters/",
+      "resolvedUrl": "https://londonpotters.com/join-london-potters/",
+      "title": "Join London Potters - London Potters",
+      "capturedAt": "2026-11-12T13:34:14.364Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "76faf4aca5ca71e655eff0030dfee2c8830f47e7b41e82edf904bf3c9e157e98",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "membership-mobile-after": {
+      "src": "captures/membership-mobile-after.png",
+      "url": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/join-london-potters/",
+      "resolvedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/join-london-potters/",
+      "title": "Join London Potters | London Potters EmDash prototype",
+      "capturedAt": "2026-11-12T13:34:16.287Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "9e9ff34a8d6f378cb959d6786a992971ecb4ac282c51376a9353ac9e6005e6cc",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    }
+  }
+}

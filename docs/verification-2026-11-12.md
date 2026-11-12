@@ -28,3 +28,11 @@ Generated evidence lives in ignored `output/verification/` and `output/pdf/`; re
 ## Limits
 
 Chromium only; Safari, Firefox, assistive-technology user testing and representative client validation have not been performed. PDF screenshots are raster and the PDF is not tagged; the HTML review is the accessible reading route. The comparison covers first viewports, not complete page scrolls or live interactions inside the source websites. No public host has been provisioned. Local browser notes do not automatically become shared defaults; change the project record before publishing updated default copy.
+
+## Second project — later on 12 November 2026
+
+The tool was generalised to per-project records in `projects/` and London Potters was added: five page pairs, 20 real captures of the public website and the public EmDash demonstration. Neither site was modified.
+
+- `npm run check` and `PROJECT=london-potters npm run check` both pass the same suite described above, each against a build containing only that project.
+- Inspected the London Potters desktop review page, desktop PDF page 2 and mobile PDF page 3 as rendered images: labels, five-page numbering, notes and disclaimers are correct with no clipping or overlap.
+- Not done: `scripts/verify-pdf.py` was not run in this pass (pypdf not installed); the Research Network PDFs were not re-inspected visually after the refactor; the full London Potters PDFs were sampled, not read page by page. London Potters notes were written from the captures and have not been reviewed by the client.

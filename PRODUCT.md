@@ -61,3 +61,4 @@ Start with a guided story: before/after, three improvements or one visitor journ
 - 12 November 2026: begin with a static comparison tool, because the client review and PDF should remain usable independently of either source website or CMS.
 - 12 November 2026: Research Network is the first representative project; expand only after the complete review/export loop works.
 - 12 November 2026: EmDash is the default for future website projects, while the toolset's presentation assets stay portable.
+- 12 November 2026: London Potters is the second project. It preserves the existing design, so project-specific wording (what the after version is, and what it does not establish) lives in the project record, not the code. One project per build.

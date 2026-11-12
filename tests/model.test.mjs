@@ -1,14 +1,19 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import {
   validateNotes,
   mergePages,
   escapeHtml,
   captureFor,
+  validateProject,
+  countWord,
+  ordinal,
 } from "../src/model.js";
 const project = JSON.parse(
-  await readFile(new URL("../public/project.json", import.meta.url)),
+  await readFile(
+    new URL("../projects/research-network/project.json", import.meta.url),
+  ),
 );
 const page = project.pages[0];
 const valid = {
@@ -64,4 +69,37 @@ test("a missing capture is distinguishable from a blank website", () => {
     captureFor({ captures: {} }, page, "desktop", "before"),
     undefined,
   );
+});
+test("every project record is complete, and incomplete records are rejected", async () => {
+  const root = new URL("../projects/", import.meta.url);
+  const ids = (await readdir(root, { withFileTypes: true }))
+    .filter((d) => d.isDirectory())
+    .map((d) => d.name);
+  assert(ids.length >= 2);
+  for (const id of ids) {
+    const record = JSON.parse(
+      await readFile(new URL(`${id}/project.json`, root)),
+    );
+    assert.equal(validateProject(record).id, id);
+  }
+  for (const bad of [
+    { ...project, labels: { ...project.labels, after: "" } },
+    { ...project, labels: undefined },
+    { ...project, pages: project.pages.slice(0, 1) },
+    { ...project, pages: [...project.pages, project.pages[0]] },
+    { ...project, afterBase: "http://insecure.example" },
+    { ...project, devices: { desktop: project.devices.desktop } },
+    {
+      ...project,
+      pages: [{ ...page, heading: "x".repeat(101) }, project.pages[1]],
+    },
+  ])
+    assert.throws(() => validateProject(bad), /Invalid project record/);
+});
+test("page counts and numbering follow the record", () => {
+  assert.equal(countWord(4), "four");
+  assert.equal(countWord(5), "five");
+  assert.equal(countWord(13), "13");
+  assert.equal(ordinal(3), "03");
+  assert.equal(ordinal(12), "12");
 });
