@@ -10,7 +10,7 @@ Build a complete comparison-to-PDF loop using Research Network's existing public
 
 ### Reader experience
 
-An editorial presentation with generous typography, large screenshots, restrained colour and short explanations. Readers can choose a page, compare desktop or mobile captures, view both versions together or switch between them, and inspect screenshots at a readable size. Mobile gets a considered layout rather than compressed desktop columns.
+An editorial presentation with generous typography, large screenshots, restrained colour and short explanations. Readers can choose a page, compare desktop or mobile captures, view both versions together or switch between them, and inspect screenshots at a readable size. The enlarged view must fit the complete capture to the available screen by default; original-size scrolling is an explicit zoom option. Mobile gets a considered layout rather than compressed desktop columns.
 
 The comparison describes specific visible improvements. It must not invent client approval, conversion gains, performance measurements or missing content. Capture failures must be identified as failures, never presented as an empty source website.
 
