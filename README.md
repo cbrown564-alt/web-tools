@@ -9,16 +9,20 @@ Use one project record to produce consistent client material: website comparison
 ## Document owners
 
 - [PRODUCT.md](PRODUCT.md) owns intended behaviour, scope, priorities and prototype acceptance criteria.
+- [docs/plan.md](docs/plan.md) owns what is built next, in what order, and what done means for each tool.
 - This README owns repository navigation, setup, commands and operational instructions.
 - Source code and tests own implementation facts. Capture manifests own image provenance. Dated verification records describe checks, not client acceptance.
 
 ## Planned tools
 
-1. Before-and-after comparison: hosted review and side-by-side PDF, first using Research Network.
-2. EmDash starter: repeatable setup, previews, editing, media, access and maintenance.
-3. Content review and migration: inventory, decisions, media reconciliation, redirects and recovery.
-4. Launch checks and handover: visitor journeys, accessibility, performance, backups and operational ownership.
-5. Promo studio: guided launch films and social assets using approved project material.
+1. Before-and-after comparison: hosted review and side-by-side PDF. Working on two projects.
+2. Site check: performance, cache, accessibility, security and discovery checks at minimal, standard and maximum depth.
+3. Post-launch watch: screenshot baselines and assertions that catch regressions after release.
+4. Page inventory and discovery kit: crawl, captures and a technical probe.
+5. Content decisions and redirects: keep, rewrite, consolidate or remove, through to a checked redirect map.
+6. Release kit and form tests: verified packages, reversible changes, restore rehearsal and inbox tests.
+
+The EmDash starter and promo studio are parked. [docs/plan.md](docs/plan.md) has the detail, order and acceptance for each.
 
 Build one complete loop, prove it on a second project, then extract the shared pattern. Do not create a general platform ahead of that evidence.
 

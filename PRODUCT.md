@@ -40,21 +40,7 @@ A downloadable HTML review may be added if it makes sharing materially easier. T
 
 ## Future work
 
-### EmDash starter
-
-Standardise setup and hosting configuration, previews, schema changes, media ownership, editor permissions, the draft/publish/correct loop, backups and restoration. Version maintained patches and fail visibly when an upgrade is incompatible. Keep production accounts and operational ownership explicit. The default is our implementation preference, not evidence of a client's platform acceptance.
-
-### Content and migration tools
-
-Reuse page inventories and screenshots for keep/rewrite/merge/archive decisions. Preserve source identity, record redirects, reconcile media and make reruns safe. A migration rehearsal must demonstrate recovery before production promotion.
-
-### Launch and handover
-
-Collect checks for real visitor journeys, form delivery, mobile and keyboard access, metadata, performance, backups and editor tasks. Distinguish measured results from targets and developer checks from user validation. Generate a concise handover with named owners.
-
-### Promo studio
-
-Start with a guided story: before/after, three improvements or one visitor journey. Reuse approved screenshots, recordings, brand assets and copy. Offer a small set of carefully designed motion templates with editable pacing/captions, landscape and portrait output, and matching stills. Generated or provisional material remains labelled.
+[docs/plan.md](docs/plan.md) owns the sequence of tools to build next, what each is for and what done means. In order: a tiered site check, a post-launch watch, a page inventory, content decisions and redirects, and a release kit. The EmDash starter and promo studio are parked there.
 
 ## Decisions
 
@@ -64,3 +50,4 @@ Start with a guided story: before/after, three improvements or one visitor journ
 - 12 November 2026: London Potters is the second project. It preserves the existing design, so project-specific wording (what each version is called) lives in the project record, not the code. One project per build.
 - 12 November 2026: removed status and approval disclaimers from the review page and PDF. They cluttered client-facing material to state what the client relationship already makes plain. Accuracy is kept by not making false claims, not by adding caveats.
 - 12 November 2026: stripped the review page back to a toolbar and the comparison. The comparison is the focus; the page is a functional tool, not an editorial piece. The PDF follows the same rule: white page, one line of header, the two screenshots, source and notes.
+- 12 November 2026: the forward plan moved to docs/plan.md, drawn from the London Potters performance work and the Elizabeth Norman project.
