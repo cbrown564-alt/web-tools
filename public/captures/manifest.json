@@ -1,0 +1,230 @@
+{
+  "version": 1,
+  "projectId": "research-network",
+  "captures": {
+    "home-desktop-before": {
+      "src": "captures/home-desktop-before.png",
+      "url": "https://www.research-network.org.uk/",
+      "resolvedUrl": "https://www.research-network.org.uk/",
+      "title": "The Research Network",
+      "capturedAt": "2026-11-12T11:01:48.783Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "edac2036d641e1e2c377945821a982bd72259547be6d73455a6afc72304499a9",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "home-desktop-after": {
+      "src": "captures/home-desktop-after.png",
+      "url": "https://research-network.empty-union-f39d.workers.dev/",
+      "resolvedUrl": "https://research-network.empty-union-f39d.workers.dev/",
+      "title": "Research Network",
+      "capturedAt": "2026-11-12T11:06:06.826Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "1fa5d61f3820370bc9aa12fc5caf23155db7853de44914cf40c3c74d90bbf390",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "events-desktop-before": {
+      "src": "captures/events-desktop-before.png",
+      "url": "https://www.research-network.org.uk/events/",
+      "resolvedUrl": "https://www.research-network.org.uk/events/",
+      "title": "» Events",
+      "capturedAt": "2026-11-12T11:06:11.455Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "4e6a8304ad764abc1f6e40b23c9c25d7bf88aad38ccdace3096bd237e27b88db",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "events-desktop-after": {
+      "src": "captures/events-desktop-after.png",
+      "url": "https://research-network.empty-union-f39d.workers.dev/events",
+      "resolvedUrl": "https://research-network.empty-union-f39d.workers.dev/events",
+      "title": "What’s on — Research Network",
+      "capturedAt": "2026-11-12T11:06:15.209Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "edf96dde667a4d5790cfbc17c0fa28102da8f14b8e722518ec10120599fb5117",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "gallery-desktop-before": {
+      "src": "captures/gallery-desktop-before.png",
+      "url": "https://www.research-network.org.uk/gallery/",
+      "resolvedUrl": "https://www.research-network.org.uk/gallery/",
+      "title": "» Gallery",
+      "capturedAt": "2026-11-12T11:06:17.478Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "4e6a8304ad764abc1f6e40b23c9c25d7bf88aad38ccdace3096bd237e27b88db",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "gallery-desktop-after": {
+      "src": "captures/gallery-desktop-after.png",
+      "url": "https://research-network.empty-union-f39d.workers.dev/gallery",
+      "resolvedUrl": "https://research-network.empty-union-f39d.workers.dev/gallery",
+      "title": "Gallery — Research Network",
+      "capturedAt": "2026-11-12T11:06:21.181Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "bb296f075895e45008115667dd1de55b78f3e6beb34ac7ec97ec43a56635143b",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "membership-desktop-before": {
+      "src": "captures/membership-desktop-before.png",
+      "url": "https://www.research-network.org.uk/membership/",
+      "resolvedUrl": "https://www.research-network.org.uk/membership/",
+      "title": "» Membership",
+      "capturedAt": "2026-11-12T11:06:23.261Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "700c325be215a86c20235aacca12aaf272b0ef081dad4b03b547cd2f985de38a",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "membership-desktop-after": {
+      "src": "captures/membership-desktop-after.png",
+      "url": "https://research-network.empty-union-f39d.workers.dev/membership",
+      "resolvedUrl": "https://research-network.empty-union-f39d.workers.dev/membership",
+      "title": "Membership — Research Network",
+      "capturedAt": "2026-11-12T11:06:25.896Z",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "8d806634a1ea9b32c27efa9dafc1616e330345187daafd2cbe79d10000e8cbd9",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "home-mobile-before": {
+      "src": "captures/home-mobile-before.png",
+      "url": "https://www.research-network.org.uk/",
+      "resolvedUrl": "https://www.research-network.org.uk/",
+      "title": "The Research Network",
+      "capturedAt": "2026-11-12T11:06:28.316Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "c97c558353825357baf72acd1b6dd1d9c4f1bfb307e40158d2f593dcd7394ada",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "home-mobile-after": {
+      "src": "captures/home-mobile-after.png",
+      "url": "https://research-network.empty-union-f39d.workers.dev/",
+      "resolvedUrl": "https://research-network.empty-union-f39d.workers.dev/",
+      "title": "Research Network",
+      "capturedAt": "2026-11-12T11:06:31.718Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "7773b52e245a3b5df940f122e56318f0fc011b64bb0fa2c10471a1098dbd1994",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "events-mobile-before": {
+      "src": "captures/events-mobile-before.png",
+      "url": "https://www.research-network.org.uk/events/",
+      "resolvedUrl": "https://www.research-network.org.uk/events/",
+      "title": "» Events",
+      "capturedAt": "2026-11-12T11:06:33.734Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "b1b0cf6169d622480971a6cba5acafced757a3d1dd0ab8ac921a081f3933f801",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "events-mobile-after": {
+      "src": "captures/events-mobile-after.png",
+      "url": "https://research-network.empty-union-f39d.workers.dev/events",
+      "resolvedUrl": "https://research-network.empty-union-f39d.workers.dev/events",
+      "title": "What’s on — Research Network",
+      "capturedAt": "2026-11-12T11:06:37.011Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "de0ef71bbd458100be4984f6e7577f1c3bc8ef4789f72e679fd04c89c5a15c14",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "gallery-mobile-before": {
+      "src": "captures/gallery-mobile-before.png",
+      "url": "https://www.research-network.org.uk/gallery/",
+      "resolvedUrl": "https://www.research-network.org.uk/gallery/",
+      "title": "» Gallery",
+      "capturedAt": "2026-11-12T11:06:38.935Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "b1b0cf6169d622480971a6cba5acafced757a3d1dd0ab8ac921a081f3933f801",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "gallery-mobile-after": {
+      "src": "captures/gallery-mobile-after.png",
+      "url": "https://research-network.empty-union-f39d.workers.dev/gallery",
+      "resolvedUrl": "https://research-network.empty-union-f39d.workers.dev/gallery",
+      "title": "Gallery — Research Network",
+      "capturedAt": "2026-11-12T11:06:42.448Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "88eecd95e092c63261394d221b0a92108b7d889a1f4a9745e6e5bfd98f54a6f6",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "membership-mobile-before": {
+      "src": "captures/membership-mobile-before.png",
+      "url": "https://www.research-network.org.uk/membership/",
+      "resolvedUrl": "https://www.research-network.org.uk/membership/",
+      "title": "» Membership",
+      "capturedAt": "2026-11-12T11:06:44.410Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "798920292b0f4e3e197a5383b00571f8ec53192e2ccfbb7758c02269e8d20792",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    },
+    "membership-mobile-after": {
+      "src": "captures/membership-mobile-after.png",
+      "url": "https://research-network.empty-union-f39d.workers.dev/membership",
+      "resolvedUrl": "https://research-network.empty-union-f39d.workers.dev/membership",
+      "title": "Membership — Research Network",
+      "capturedAt": "2026-11-12T11:06:46.664Z",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "3ef27f7d65da23ebfbca4549213456597dce0d802b81843180afb00e6f266e2e",
+      "scope": "First viewport; no content removed",
+      "status": 200
+    }
+  }
+}

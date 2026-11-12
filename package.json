@@ -1,0 +1,21 @@
+{
+  "name": "web-tools",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 4173 --strictPort",
+    "build": "vite build --base=./",
+    "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
+    "capture": "node scripts/capture.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "npm run test && npm run build && node scripts/verify.mjs"
+  },
+  "dependencies": {
+    "jspdf": "^4.2.1"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.1",
+    "vite": "^7.2.2"
+  }
+}
