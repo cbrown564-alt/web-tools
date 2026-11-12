@@ -15,8 +15,7 @@ export function validateProject(project) {
   };
   if (!project || project.version !== 1) fail("version must be 1.");
   if (!slug.test(project.id ?? "")) fail("id must be a lowercase slug.");
-  for (const key of ["name", "eyebrow", "title", "intro", "tagline"])
-    if (!text(project[key])) fail(`${key} is required.`);
+  if (!text(project.name)) fail("name is required.");
   for (const key of labelFields)
     if (!text(project.labels?.[key])) fail(`labels.${key} is required.`);
   for (const key of ["beforeBase", "afterBase"]) {

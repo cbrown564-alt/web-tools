@@ -2,9 +2,6 @@
   "version": 1,
   "id": "london-potters",
   "name": "London Potters",
-  "eyebrow": "Website review / 02",
-  "title": "A familiar website.\nA new foundation.",
-  "intro": "A closer look at the London Potters website and its EmDash demonstration. Five pages, the same design and addresses, rebuilt on a different platform.",
   "labels": {
     "before": "Current website",
     "after": "EmDash demonstration",
@@ -73,6 +70,5 @@
       "beforeNote": "An introduction and a checklist of member benefits lead into the membership options.",
       "afterNote": "The same introduction, benefits and options appear in the same order."
     }
-  ],
-  "tagline": "Connecting London’s ceramic community."
+  ]
 }

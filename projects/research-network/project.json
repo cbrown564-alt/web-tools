@@ -2,9 +2,6 @@
   "version": 1,
   "id": "research-network",
   "name": "Research Network",
-  "eyebrow": "Website review / 01",
-  "title": "A familiar network.\nA fresh invitation.",
-  "intro": "A closer look at the Research Network website, then and next. Four pages, the same community, and a new way to bring people together.",
   "labels": {
     "before": "Current website",
     "after": "Proposed redesign",
@@ -63,6 +60,5 @@
       "beforeNote": "The existing membership page is shown as a first-time visitor would encounter it.",
       "afterNote": "The proposal pairs a welcoming introduction with a visible invitation to apply, leading into the preview application flow."
     }
-  ],
-  "tagline": "Connecting research and insight professionals."
+  ]
 }

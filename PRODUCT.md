@@ -10,7 +10,7 @@ Build a complete comparison-to-PDF loop using Research Network's existing public
 
 ### Reader experience
 
-An editorial presentation with generous typography, large screenshots, restrained colour and short explanations. Readers can choose a page, compare desktop or mobile captures, view both versions together or switch between them, and inspect screenshots at a readable size. The enlarged view must fit the complete capture to the available screen by default; original-size scrolling is an explicit zoom option. Mobile gets a considered layout rather than compressed desktop columns.
+A plain, functional tool: one toolbar, then the two screenshots as large as the screen allows, then short explanations. No hero, decorative type or spacing for its own sake; it should be tidy, not elegant. Readers can choose a page, compare desktop or mobile captures, view both versions together or switch between them, and inspect screenshots at a readable size. The enlarged view must fit the complete capture to the available screen by default; original-size scrolling is an explicit zoom option. Mobile gets a considered layout rather than compressed desktop columns.
 
 The comparison describes specific visible improvements. It carries no disclaimers about approval, launch or status; it simply must not invent client approval, conversion gains, performance measurements or missing content. Capture failures must be identified as failures, never presented as an empty source website.
 
@@ -63,3 +63,4 @@ Start with a guided story: before/after, three improvements or one visitor journ
 - 12 November 2026: EmDash is the default for future website projects, while the toolset's presentation assets stay portable.
 - 12 November 2026: London Potters is the second project. It preserves the existing design, so project-specific wording (what each version is called) lives in the project record, not the code. One project per build.
 - 12 November 2026: removed status and approval disclaimers from the review page and PDF. They cluttered client-facing material to state what the client relationship already makes plain. Accuracy is kept by not making false claims, not by adding caveats.
+- 12 November 2026: stripped the review page back to a toolbar and the comparison. The comparison is the focus; the page is a functional tool, not an editorial piece. The PDF layout is unchanged.

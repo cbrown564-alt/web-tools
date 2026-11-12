@@ -62,7 +62,7 @@ The prototype carries `noindex, nofollow`; this discourages indexing but is not 
 - `src/main.js`: reader interface, note editing/storage and recovery.
 - `src/pdf.js`: independent PDF layout, loaded on demand.
 - `src/model.js`: project-record validation, portable-note validation and text handling.
-- `src/style.css`: responsive web layout and local fonts.
+- `src/style.css`: responsive web layout, using system fonts. The fonts in `public/fonts/` are only for the PDF.
 
 To prepare captures:
 
