@@ -1,13 +1,14 @@
 import { jsPDF } from "jspdf";
-import { captureFor, dateLabel, ordinal } from "./model.js";
+import { captureFor, dateLabel } from "./model.js";
 
-const colours = {
-  ink: "#263536",
-  muted: "#616966",
-  accent: "#a4472a",
-  paper: "#f5f3ec",
-  line: "#d9dcd4",
-};
+const colours = { ink: "#263536", muted: "#616966", accent: "#a4472a" };
+// A3 landscape, in millimetres.
+const page = { width: 420, height: 297, margin: 14, gap: 8 };
+const colWidth = (page.width - page.margin * 2 - page.gap) / 2;
+const imageTop = 62;
+// Tall (mobile) captures are limited by height so the notes still fit beneath.
+const maxImageHeight = 180;
+
 async function bytes(path) {
   const r = await fetch(path);
   if (!r.ok) throw new Error(`Could not load ${path}`);
@@ -34,11 +35,12 @@ export async function createPdf({ project, pages, manifest, device }) {
   doc.addFileToVFS("Lato-Bold.ttf", base64(bold));
   doc.addFont("Lato-Bold.ttf", "Lato", "bold");
   doc.setProperties({
-    title: `${project.name} | Before & After`,
+    title: `${project.name} | Before & after`,
     subject: `${device} website comparison - ${project.labels.after.toLowerCase()}`,
     author: "Web Tools",
     creator: "Before & After",
   });
+  // Draws text and returns the height it used, so following text can flow.
   const text = (
     value,
     x,
@@ -48,6 +50,7 @@ export async function createPdf({ project, pages, manifest, device }) {
       colour = colours.ink,
       bold = false,
       width,
+      align = "left",
       lineHeight = 1.4,
     } = {},
   ) => {
@@ -55,110 +58,85 @@ export async function createPdf({ project, pages, manifest, device }) {
     doc.setFontSize(size);
     doc.setTextColor(colour);
     doc.setLineHeightFactor(lineHeight);
-    const lines = width ? doc.splitTextToSize(value, width) : value;
-    doc.text(lines, x, y);
-    return Array.isArray(lines)
-      ? lines.length * size * 0.3528 * lineHeight
-      : size * 0.3528 * lineHeight;
+    const lines = width ? doc.splitTextToSize(value, width) : [value];
+    doc.text(lines, x, y, { align });
+    return lines.length * size * 0.3528 * lineHeight;
   };
-  for (const [index, page] of pages.entries()) {
+  for (const [index, entry] of pages.entries()) {
     if (index) doc.addPage("a3", "landscape");
-    doc.setFillColor(colours.paper);
-    doc.rect(0, 0, 420, 297, "F");
-    doc.setFillColor(colours.ink);
-    doc.rect(16, 14, 2.5, 6, "F");
-    doc.setFillColor(colours.accent);
-    doc.rect(20, 14, 2.5, 6, "F");
-    text("before & after", 26, 19, { size: 12, bold: true });
-    text(`${project.name.toUpperCase()} / WEBSITE REVIEW`, 249, 19, {
-      size: 9,
-      colour: colours.muted,
-    });
-    doc.setDrawColor(colours.line);
-    doc.line(16, 25, 404, 25);
-    text(`${ordinal(index + 1)} / ${page.label.toUpperCase()}`, 16, 35, {
-      size: 9,
-      colour: colours.accent,
+    text(`${project.name} · ${entry.label}`, page.margin, 18, {
+      size: 10,
       bold: true,
     });
-    text(page.heading, 16, 47, { size: 24, width: 388, lineHeight: 1.15 });
-    text(page.summary, 16, 61, { size: 11, width: 355, colour: colours.muted });
-    const colWidth = 187;
-    const imageTop = 88;
-    const imageHeight = 136.35;
+    text(`${index + 1} / ${pages.length}`, page.width - page.margin, 18, {
+      size: 10,
+      colour: colours.muted,
+      align: "right",
+    });
+    const headingHeight = text(entry.heading, page.margin, 31, {
+      size: 18,
+      bold: true,
+      width: page.width - page.margin * 2,
+      lineHeight: 1.2,
+    });
+    text(entry.summary, page.margin, 31 + headingHeight, {
+      size: 11,
+      colour: colours.muted,
+      width: 300,
+    });
     for (const [side, x] of [
-      ["before", 16],
-      ["after", 217],
+      ["before", page.margin],
+      ["after", page.margin + colWidth + page.gap],
     ]) {
-      const capture = captureFor(manifest, page, device, side);
+      const capture = captureFor(manifest, entry, device, side);
       if (!capture)
-        throw new Error(`Missing ${page.id} ${device} ${side} capture`);
-      text(
-        `${side === "before" ? "BEFORE" : "AFTER"} / ${project.labels[side].toUpperCase()}`,
-        x,
-        80,
-        {
-          size: 9,
-          bold: true,
-          colour: side === "after" ? colours.accent : colours.muted,
-        },
-      );
-      doc.setFillColor(side === "after" ? "#e2e8df" : "#e9ece6");
-      doc.rect(x, imageTop, colWidth, imageHeight, "F");
-      const png = await bytes(capture.src);
-      const width = Math.min(
-        colWidth,
-        (imageHeight * capture.viewport.width) / capture.viewport.height,
-      );
-      const height = (width * capture.viewport.height) / capture.viewport.width;
+        throw new Error(`Missing ${entry.id} ${device} ${side} capture`);
+      const { width: vw, height: vh } = capture.viewport;
+      const height = Math.min((colWidth * vh) / vw, maxImageHeight);
+      const width = (height * vw) / vh;
+      const name = side === "before" ? "Before" : "After";
+      text(name, x, imageTop - 3, {
+        size: 10,
+        bold: true,
+        colour: side === "after" ? colours.accent : colours.ink,
+      });
+      text(project.labels[side], x + doc.getTextWidth(name) + 2, imageTop - 3, {
+        size: 10,
+        colour: colours.muted,
+      });
       doc.addImage(
-        png,
+        await bytes(capture.src),
         "PNG",
-        x + (colWidth - width) / 2,
-        imageTop + (imageHeight - height) / 2,
+        x,
+        imageTop,
         width,
         height,
         undefined,
         "FAST",
       );
       doc.setDrawColor("#bcc5bb");
-      doc.rect(x, imageTop, colWidth, imageHeight);
-      text(
-        `${device === "desktop" ? "Desktop" : "Mobile"} / ${capture.viewport.width} x ${capture.viewport.height} / ${dateLabel(capture.capturedAt)}`,
-        x,
-        231,
-        { size: 8, colour: colours.muted },
-      );
-      text(
-        side === "before"
-          ? "THE STARTING POINT"
-          : project.labels.afterNote.toUpperCase(),
-        x,
-        241,
-        {
-          size: 9,
-          bold: true,
-          colour: side === "after" ? colours.accent : colours.ink,
-        },
-      );
-      text(page[`${side}Note`], x, 249, { size: 11, width: colWidth - 3 });
-      text(capture.url, x, 273, {
-        size: 7,
+      doc.rect(x, imageTop, width, height);
+      let y = imageTop + height + 5;
+      const source = `${vw} × ${vh} · ${dateLabel(capture.capturedAt)} · ${capture.url}`;
+      const sourceHeight = text(source, x, y, {
+        size: 8,
         colour: colours.muted,
         width: colWidth,
       });
-      doc.link(x, 269, colWidth, 6, { url: capture.url });
+      doc.link(x, y - 3, colWidth, sourceHeight, { url: capture.url });
+      y += sourceHeight + 5;
+      y += text(
+        side === "before" ? "The starting point" : project.labels.afterNote,
+        x,
+        y,
+        {
+          size: 9,
+          bold: true,
+          colour: side === "after" ? colours.accent : colours.muted,
+        },
+      );
+      text(entry[`${side}Note`], x, y + 1, { size: 11, width: colWidth - 4 });
     }
-    doc.setDrawColor(colours.line);
-    doc.line(16, 280, 404, 280);
-    text("First-screen captures.", 16, 287, {
-      size: 8,
-      colour: colours.muted,
-    });
-    text(`${ordinal(index + 1)} / ${ordinal(pages.length)}`, 388, 287, {
-      size: 9,
-      colour: colours.muted,
-    });
   }
   return doc.output("blob");
 }

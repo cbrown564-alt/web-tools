@@ -18,9 +18,8 @@ for device in ('desktop', 'mobile'):
         text = page.extract_text()
         for expected in (source['heading'], source['beforeNote'], source['afterNote']):
             assert ' '.join(expected.split()) in ' '.join(text.split()), (path, number, expected)
-        assert f"BEFORE / {labels['before'].upper()}" in text
-        assert f"AFTER / {labels['after'].upper()}" in text
-        assert 'First-screen captures.' in text
+        for expected in (labels['before'], labels['after'], labels['afterNote'], f"{project['name']} · {source['label']}", f"{number} / {len(reader.pages)}"):
+            assert expected in text, (path, number, expected)
         drawn_images = [args[0] for args, op in page.get_contents().operations if op == b'Do' and page['/Resources']['/XObject'][args[0]].get_object().get('/Subtype') == '/Image']
         assert len(drawn_images) == 2, (path, number, 'Expected paired screenshots')
         assert len(page.get('/Annots', [])) == 2, (path, number, 'Expected two source links')

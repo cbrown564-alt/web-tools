@@ -63,4 +63,4 @@ Start with a guided story: before/after, three improvements or one visitor journ
 - 12 November 2026: EmDash is the default for future website projects, while the toolset's presentation assets stay portable.
 - 12 November 2026: London Potters is the second project. It preserves the existing design, so project-specific wording (what each version is called) lives in the project record, not the code. One project per build.
 - 12 November 2026: removed status and approval disclaimers from the review page and PDF. They cluttered client-facing material to state what the client relationship already makes plain. Accuracy is kept by not making false claims, not by adding caveats.
-- 12 November 2026: stripped the review page back to a toolbar and the comparison. The comparison is the focus; the page is a functional tool, not an editorial piece. The PDF layout is unchanged.
+- 12 November 2026: stripped the review page back to a toolbar and the comparison. The comparison is the focus; the page is a functional tool, not an editorial piece. The PDF follows the same rule: white page, one line of header, the two screenshots, source and notes.
