@@ -314,23 +314,7 @@ h1 em {
   font-size: 14px;
   line-height: 1.6;
   color: var(--muted);
-  margin-bottom: 24px;
-}
-.project-status {
-  font-size: 11px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.project-status span {
-  height: 6px;
-  width: 6px;
-  background: var(--accent);
-  border-radius: 50%;
-}
-.project-card .small {
-  font-size: 10px;
-  margin: 8px 0 0;
+  margin-bottom: 0;
 }
 .workspace {
   display: grid;

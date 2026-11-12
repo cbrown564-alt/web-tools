@@ -34,5 +34,6 @@ Chromium only; Safari, Firefox, assistive-technology user testing and representa
 The tool was generalised to per-project records in `projects/` and London Potters was added: five page pairs, 20 real captures of the public website and the public EmDash demonstration. Neither site was modified.
 
 - `npm run check` and `PROJECT=london-potters npm run check` both pass the same suite described above, each against a build containing only that project.
-- Inspected the London Potters desktop review page, desktop PDF page 2 and mobile PDF page 3 as rendered images: labels, five-page numbering, notes and disclaimers are correct with no clipping or overlap.
-- Not done: `scripts/verify-pdf.py` was not run in this pass (pypdf not installed); the Research Network PDFs were not re-inspected visually after the refactor; the full London Potters PDFs were sampled, not read page by page. London Potters notes were written from the captures and have not been reviewed by the client.
+- Inspected the London Potters desktop review page, desktop PDF page 2 and mobile PDF page 3 as rendered images: labels, five-page numbering and notes are correct with no clipping or overlap.
+- Not done: `scripts/verify-pdf.py` was not run in this pass (pypdf not installed); only the top of the Research Network review page and page 1 of its desktop PDF were re-inspected after the refactor; the full London Potters PDFs were sampled, not read page by page. London Potters notes were written from the captures and have not been reviewed by the client.
+- Status and approval disclaimers were then removed from the review page and PDF at the owner's request; both check suites were rerun and pass.

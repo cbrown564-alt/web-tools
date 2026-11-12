@@ -12,7 +12,7 @@ Build a complete comparison-to-PDF loop using Research Network's existing public
 
 An editorial presentation with generous typography, large screenshots, restrained colour and short explanations. Readers can choose a page, compare desktop or mobile captures, view both versions together or switch between them, and inspect screenshots at a readable size. The enlarged view must fit the complete capture to the available screen by default; original-size scrolling is an explicit zoom option. Mobile gets a considered layout rather than compressed desktop columns.
 
-The comparison describes specific visible improvements. It must not invent client approval, conversion gains, performance measurements or missing content. Capture failures must be identified as failures, never presented as an empty source website.
+The comparison describes specific visible improvements. It carries no disclaimers about approval, launch or status; it simply must not invent client approval, conversion gains, performance measurements or missing content. Capture failures must be identified as failures, never presented as an empty source website.
 
 ### Preparation and export
 
@@ -61,4 +61,5 @@ Start with a guided story: before/after, three improvements or one visitor journ
 - 12 November 2026: begin with a static comparison tool, because the client review and PDF should remain usable independently of either source website or CMS.
 - 12 November 2026: Research Network is the first representative project; expand only after the complete review/export loop works.
 - 12 November 2026: EmDash is the default for future website projects, while the toolset's presentation assets stay portable.
-- 12 November 2026: London Potters is the second project. It preserves the existing design, so project-specific wording (what the after version is, and what it does not establish) lives in the project record, not the code. One project per build.
+- 12 November 2026: London Potters is the second project. It preserves the existing design, so project-specific wording (what each version is called) lives in the project record, not the code. One project per build.
+- 12 November 2026: removed status and approval disclaimers from the review page and PDF. They cluttered client-facing material to state what the client relationship already makes plain. Accuracy is kept by not making false claims, not by adding caveats.

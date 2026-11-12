@@ -151,7 +151,7 @@ export async function createPdf({ project, pages, manifest, device }) {
     }
     doc.setDrawColor(colours.line);
     doc.line(16, 280, 404, 280);
-    text(`First-screen captures. ${project.labels.disclaimer}`, 16, 287, {
+    text("First-screen captures.", 16, 287, {
       size: 8,
       colour: colours.muted,
     });

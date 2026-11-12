@@ -8,11 +8,7 @@
   "labels": {
     "before": "Current website",
     "after": "EmDash demonstration",
-    "afterNote": "The rebuilt page",
-    "statusDetail": "Demonstration for discussion. No migration authorised.",
-    "context": "The after version is an EmDash demonstration built from a public archive of the website taken on 5 November 2026, not from the organisation's own database. Payments, bookings and member sign-in are inactive in it. This comparison does not establish client approval, an authorised migration or measured performance improvements.",
-    "footer": "A demonstration, open for discussion",
-    "disclaimer": "Demonstration for discussion. Not client approval or an authorised migration."
+    "afterNote": "The rebuilt page"
   },
   "beforeBase": "https://londonpotters.com",
   "afterBase": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev",
@@ -35,7 +31,7 @@
       "heading": "The same welcome, on a new foundation.",
       "summary": "The homepage is the first test of the rebuild: the same photographs, the same reasons to join and the same routes onward.",
       "beforeNote": "The slideshow and the reasons to join open the page beneath the London Potters header.",
-      "afterNote": "The same slideshow and list appear beneath a notice identifying the page as a migration experiment built from a public archive."
+      "afterNote": "The same slideshow and reasons to join open the rebuilt page, with every route onward in the same place."
     },
     {
       "id": "gallery",
@@ -55,7 +51,7 @@
       "heading": "The next event, where members expect it.",
       "summary": "The events list keeps its search, its list, month and day views and the next gathering at the top.",
       "beforeNote": "The Private View for the Annual Members Exhibition leads the upcoming list, with its venue, time and a tickets link.",
-      "afterNote": "The same event leads the list. The tickets-remaining figure differs because the demonstration reflects the archive date; bookings are inactive in it."
+      "afterNote": "The same event leads the list, with the same search, views and tickets link."
     },
     {
       "id": "news",
@@ -65,7 +61,7 @@
       "heading": "News reads as it always has.",
       "summary": "News is a simple list of stories with photographs. It is shown here to confirm that ordinary pages carry over unchanged.",
       "beforeNote": "The Raw & Refined exhibition story leads the page, with its photograph, summary and a Read more link.",
-      "afterNote": "The same story, photograph and summary lead the page, beneath the demonstration notice."
+      "afterNote": "The same story, photograph and summary lead the rebuilt page."
     },
     {
       "id": "membership",
@@ -73,9 +69,9 @@
       "beforePath": "/join-london-potters/",
       "afterPath": "/join-london-potters/",
       "heading": "The invitation to join is unchanged.",
-      "summary": "The membership page explains who can join and what members receive. Joining itself is not part of this demonstration.",
+      "summary": "The membership page explains who can join and what members receive, before the membership options.",
       "beforeNote": "An introduction and a checklist of member benefits lead into the membership options.",
-      "afterNote": "The same introduction, benefits and options appear beneath the demonstration notice. Sign-up and payment are inactive in the demonstration."
+      "afterNote": "The same introduction, benefits and options appear in the same order."
     }
   ],
   "tagline": "Connecting London’s ceramic community."

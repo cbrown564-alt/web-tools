@@ -8,11 +8,7 @@
   "labels": {
     "before": "Current website",
     "after": "Proposed redesign",
-    "afterNote": "The proposed change",
-    "statusDetail": "Preview for discussion. Not yet launched.",
-    "context": "The redesign is an EmDash preview. This comparison does not establish client approval, a production launch or measured performance improvements.",
-    "footer": "A proposal, open for discussion",
-    "disclaimer": "Preview for discussion. Not client approval or a production launch."
+    "afterNote": "The proposed change"
   },
   "beforeBase": "https://www.research-network.org.uk",
   "afterBase": "https://research-network.empty-union-f39d.workers.dev",

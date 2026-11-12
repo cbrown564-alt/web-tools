@@ -5,18 +5,10 @@ export const fields = {
   afterNote: 220,
 };
 const slug = /^[a-z0-9]+(-[a-z0-9]+)*$/;
-const labelFields = [
-  "before",
-  "after",
-  "afterNote",
-  "statusDetail",
-  "context",
-  "footer",
-  "disclaimer",
-];
+const labelFields = ["before", "after", "afterNote"];
 const text = (value) => typeof value === "string" && value.trim().length > 0;
 // The record is the only place project-specific wording lives. Fail early and
-// specifically, so a new project cannot silently inherit another's claims.
+// specifically, so a new project cannot silently inherit another's wording.
 export function validateProject(project) {
   const fail = (message) => {
     throw new Error(`Invalid project record: ${message}`);
