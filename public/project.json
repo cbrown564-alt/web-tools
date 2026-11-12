@@ -8,11 +8,57 @@
   "status": "Proposed redesign · Not yet launched",
   "beforeBase": "https://www.research-network.org.uk",
   "afterBase": "https://research-network.empty-union-f39d.workers.dev",
-  "devices": {"desktop": {"width": 1440, "height": 1050}, "mobile": {"width": 390, "height": 844}},
+  "devices": {
+    "desktop": {
+      "width": 1440,
+      "height": 1050
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844
+    }
+  },
   "pages": [
-    {"id": "home", "label": "Home", "beforePath": "/", "afterPath": "/", "heading": "A welcome that feels like an invitation.", "summary": "Bring the people and gatherings to the front. The proposed homepage gives the Network's community a more immediate presence.", "beforeNote": "An introduction to the Network leads the page, beneath a narrow strip of photographs.", "afterNote": "A generous photograph and a warmer opening introduce the community, with a clear route to the next gathering."},
-    {"id": "events", "label": "Events", "beforePath": "/events/", "afterPath": "/events", "heading": "Make the next gathering easy to find.", "summary": "Give events a clear place in the life of the Network, with an invitation-led layout and room for the details members need.", "beforeNote": "The existing events page is captured as it appeared to a public visitor on the recorded date.", "afterNote": "Gatherings have a dedicated, readable layout. The proposed presentation separates upcoming occasions from past events."},
-    {"id": "gallery", "label": "Gallery", "beforePath": "/gallery/", "afterPath": "/gallery", "heading": "Give the photographs room to tell the story.", "summary": "The photographs are part of the Network's shared history. A more generous gallery makes them easier to discover and enjoy.", "beforeNote": "The existing gallery is shown at the same viewport size, preserving the public page as captured.", "afterNote": "Larger photographs and clear groupings give each gathering its own place in the proposed gallery."},
-    {"id": "membership", "label": "Membership", "beforePath": "/membership/", "afterPath": "/membership", "heading": "A clearer first step into the Network.", "summary": "Explain what membership feels like and make the next step visible. The new application journey is part of the preview, not a live membership service.", "beforeNote": "The existing membership page is shown as a first-time visitor would encounter it.", "afterNote": "The proposal pairs a welcoming introduction with a visible invitation to apply, leading into the preview application flow."}
-  ]
+    {
+      "id": "home",
+      "label": "Home",
+      "beforePath": "/",
+      "afterPath": "/",
+      "heading": "A welcome that feels like an invitation.",
+      "summary": "Bring the people and gatherings to the front. The proposed homepage gives the Network's community a more immediate presence.",
+      "beforeNote": "An introduction to the Network leads the page, beneath a narrow strip of photographs.",
+      "afterNote": "Generous photographs and a warmer opening introduce the community, with clear links to membership and what’s on."
+    },
+    {
+      "id": "events",
+      "label": "Events",
+      "beforePath": "/events/",
+      "afterPath": "/events",
+      "heading": "Make the next gathering easy to find.",
+      "summary": "Give events a clear place in the life of the Network, with an invitation-led layout and room for the details members need.",
+      "beforeNote": "The public Events page shows the site header and footer but no event details in this capture.",
+      "afterNote": "An invitation for the day’s NED Talk leads the page, with a date, calendar action and a route to event details."
+    },
+    {
+      "id": "gallery",
+      "label": "Gallery",
+      "beforePath": "/gallery/",
+      "afterPath": "/gallery",
+      "heading": "Give the photographs room to tell the story.",
+      "summary": "The photographs are part of the Network's shared history. A more generous gallery makes them easier to discover and enjoy.",
+      "beforeNote": "The existing gallery is shown at the same viewport size, preserving the public page as captured.",
+      "afterNote": "Larger photographs and clear groupings give each gathering its own place in the proposed gallery."
+    },
+    {
+      "id": "membership",
+      "label": "Membership",
+      "beforePath": "/membership/",
+      "afterPath": "/membership",
+      "heading": "A clearer first step into the Network.",
+      "summary": "Explain what membership feels like and make the next step visible. The new application journey is part of the preview, not a live membership service.",
+      "beforeNote": "The existing membership page is shown as a first-time visitor would encounter it.",
+      "afterNote": "The proposal pairs a welcoming introduction with a visible invitation to apply, leading into the preview application flow."
+    }
+  ],
+  "tagline": "Connecting research and insight professionals."
 }

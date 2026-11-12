@@ -9,13 +9,16 @@
     "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
     "capture": "node scripts/capture.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check": "npm run test && npm run build && node scripts/verify.mjs"
+    "check": "npm run test && npm run build && node scripts/verify.mjs",
+    "package": "npm run build && node scripts/package.mjs"
   },
   "dependencies": {
     "jspdf": "^4.2.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "playwright": "^1.56.1",
+    "prettier": "^3.10.1",
     "vite": "^7.2.2"
   }
 }
