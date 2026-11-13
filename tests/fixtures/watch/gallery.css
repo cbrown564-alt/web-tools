@@ -1,0 +1,29 @@
+/* Classic editor galleries: honour the three-column setting. */
+.eni-reading-body .gallery-columns-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 28px 0;
+  align-items: start;
+}
+.eni-reading-body .gallery-columns-3 > .gallery-item {
+  margin: 0;
+  min-width: 0;
+  width: auto;
+}
+.eni-reading-body .gallery-columns-3 img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+@media (max-width: 600px) {
+  .eni-reading-body .gallery-columns-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
+@media (max-width: 380px) {
+  .eni-reading-body .gallery-columns-3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

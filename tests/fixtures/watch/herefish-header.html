@@ -1,0 +1,20 @@
+<!-- ENI Bullhorn Automation: survey display and website integration -->
+<script>
+(function () {
+  function loadHerefish() {
+    if (document.querySelector('script[src="https://api.herefish.com/scripts/hf.js"]')) return;
+    window.hfAccountId = "offline-replay";
+    window.hfDomain = location.origin;
+    var hf = document.createElement("script");
+    hf.type = "text/javascript";
+    hf.async = true;
+    hf.src = window.hfDomain + "/scripts/hf.js";
+    document.head.appendChild(hf);
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", loadHerefish, { once: true });
+  } else {
+    loadHerefish();
+  }
+})();
+</script>

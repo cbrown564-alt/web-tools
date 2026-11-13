@@ -1,0 +1,31 @@
+{
+  "recordedAt": "2026-11-12",
+  "method": "Bounded offline saved public main/content sections. Real Herefish loader and gallery repair CSS retained. Script account/domain replaced for local-only loading. Other scripts, styles, forms, frames and inline handlers omitted. Neutral replay chrome and identical local image stubs replace production assets. No production survey, form or analytics endpoint is exercised. Mutations reproduce loader omission, missing gallery CSS and omission of the September Bell Curve listing item.",
+  "sources": [
+    {
+      "source": "/Users/cobro/code/liz/audit/herefish-survey-2026-10-05/herefish-header.html",
+      "label": "Retained repair loader, 5 October",
+      "sha256": "349f361a173ed997eefeda25cab5aa2703bbe40bba5d38ac901e91b36a807727"
+    },
+    {
+      "source": "/Users/cobro/code/liz/audit/article-gallery-2026-11-10/gallery.css",
+      "label": "Retained gallery CSS repair, 10 November",
+      "sha256": "49090074b6e54de908f216da9b6991ad146bd2ca7c85a3326e557cdbac6e9e7a"
+    },
+    {
+      "source": "https://elizabethnorman.com/",
+      "label": "Anonymous public home response, 12 November 2026",
+      "sha256": "7e8f15f2b7ce8fa380c71db2dd3c7e2de59b5600d333e5ed082d084dc7890f81"
+    },
+    {
+      "source": "https://elizabethnorman.com/resources",
+      "label": "Anonymous public resources response, 12 November 2026",
+      "sha256": "65cdfb49b4d7552e50ae962d56471c949fb024e6126db35a446e8bf379d5954a"
+    },
+    {
+      "source": "https://elizabethnorman.com/wp-json/wp/v2/posts/17180",
+      "label": "Anonymous public gallery response, 12 November 2026",
+      "sha256": "1f5a668a827f9bbc2092d96d2f3ce631913530abcbfcd0f9a9392cdc04ec9fc8"
+    }
+  ]
+}
