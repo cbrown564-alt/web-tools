@@ -13,6 +13,9 @@ Written 12 November 2026. This document owns the sequence of tools to build, wha
 | 4     | Content decisions and redirects  | Working |
 | 5     | Release kit and form tests       | Working |
 | 6     | Site check, maximum tier         | Working |
+| 7     | Content match, old to new        | Next    |
+| 8     | Maintenance plan                 | Gated   |
+| 9     | Pitch pack                       | Gated   |
 | Later | EmDash starter, promo studio     | Parked  |
 
 ## Where this comes from
@@ -165,6 +168,62 @@ Built when a job needs it, not before. Adds a full crawl with cache-state analys
 
 **Start from.** The rest of `london-potters/docs/evidence/` and `emdash/scripts/bench-feel.mjs`, `check-layout-parity.mjs`.
 
+## Next phases
+
+Recorded 13 November 2026, after phases 0 to 6 and experience paths 0 to 3 were built. The tools now cover a job from audit to post-launch watch. The largest remaining opportunities sit either side of a job (winning it and looking after it) and in the migration step between inventory and release.
+
+### Ranking by value
+
+1. **Maintenance plan** (phase 8). Recurring work with evidence behind it. The Research Network brief says its current support service is unreliable and that the project needs dependable maintenance and support. Elizabeth Norman needed six weeks of post-launch fixes, most visible on a public page. Watch, minimal site check and `wt share` already exist.
+2. **Content match, old to new** (phase 7). Migration is where hours and defects concentrate: 223 London Potters URL failures repaired by hand, 446 gallery profiles matched by hand, and Liz's lost survey loader, gallery styles and recent article. The redirect check proves an old URL lands somewhere; nothing proves the destination carries the same content.
+3. **Pitch pack** (phase 9). Prospect concept work has been built by hand three times: Hugh Anthony (`~/code/hugh-anthony`), the London Potters website and security reviews for Paul, and Leyline's `review/before` with its own `shoot.mjs`.
+4. **Shared client review.** Experience path 5, unchanged in scope. Research Network is the likely job to meet its entry gate, because the five-year archive rule needs a client decision on many URLs.
+
+This ranking assumes that concept redesigns win work and that clients will pay for ongoing maintenance. Neither has been confirmed with a client; revisit the ranking if either is wrong.
+
+### Order
+
+1. **Clear the open experience gates.** Push `main` so CI runs (path 0). Restate the 1 GB line in path 2 as "duplicates stored once and no unprotected run left". Run the three-reader test (path 3); experience principle 6 holds new tools until it passes.
+2. **Run Research Network through `wt` as the proving job.** Start with `wt inventory research-network`; it has no inventory yet. Use it for the programme exit in [experience.md](experience.md#programme-exit) and build phase 7 as part of its migration.
+3. **Build phase 8 on the watch** once a site the owner maintains is live and experience path 4 is under way. Path 4's entry gate is effectively met: path 2 is passed except the 1 GB line, and Elizabeth Norman, Velocity and Red Thread are live.
+4. **Build phase 9 when the next prospect arrives**, not before.
+
+### Phase 7: content match, old to new
+
+**Question it answers.** Does each new page carry what its old page carried?
+
+**Shape.** Read the source inventory, the destination inventory and the content decision map. For every kept, rewritten or consolidated URL, compare the old page with its mapped destination: main heading and headings, main text (length and a similarity measure), images present and loading, links out, listing items, title, description and sharing metadata. Findings group by cause across pages. Rewritten pages report differences for review rather than failures; kept pages report losses as findings. Removed and undecided URLs are counted, not compared.
+
+**Done when.** On London Potters it finds the gallery and archive ordering differences that were matched by hand, or explains why not; replaying the saved Liz pages reports the missing recent article and stale sharing metadata; and it runs on Research Network's migration with no code changes between the two real projects.
+
+**Not in this phase.** Judging whether rewritten copy is better, authenticated pages, comparing CMS databases directly.
+
+**Start from.** `scripts/inventory/`, `scripts/content/` and the watch assertions in `scripts/watch/`. In `~/code/london-potters`, the content/order verification recorded in [verification-london-potters-content-order-2026-11-12.md](verification-london-potters-content-order-2026-11-12.md).
+
+### Phase 8: maintenance plan
+
+**Question it answers.** Is the client's site still healthy this month, and what was done about it?
+
+**Entry gate.** Experience path 4 running on at least one client site, and a client who has agreed to ongoing support.
+
+**Shape.** A monthly client report built from the scheduled watch and minimal site-check runs in that period: what was checked, what changed, what was found and fixed, what still needs a decision. It reuses the three opening blocks and `wt share`. A plain record of work done during the month can be attached from the project folder. Nothing is reported as fixed unless a later run shows it.
+
+**Done when.** Two consecutive monthly reports for two sites are sent as produced, with no covering note, and each finding in a report links to the run that found it and, where fixed, the run that shows it fixed.
+
+**Not in this phase.** Billing, uptime monitoring from outside the owner's machine, client accounts.
+
+### Phase 9: pitch pack
+
+**Question it answers.** What is wrong with a prospect's current site, and what could it look like?
+
+**Entry gate.** A real prospect.
+
+**Shape.** One command from a URL: `wt new`, a minimal site check, a representative inventory, the three most consequential findings in client wording, and before/concept captures when a concept URL is supplied. Output is one shareable bundle in the comparison style. The prospect's record is a normal project record, so a won job continues from it.
+
+**Done when.** Two real prospects receive a pack produced by the command alone, and the capture step replaces the hand-built ones used for Hugh Anthony and Leyline.
+
+**Not in this phase.** Building the concept itself, generated design, pricing.
+
 ## Parked
 
 - **EmDash starter.** Still the default platform for new builds, but neither finished job gives a repeatable pattern yet. Revisit after a second EmDash build.
@@ -192,6 +251,8 @@ Built when a job needs it, not before. Adds a full crawl with cache-state analys
 - 12 November 2026: phase 5 proves the platform-neutral procedure on two real static review bundles, with marked synthetic local form delivery. Explicit file lists, trusted manifest/archive pins, restored backups and selective reversal precede any future CMS adapter. Isolated loopback profiles reuse the form harness; production mail and database recovery are not inferred from fixture success. WordPress and EmDash operating notes live in README; no production deployer is added speculatively.
 
 - 12 November 2026: phase 6 uses explicit investigation profiles and the existing inventory crawler rather than duplicating the standard tier. Exact resource suppression is a browser-only diagnostic; different deployments remain confounded. Numbered findings require matched interventions, alternating pairs, meaningful repeated effects and selected parity before labelling an ablation strongly supported. Maximum does not call PageSpeed or automatically approve a production optimisation. Failed sources and incomplete investigations retain partial reports.
+
+- 13 November 2026: recorded the next phases. Ranked by value: maintenance plan, content match, pitch pack, shared client review. Built in the order content match (on Research Network), maintenance plan, pitch pack, after the open experience gates close. Selling the toolkit to others is out of scope for now, because everything assumes the owner's machine, evidence folders and record formats. The EmDash starter and promo studio stay parked.
 
 ## Complete workflow use
 
