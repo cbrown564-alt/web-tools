@@ -122,6 +122,10 @@ export async function prunePlan(id) {
   };
 }
 
+const shown = (file) => {
+  const r = relative(process.cwd(), file);
+  return r.startsWith("..") ? file : r;
+};
 const hashFile = (file) =>
   new Promise((done, fail) => {
     const h = createHash("sha256");
@@ -270,7 +274,7 @@ export async function archive(id, { out } = {}) {
   const sha = await hashFile(file);
   await writeFile(`${file}.sha256`, `${sha}  ${file.split("/").pop()}\n`);
   console.log(
-    `Archive: ${relative(process.cwd(), file)} (${size(du(file))})\nSHA-256: ${sha}\nIt holds the project record, pointers and every saved run. Keep it somewhere other than this disk.\nNext: wt restore --from <that file>   (in a clean checkout, to prove it restores)`,
+    `Archive: ${shown(file)} (${size(du(file))})\nSHA-256: ${sha}\nIt holds the project record, pointers and every saved run. Keep it somewhere other than this disk.\nNext: wt restore --from <that file>   (in a clean checkout, to prove it restores)`,
   );
 }
 
@@ -302,11 +306,23 @@ export async function restore({ from } = {}) {
       "wt archive <project>",
     );
   const [id] = ids;
-  if (existsSync(resolve("projects", id)))
+  // A clean checkout already has the committed record; saved evidence is
+  // what must never be overwritten.
+  if (existsSync(resolve("projects", id, "evidence")))
     throw new CliError(
-      `projects/${id} already exists here; restore never overwrites`,
-      "Restore in a clean checkout, or move the existing folder aside first",
+      `projects/${id} already has saved evidence here; restore never overwrites it`,
+      "Restore in a clean checkout, or move projects/" +
+        id +
+        "/evidence aside first",
     );
+  if (existsSync(`${file}.sha256`)) {
+    const expected = (await readFile(`${file}.sha256`, "utf8")).split(" ")[0];
+    if ((await hashFile(file)) !== expected)
+      throw new CliError(
+        "The archive does not match its recorded SHA-256",
+        "Copy the archive again from where it is kept",
+      );
+  }
   await mkdir("projects", { recursive: true });
   execFileSync("tar", ["-xzf", file, "-C", "projects"]);
   const { rerenderAll } = await import("./render.mjs");
