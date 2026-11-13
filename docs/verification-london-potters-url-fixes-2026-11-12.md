@@ -20,20 +20,20 @@ Final demo version: `9ecc7100-46be-4be6-b770-8fdee55264f6`, replacing `77d74aef-
 
 Evidence is in [the verification directory](../projects/london-potters/evidence/2026-11-12-url-fix-verification/).
 
-| Check | Result |
-| --- | --- |
-| Route and snapshot unit checks | 4 passed |
-| Astro typecheck | 35 files; zero errors, warnings or hints |
-| Build and Wrangler dry run | Passed; existing bundle-size advisory remains |
-| Read-only native migration preflight | No pending/unknown migrations; none executed |
-| Complete content/filter verification | 5,143 passed locally and hosted; 804 entry paths and 309 filter combinations |
-| Legacy archive contents | All 213 passed locally and hosted: twenty-card slices and exact profile return context; final hosted check also compares every page's profile identities against the retained directory's full filtered list |
-| Existing hosted visitor suite | 96 passed, including native images, filters, artwork, menu, update failure/recovery and no-JavaScript layouts |
-| Final hosted archive/profile journeys | Desktop and mobile passed; history, profile returns, next-page navigation, no-JavaScript paging, 404s, restored profile images and Brenda's enlarged artwork |
-| Archive accessibility sample | Zero axe WCAG A/AA violations on the tested desktop and mobile archive page |
-| Restored source image hashes | All three hosted files match their recorded SHA-256 hashes |
-| Image source restrictions | Restored local derivative returns 200; external sources and unlisted local folders return 400 |
-| Final full URL map | All 1,136 decided rules passed; all 223 original failures independently matched to passing results; nineteen decisions remain undecided |
+| Check                                 | Result                                                                                                                                                                                                       |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Route and snapshot unit checks        | 4 passed                                                                                                                                                                                                     |
+| Astro typecheck                       | 35 files; zero errors, warnings or hints                                                                                                                                                                     |
+| Build and Wrangler dry run            | Passed; existing bundle-size advisory remains                                                                                                                                                                |
+| Read-only native migration preflight  | No pending/unknown migrations; none executed                                                                                                                                                                 |
+| Complete content/filter verification  | 5,143 passed locally and hosted; 804 entry paths and 309 filter combinations                                                                                                                                 |
+| Legacy archive contents               | All 213 passed locally and hosted: twenty-card slices and exact profile return context; final hosted check also compares every page's profile identities against the retained directory's full filtered list |
+| Existing hosted visitor suite         | 96 passed, including native images, filters, artwork, menu, update failure/recovery and no-JavaScript layouts                                                                                                |
+| Final hosted archive/profile journeys | Desktop and mobile passed; history, profile returns, next-page navigation, no-JavaScript paging, 404s, restored profile images and Brenda's enlarged artwork                                                 |
+| Archive accessibility sample          | Zero axe WCAG A/AA violations on the tested desktop and mobile archive page                                                                                                                                  |
+| Restored source image hashes          | All three hosted files match their recorded SHA-256 hashes                                                                                                                                                   |
+| Image source restrictions             | Restored local derivative returns 200; external sources and unlisted local folders return 400                                                                                                                |
+| Final full URL map                    | All 1,136 decided rules passed; all 223 original failures independently matched to passing results; nineteen decisions remain undecided                                                                      |
 
 The 5,143 hosted checks, 96-check visitor suite and all-archive content check ran on the intermediate version; the final change only adds the snapshot folder to the existing image service. Final hosted journeys explicitly exercise the repaired images and artwork. The local full visitor suite timed out on native gallery images because local demo mode bypasses the existing Cloudflare derivative route; the hosted suite passed. Local archive screenshots therefore do not establish hosted image delivery. Final hosted screenshots were inspected.
 

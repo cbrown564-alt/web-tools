@@ -1,0 +1,6 @@
+dist/
+output/
+projects/*/evidence/
+projects/*/captures/
+tests/fixtures/
+package-lock.json

@@ -122,7 +122,10 @@ test("review loop: captures, edits, persistence, downloads/imports, map validati
         json.replace('"projectId": "fixture"', '"projectId": "foreign"'),
       ),
     });
-    assert.match(await page.locator("#message").textContent(), /Import failed/);
+    // The import is read asynchronously; wait for its message rather than racing it.
+    await page.waitForFunction(() =>
+      /Import failed/.test(document.querySelector("#message").textContent),
+    );
     assert.equal(await page.locator("#decision").inputValue(), "keep");
     await page
       .getByRole("button", { name: "Old — undecided", exact: true })

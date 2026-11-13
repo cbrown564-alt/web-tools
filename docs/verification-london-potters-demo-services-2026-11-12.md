@@ -6,11 +6,11 @@ The [EmDash README](../../london-potters/emdash/README.md) owns migration scope 
 
 ## Chosen behaviour
 
-| Demo treatment | URLs | Behaviour |
-| --- | ---: | --- |
-| Canonical account alias | 1 | `/my-account` returns 301 to `/my-account/`, retaining queries. This is a chosen demo convention; the source's earlier anonymous 403 is retained as evidence. |
-| Purpose-specific inactive notices | 6 | Cart, checkout, member sign-in, password recovery and the two legacy product URLs return 200 with a clear explanation and a link to the public gallery or events. There are no login, reset, purchase or booking forms, fake empty carts, prices or success states. The legacy membership-product notice makes no claim about an individual member. |
-| Published public event summaries | 6 | The existing published calendar summaries stay at their original URLs with member access and booking explicitly inactive. No private event content or entitlement model is imported. Normal CMS unpublishing remains authoritative. |
+| Demo treatment                    | URLs | Behaviour                                                                                                                                                                                                                                                                                                                                           |
+| --------------------------------- | ---: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Canonical account alias           |    1 | `/my-account` returns 301 to `/my-account/`, retaining queries. This is a chosen demo convention; the source's earlier anonymous 403 is retained as evidence.                                                                                                                                                                                       |
+| Purpose-specific inactive notices |    6 | Cart, checkout, member sign-in, password recovery and the two legacy product URLs return 200 with a clear explanation and a link to the public gallery or events. There are no login, reset, purchase or booking forms, fake empty carts, prices or success states. The legacy membership-product notice makes no claim about an individual member. |
+| Published public event summaries  |    6 | The existing published calendar summaries stay at their original URLs with member access and booking explicitly inactive. No private event content or entitlement model is imported. Normal CMS unpublishing remains authoritative.                                                                                                                 |
 
 For these service paths, all methods other than GET/HEAD return 405 with `Allow: GET, HEAD` and `Cache-Control: no-store`. The Worker rejects them before invoking the CMS handler; the same check supports local page rendering. No submitted body is parsed. The guard leaves native CMS administration, authentication APIs, media and ordinary public pages outside its scope.
 
@@ -30,19 +30,19 @@ Demo version `1bb41fe1-a7e9-470a-b2b6-9dfa7b340cac` replaces `73562d3b-7bdc-4f24
 
 Canonical implementation: `src/lib/demo-services.ts`, `src/components/DemoServiceNotice.astro`, the existing catch-all renderer and Worker dispatch. Recorded GET expectations are not treated as proof of account, booking or payment functionality.
 
-| Check | Result |
-| --- | --- |
-| Route/order/snapshot/service unit tests | 10 passed, including unsupported methods, alias handling and native CMS paths outside the guard |
-| Astro typecheck | 38 files; zero errors, warnings or hints |
-| Build and Wrangler dry run | Passed; existing large-bundle advisory remains |
-| Read-only native migration preflight | No pending/unknown migrations; none executed |
-| Local and hosted route checks | All thirteen URLs passed GET, HEAD and rejected empty POST checks; the account alias preserves queries |
-| Desktop/mobile browser checks | 24 page/device checks passed; correct notice/summary content, no active service controls, zero axe WCAG A/AA violations and no overflow |
-| Recovery | Checkout notice links successfully back to the public gallery; browsing generated no service submission |
-| Complete content/filter sweep | 5,143 passed across 804 entry paths and 309 filter combinations |
-| Decision review | Thirteen cases and 1,155 imported decisions; zero undecided demo rows; CSV round-trip, desktop/mobile axe and overflow checks passed |
-| Full demo URL map | All 1,155 recorded demo expectations passed; zero undecided demo rows; underlying source inventory remains partial |
-| Demo watch | [Quiet against the reviewed ordering baseline](../projects/london-potters/evidence/2026-11-12-demo-service-watch/report.html): ten identical captures, eighteen passing assertions and the same 42 existing findings |
+| Check                                   | Result                                                                                                                                                                                                               |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Route/order/snapshot/service unit tests | 10 passed, including unsupported methods, alias handling and native CMS paths outside the guard                                                                                                                      |
+| Astro typecheck                         | 38 files; zero errors, warnings or hints                                                                                                                                                                             |
+| Build and Wrangler dry run              | Passed; existing large-bundle advisory remains                                                                                                                                                                       |
+| Read-only native migration preflight    | No pending/unknown migrations; none executed                                                                                                                                                                         |
+| Local and hosted route checks           | All thirteen URLs passed GET, HEAD and rejected empty POST checks; the account alias preserves queries                                                                                                               |
+| Desktop/mobile browser checks           | 24 page/device checks passed; correct notice/summary content, no active service controls, zero axe WCAG A/AA violations and no overflow                                                                              |
+| Recovery                                | Checkout notice links successfully back to the public gallery; browsing generated no service submission                                                                                                              |
+| Complete content/filter sweep           | 5,143 passed across 804 entry paths and 309 filter combinations                                                                                                                                                      |
+| Decision review                         | Thirteen cases and 1,155 imported decisions; zero undecided demo rows; CSV round-trip, desktop/mobile axe and overflow checks passed                                                                                 |
+| Full demo URL map                       | All 1,155 recorded demo expectations passed; zero undecided demo rows; underlying source inventory remains partial                                                                                                   |
+| Demo watch                              | [Quiet against the reviewed ordering baseline](../projects/london-potters/evidence/2026-11-12-demo-service-watch/report.html): ten identical captures, eighteen passing assertions and the same 42 existing findings |
 
 Only empty, marked POST requests were sent directly to the demo to verify rejection. No credentials, personal data, real form, email, order, booking or password reset was submitted or processed. The hosted browser checks used GET/HEAD and verified the recovery link. Existing gallery ordering and earlier content decisions were preserved.
 
