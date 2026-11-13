@@ -258,7 +258,7 @@ function wt(cwd, args) {
       process.execPath,
       [join(root, "scripts/wt.mjs"), ...args],
       {
-        env: { ...process.env, WT_ROOT: cwd, PROJECT: "" },
+        env: { ...process.env, WT_ROOT: cwd, INIT_CWD: cwd, PROJECT: "" },
       },
     );
     let output = "";
@@ -424,4 +424,43 @@ test("wt share writes a portable bundle with nothing internal and nothing from a
     await browser.close();
     await rm(dir, { recursive: true, force: true });
   }
+});
+
+test("the redirect check lists failures first, as paths, under a proportion bar", () => {
+  const html = redirectReport(fx.redirectCheck);
+  assert.match(
+    html,
+    /<span class="state bad">1 address not as planned<\/span>/,
+  );
+  assert.match(html, /aria-label="1 as planned, 1 not as planned"/);
+  const fails = html.indexOf('<table class="fails">'),
+    passes = html.indexOf("<details><summary>1 address as planned");
+  assert.ok(fails > 0 && passes > fails, "failures come before passes");
+  assert.match(
+    html,
+    /<a href="https:\/\/www\.fixture\.example\/old-shop">\/old-shop<\/a>/,
+  );
+  assert.match(html, /<td>301 → \/shop<\/td>/);
+});
+
+test("a changed watch capture opens at the change and maps where it is", () => {
+  const data = structuredClone(fx.watchChanged);
+  data.rows[0].diff.region = {
+    height: 4000,
+    top: 2080,
+    bottom: 2400,
+    bands: [[2080, 2400]],
+  };
+  const html = watchReport(data);
+  assert.match(html, /data-start="0\.5000"/);
+  assert.match(
+    html,
+    /the first change is 50% of the way down the page, where both captures open/,
+  );
+  assert.match(
+    html,
+    /<div class="map" role="img" aria-label="Where the page changed">/,
+  );
+  assert.match(html, /<img class="overlay" src="diff\/0\.png"/);
+  assert.match(html, /Highlight what changed/);
 });

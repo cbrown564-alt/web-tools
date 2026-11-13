@@ -2,7 +2,8 @@ import { readFile, readdir, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { validateSiteCheckProject } from "../site-check/core.mjs";
-import { reportDocument, humanDate, ago } from "../report.mjs";
+import { reportDocument, humanDate, ago, stateTag } from "../report.mjs";
+import { plural } from "../report/lead.mjs";
 import { listRuns, kinds, needsAction } from "./runs.mjs";
 
 const esc = (s) =>
@@ -178,22 +179,73 @@ export function statusText(s) {
   return lines.join("\n");
 }
 
-// The operator's home page for a job: every report, newest first.
+// How each state reads at a glance: done, look at this, failed, or neither.
+const TONES = {
+  complete: "ok",
+  passed: "ok",
+  quiet: "ok",
+  packaged: "ok",
+  rehearsed: "ok",
+  reversed: "ok",
+  partial: "warn",
+  changed: "warn",
+  "baseline-required": "warn",
+  ready: "warn",
+  failed: "bad",
+};
+const tone = (run) =>
+  run.kind === "other"
+    ? "muted"
+    : !run.finished
+      ? "bad"
+      : TONES[run.state] || "muted";
+
+// The operator's home page for a job: the latest run of each tool in the
+// order the job moves, then every earlier run folded away.
 export async function writeIndex(id) {
   const s = await projectStatus(id);
-  const rows = s.runs
-    .map((r) => {
-      const label = `${kinds[r.kind]}${r.site ? ` · ${r.site}` : ""}${r.note ? ` · ${r.note}` : ""}`;
-      return `<tr><td>${esc(humanDate(r.at))}</td><td>${esc(label)}</td><td>${esc(stateWord(r))}</td><td>${r.report ? `<a href="evidence/${esc(r.name)}/${esc(r.report)}">Open report</a>` : ""}</td><td><a href="evidence/${esc(r.name)}/">${esc(r.name)}</a></td></tr>`;
+  const report = (r) =>
+    r.report
+      ? `<a href="evidence/${esc(r.name)}/${esc(r.report)}">Open report</a>`
+      : `<a href="evidence/${esc(r.name)}/">Folder</a>`;
+  const label = (id) => s.project.sites.find((x) => x.id === id)?.label ?? id;
+  const what = (r) =>
+    [r.site && String(r.site).split(",").map(label).join(" and "), r.note]
+      .filter(Boolean)
+      .map(esc)
+      .join(" · ");
+  const order = [
+    ...STAGES,
+    ...Object.keys(s.latest).filter((k) => !STAGES.includes(k)),
+  ].filter((k) => s.latest[k]);
+  const latestRows = order
+    .map((kind) => {
+      const r = s.latest[kind],
+        baseline = s.baselines.find((b) => b.run === r.name);
+      return `<tr><th scope="row">${esc(kinds[kind])}</th><td>${stateTag(stateWord(r), tone(r))}${baseline ? ` ${stateTag("accepted as baseline", "ok")}` : ""}</td><td>${esc(what(r))}</td><td><span title="${esc(humanDate(r.at))}">${esc(ago(r.at))}</span></td><td>${report(r)}</td></tr>`;
     })
     .join("");
+  const shown = new Set(order.map((k) => s.latest[k].name));
+  const earlier = s.runs.filter((r) => !shown.has(r.name));
+  const rows = earlier
+    .map(
+      (r) =>
+        `<tr><td>${esc(humanDate(r.at))}</td><td>${esc(kinds[r.kind])}${what(r) ? ` · ${what(r)}` : ""}</td><td>${stateTag(stateWord(r), tone(r))}</td><td>${r.report ? `<a href="evidence/${esc(r.name)}/${esc(r.report)}">Open report</a>` : ""}</td><td><a class="folder" href="evidence/${esc(r.name)}/">${esc(r.name)}</a></td></tr>`,
+    )
+    .join("");
+  const overall = s.attention.length
+    ? stateTag(
+        plural(s.attention.length, "thing", "things") + " to look at",
+        "warn",
+      )
+    : stateTag("Nothing pending", "ok");
   const file = resolve("projects", id, "index.html");
   await writeFile(
     file,
     reportDocument(
       `${s.project.name} — Reports`,
-      `<main><h1>${esc(s.project.name)} — Reports</h1><p>${s.project.sites.map((x) => `<a href="${esc(x.baseUrl)}">${esc(x.label)}</a>`).join(" · ")}</p><section><h2>Where this stands</h2><p>${esc(s.why)}.</p><p><strong>Next:</strong> <code>${esc(s.next)}</code></p>${s.attention.length ? `<ul>${s.attention.map((a) => `<li>${esc(a)}</li>`).join("")}</ul>` : ""}${s.baselines.map((b) => `<p>Watch baseline for ${esc(b.site)}: accepted ${esc(humanDate(b.acceptedAt))}. <a href="evidence/${esc(b.run)}/report.html">Open it</a></p>`).join("")}</section><section><h2>Every run, newest first</h2><div class="scroll" tabindex="0" role="region" aria-label="Runs"><table><thead><tr><th>When</th><th>What</th><th>State</th><th>Report</th><th>Folder</th></tr></thead><tbody>${rows || `<tr><td colspan="5">No runs yet.</td></tr>`}</tbody></table></div></section><footer>Built ${esc(humanDate(new Date().toISOString()))}. Rebuild with <code>wt index ${esc(s.id)}</code>.</footer></main>`,
-      `code{background:#f3f3f3;padding:2px 4px;overflow-wrap:anywhere}td:last-child{min-width:0}section{margin:24px 0}`,
+      `<main><h1>${esc(s.project.name)} — Reports</h1><p class="sites">${s.project.sites.map((x) => `<a href="${esc(x.baseUrl)}">${esc(x.label)}</a>`).join(" · ")}</p><section><h2>Where this stands ${overall}</h2><p>${esc(s.why)}.</p><p class="next"><strong>Next:</strong> <code>${esc(s.next)}</code></p></section><section><h2>Latest of each</h2>${latestRows ? `<div class="scroll" tabindex="0" role="region" aria-label="Latest runs"><table class="latest"><thead><tr><th>Tool</th><th>State</th><th>What</th><th>When</th><th>Report</th></tr></thead><tbody>${latestRows}</tbody></table></div>` : "<p>No runs yet.</p>"}</section>${earlier.length ? `<section><details><summary>Earlier runs (${earlier.length})</summary><div class="scroll" tabindex="0" role="region" aria-label="Earlier runs"><table class="earlier"><thead><tr><th>When</th><th>What</th><th>State</th><th>Report</th><th>Folder</th></tr></thead><tbody>${rows}</tbody></table></div></details></section>` : ""}<footer>Built ${esc(humanDate(new Date().toISOString()))}. Rebuild with <code>wt index ${esc(s.id)}</code>.</footer></main>`,
+      `code{background:#f3f3f3;padding:2px 4px;overflow-wrap:anywhere}td:last-child{min-width:0}section{margin:24px 0}h2 .state{margin-left:8px;vertical-align:middle}.sites{margin:6px 0 0}.latest{max-width:1000px}.latest th[scope=row]{font-weight:600;white-space:nowrap}.latest td,.latest th{padding:9px 10px}.earlier{font-size:13px}.earlier td{padding:6px 10px}.folder{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}summary{font-weight:600}@media(max-width:650px){.latest thead{display:none}.latest,.latest tbody{display:block}.latest tr{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;padding:10px 0;border-bottom:1px solid #ddd}.latest td,.latest th{padding:0;border:0}.latest td:empty{display:none}.latest tr>:nth-child(3){flex-basis:100%;font-size:14px}.latest tr>:nth-child(4){font-size:14px;color:#555}.earlier{min-width:620px}}`,
     ),
   );
   return { file: `projects/${id}/index.html`, status: s };

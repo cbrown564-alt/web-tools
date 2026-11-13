@@ -237,7 +237,14 @@ export function redirectFindings(d) {
   for (const r of d.rows.filter((r) => r.status !== "pass"))
     c.add(
       "redirect-check:failed",
-      { page: path(r.source), note: r.error },
+      {
+        page: path(r.source),
+        // "Expected initial HTTP 200; got 302" reads as "302 instead of 200".
+        note: String(r.error ?? "").replace(
+          /^Expected initial HTTP (\d+); got (\d+)$/,
+          "$2 instead of $1",
+        ),
+      },
       {
         href: "#results",
       },

@@ -1,5 +1,5 @@
 import { describe } from "./wording.mjs";
-import { humanDate } from "../report.mjs";
+import { humanDate, stateTag } from "../report.mjs";
 
 export const esc = (s) =>
   String(s ?? "").replace(
@@ -93,6 +93,7 @@ export function lead({
   quiet = "Nothing that needs attention.",
   notes = [],
   show,
+  status,
 }) {
   // Each decision names the findings it comes from, so "Confirm this is
   // intended" is never read without knowing what "this" is.
@@ -107,7 +108,17 @@ export function lead({
   };
   const shown = findings.filter((f) => f.rank < 4),
     smaller = findings.filter((f) => f.rank === 4);
-  return `<header class="lead"><h1>${esc(title)}</h1><p class="when">${esc(humanDate(at))}</p><div class="block"><h2>What was checked</h2><p>${checked}</p>${notes.map((n) => `<p>${esc(n)}</p>`).join("")}</div><div class="block"><h2>What was found</h2>${
+  // One label beside the date says where the report stands before any reading.
+  status ??= shown.length
+    ? {
+        label: plural(shown.length, "thing to look at", "things to look at"),
+        tone: "warn",
+      }
+    : {
+        label: smaller.length ? "Only smaller things" : "Nothing to act on",
+        tone: "ok",
+      };
+  return `<header class="lead"><h1>${esc(title)}</h1><p class="when">${esc(humanDate(at))}${stateTag(status.label, status.tone)}</p><div class="block"><h2>What was checked</h2><p>${checked}</p>${notes.map((n) => `<p>${esc(n)}</p>`).join("")}</div><div class="block"><h2>What was found</h2>${
     shown.length
       ? show
         ? show(shown)

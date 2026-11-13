@@ -275,3 +275,36 @@ test("watch state and discrete findings keep collection failures visible without
     "changed",
   );
 });
+
+test("changed bands merge nearby rows and keep the largest in page order", async () => {
+  const { changedBands } = await import("../scripts/watch/compare.mjs");
+  const width = 4,
+    height = 400,
+    data = new Uint8Array(width * height * 4);
+  const paint = (from, to) => {
+    for (let y = from; y < to; y++) {
+      const i = (y * width + 2) * 4;
+      data[i] = 255;
+      data[i + 3] = 255;
+    }
+  };
+  paint(20, 30);
+  paint(40, 46); // within the gap, so joins the first band
+  paint(150, 161);
+  assert.deepEqual(changedBands({ width, height, data }), {
+    height,
+    top: 20,
+    bottom: 161,
+    bands: [
+      [20, 46],
+      [150, 161],
+    ],
+  });
+  assert.deepEqual(changedBands({ width, height, data }, { limit: 1 }).bands, [
+    [20, 46],
+  ]);
+  assert.deepEqual(
+    changedBands({ width, height, data: new Uint8Array(width * height * 4) }),
+    { height, top: null, bottom: null, bands: [] },
+  );
+});

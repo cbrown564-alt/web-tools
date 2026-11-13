@@ -2,7 +2,9 @@ import { reportDocument, humanDate } from "../report.mjs";
 import { lead, list, plural } from "../report/lead.mjs";
 import { watchFindings, findingType } from "../report/findings.mjs";
 import { describe } from "../report/wording.mjs";
-import { writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
+import { PNG } from "pngjs";
+import { changedBands } from "./compare.mjs";
 import { resolve } from "node:path";
 import { safeUrl, redact } from "../site-check/core.mjs";
 const e = (s) =>
@@ -13,10 +15,32 @@ const e = (s) =>
         c
       ],
   );
+// Where the first change sits, in words a reader can use.
+function whereDown(region) {
+  const f = region.top / region.height;
+  if (f < 0.08) return "at the top of the page";
+  if (f > 0.9) return "at the bottom of the page";
+  return `${Math.round(f * 10) * 10}% of the way down the page`;
+}
+
+// A thin strip the height of the page, marked where it changed.
+function changeMap(region) {
+  const pct = (n) => ((n / region.height) * 100).toFixed(2);
+  return `<div class="map" role="img" aria-label="Where the page changed"><span class="map-label">Changes</span><div class="map-track">${region.bands.map(([t, b]) => `<span style="top:${pct(t)}%;height:max(2px,${pct(b - t)}%)"></span>`).join("")}</div></div>`;
+}
+
+let cardId = 0;
 function rowCard(row) {
-  const image = (file, label) =>
+  const region =
+      row.diff?.changed && row.diff.region?.bands?.length
+        ? row.diff.region
+        : null,
+    // Open each capture a little above the first change.
+    start = region ? Math.max(0, region.top - 80) / region.height : 0,
+    id = `c${++cardId}`;
+  const image = (file, label, overlay) =>
     file
-      ? `<figure><figcaption>${e(label)} · <a href="${e(file)}">Open full capture</a></figcaption><div class="capture" tabindex="0" role="region" aria-label="${e(row.target.label + " " + label)}"><img src="${e(file)}" alt="${e(row.target.label + " " + row.target.device + " " + label)}"></div></figure>`
+      ? `<figure><figcaption>${e(label)} · <a href="${e(file)}">Open full capture</a></figcaption><div class="capture" tabindex="0" role="region" aria-label="${e(row.target.label + " " + label)}"${start ? ` data-start="${start.toFixed(4)}"` : ""}><div class="stack"><img src="${e(file)}" alt="${e(row.target.label + " " + row.target.device + " " + label)}">${overlay ? `<img class="overlay" src="${e(overlay)}" alt="${e(`Differences on ${row.target.label} ${row.target.device}`)}">` : ""}</div></div></figure>`
       : "";
   return `<article><h3>${e(row.target.label)} / ${e(row.target.device)}</h3><p><a href="${e(safeUrl(row.target.url))}">${e(safeUrl(row.target.url))}</a></p>${row.status === "error" ? `<p class="notice">Capture failed: ${e(row.error)}</p>` : ""}<ul>${row.assertions
     .filter((a) => a.status === "fail")
@@ -26,7 +50,7 @@ function rowCard(row) {
     )
     .join(
       "",
-    )}</ul>${row.diff ? `<p>${row.diff.changedRatio ? `${row.diff.changedRatio < 0.0001 ? "Less than 0.01" : (row.diff.changedRatio * 100).toFixed(2)}% of the page differs` : "No difference"}${row.diff.dimensionsChanged ? "; the page is a different length" : ""}. ${row.diff.file ? `<a href="${e(row.diff.file)}">Picture of the differences</a>` : ""}</p>` : ""}<div class="captures">${image(row.baselineFile, "Accepted version")}${image(row.capture?.file, "Now")}</div></article>`;
+    )}</ul>${row.diff ? `<p>${row.diff.changedRatio ? `${row.diff.changedRatio < 0.0001 ? "Less than 0.01" : (row.diff.changedRatio * 100).toFixed(2)}% of the page differs` : "No difference"}${row.diff.dimensionsChanged ? "; the page is a different length" : ""}${region ? `; the first change is ${whereDown(region)}, where both captures open` : ""}. ${row.diff.file ? `<a href="${e(row.diff.file)}">Picture of the differences</a>` : ""}</p>` : ""}${region && row.diff.file ? `<input type="checkbox" class="toggle" id="${id}"><label class="toggle-label" for="${id}">Highlight what changed</label>` : ""}<div class="captures${region ? " mapped" : ""}">${image(row.baselineFile, "Accepted version")}${image(row.capture?.file, "Now", region && row.diff.file)}${region ? changeMap(region) : ""}</div></article>`;
 }
 export function watchReport(data) {
   const needsReview = (r) =>
@@ -67,9 +91,29 @@ export function watchReport(data) {
           ]
         : [],
     })}${changed.length ? `<section id="results"><h2>Pages to look at</h2>${changed.map(rowCard).join("")}</section>` : '<div id="results"></div>'}<section id="site-check"><h2>Accessibility, security and search</h2><p>${data.siteCheck?.report ? `<a href="${e(data.siteCheck.report)}">Open the site check</a>` : e(data.siteCheck?.reason || "Not run")}. ${data.siteCheck?.error ? e(data.siteCheck.error) : ""}</p>${changes.length ? `<ul>${changes.join("")}</ul>` : data.baseline && data.siteCheck?.report ? "<p>Same findings as the accepted version.</p>" : ""}</section>${small.length ? `<section id="small"><details><summary>Very small differences that need no review (${small.length})</summary>${small.map(rowCard).join("")}</details></section>` : ""}<details><summary>All captures (${data.rows.length})</summary>${data.rows.map(rowCard).join("")}</details><details class="operator accept"><summary>For the operator: accept this run</summary><p>After review, this makes the run the version later checks compare against. Runs with failures cannot be accepted. Earlier runs are kept.</p><pre>${e(accept)}</pre></details><section id="method"><h2>How this was checked</h2><p>${data.rows.length} full-page captures; ${data.rows.filter((r) => r.status === "error").length} failed; ${data.rows.reduce((n, r) => n + r.assertions.filter((a) => a.status === "fail").length, 0)} of ${data.rows.reduce((n, r) => n + r.assertions.length, 0)} page expectations failed.</p><p>Each capture scrolls through the whole page and waits for images and fonts. A page that is too long or never settles is reported as a failure. Animations are switched off. Areas left out of the comparison: ${e(data.policy.masks.join(", ") || "none")}.</p><p>A page is flagged when more than ${data.policy.maxChangedRatio * 100}% of it differs or its length changes. Rendering fuzz on edges is ignored. Loading-speed scores vary run to run and are not compared.</p>${data.baselineProblem ? `<p>${e(data.baselineProblem)}</p>` : ""}<details class="internal"><summary>Run record</summary><p>Run ${e(data.run)}; compared with ${e(data.baseline?.run || "no accepted run")}. Colour threshold ${data.policy.pixelThreshold}. <a href="results.json">All results</a> · <a href="conditions.json">Conditions and versions</a>. Captures record their address, viewport, time and SHA-256.</p></details></section></main>`,
-    `article{margin:16px 0}.captures{display:grid;grid-template-columns:1fr 1fr;gap:16px}figure{min-width:0;margin:0}figcaption{margin-bottom:8px}.capture{height:520px;overflow:auto;background:#eee;border:1px solid #aaa}.capture img{display:block;width:100%;height:auto}.capture:focus-visible{outline:3px solid #075db3;outline-offset:3px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f3f3;padding:12px}@media(max-width:650px){.captures{grid-template-columns:1fr}}@media print{section{break-before:auto}.capture{height:auto;overflow:visible}.capture img{max-height:110mm;object-fit:contain;object-position:top}.captures{grid-template-columns:1fr 1fr}article{break-before:page}.accept{display:none}}`,
+    `article{margin:16px 0}.captures{display:grid;grid-template-columns:1fr 1fr;gap:16px}figure{min-width:0;margin:0}figcaption{margin-bottom:8px}.capture{height:520px;overflow:auto;background:#eee;border:1px solid #aaa}.capture img{display:block;width:100%;height:auto}.stack{position:relative}.stack .overlay{position:absolute;inset:0;display:none;mix-blend-mode:multiply;opacity:.85}.toggle:checked~.captures .overlay{display:block}.toggle{margin:0 6px 12px 0}.toggle-label{font-size:14px}.captures.mapped{grid-template-columns:1fr 1fr 56px}.map{display:flex;flex-direction:column;align-items:center;min-width:0}.map-label{font-size:11px;color:#555;margin-bottom:8px;writing-mode:horizontal-tb}.map-track{position:relative;width:12px;flex:0 0 520px;background:#eee;border:1px solid #bbb;border-radius:2px}.map-track span{position:absolute;left:0;right:0;background:#c0262d}.capture:focus-visible{outline:3px solid #075db3;outline-offset:3px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f3f3;padding:12px}@media(max-width:650px){.captures,.captures.mapped{grid-template-columns:1fr}.map{display:none}}@media print{section{break-before:auto}.capture{height:auto;overflow:visible}.capture img{max-height:110mm;object-fit:contain;object-position:top}.captures,.captures.mapped{grid-template-columns:1fr 1fr}.map,.toggle,.toggle-label{display:none}article{break-before:page}.accept{display:none}}`,
   );
 }
 export async function writeWatchReport(dir, data) {
-  await writeFile(resolve(dir, "report.html"), watchReport(redact(data)));
+  await writeFile(
+    resolve(dir, "report.html"),
+    watchReport(await withRegions(dir, redact(data))),
+  );
+}
+
+// Runs saved before regions were recorded get them from their own
+// difference pictures, so a rebuilt report opens at the change too.
+async function withRegions(dir, data) {
+  const rows = await Promise.all(
+    data.rows.map(async (row) => {
+      if (!row.diff?.changed || row.diff.region || !row.diff.file) return row;
+      try {
+        const png = PNG.sync.read(await readFile(resolve(dir, row.diff.file)));
+        return { ...row, diff: { ...row.diff, region: changedBands(png) } };
+      } catch {
+        return row;
+      }
+    }),
+  );
+  return { ...data, rows };
 }
