@@ -1,4 +1,6 @@
-import { reportDocument } from "../report.mjs";
+import { reportDocument, humanDate, humanDuration } from "../report.mjs";
+import { lead, list, plural } from "../report/lead.mjs";
+import { siteCheckFindings } from "../report/findings.mjs";
 import { writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { aggregatePerformance, cacheState, stats, safeUrl } from "./core.mjs";
@@ -15,7 +17,8 @@ const range = (s, d = 0) =>
   s ? `${number(s.median, d)} (${number(s.min, d)}–${number(s.max, d)})` : "—";
 const link = (url, label) =>
   `<a href="${escape(safeUrl(url))}">${escape(label || url)}</a>`;
-const raw = (r) => (r.raw ? ` <a href="${escape(r.raw)}">Evidence</a>` : "");
+const raw = (r) =>
+  r.raw ? ` <a class="internal" href="${escape(r.raw)}">Evidence</a>` : "";
 const field = (f) => {
   const data = f?.page?.metrics ? f.page : f?.origin?.metrics ? f.origin : null;
   if (!data) return "Visitor data unavailable";
@@ -135,14 +138,34 @@ export function report(data) {
         `<article><h2>${escape(project.labels[side])}</h2>${link(baseUrl)}<ul>${options.modules
           .map((m) => {
             const a = (results[m] || []).filter((r) => r.target.side === side);
-            return `<li><a href="#${m}">${escape(m)}</a>: ${escape(moduleSummary(m, a))}<br>${a.filter((r) => r.status === "ok").length} collected, ${a.filter((r) => r.status !== "ok").length} skipped or failed</li>`;
+            return `<li><a href="#${m}">${escape(m)}</a>: ${escape(moduleSummary(m, a))}</li>`;
           })
           .join("")}</ul></article>`,
     )
     .join("");
+  const sites =
+      project.sites ||
+      ["before", "after"].map((id) => ({ id, baseUrl: project[`${id}Base`] })),
+    targets = data.preflight.map((r) => r.target),
+    pages = new Set(targets.map((t) => t.page)).size,
+    devices = [...new Set(targets.map((t) => t.device))],
+    plain = {
+      performance: "loading speed",
+      cache: "server response times",
+      accessibility: "accessibility",
+      security: "security settings",
+      discovery: "how search engines and shared links see it",
+    };
+  const checked = `${plural(pages, "page")} of ${list(sites.map((s) => `${sites.length > 1 ? escape(project.labels[s.id]) + " (" : ""}${link(s.baseUrl, new URL(s.baseUrl).host)}${sites.length > 1 ? ")" : ""}`))}, on ${list(devices.map(escape))}, for ${list(options.modules.map((m) => plain[m] || m))}.`;
+  const accounting = options.modules
+    .map((m) => {
+      const a = results[m] || [];
+      return `${m}: ${a.filter((r) => r.status === "ok").length} of ${a.length} collected`;
+    })
+    .join("; ");
   return reportDocument(
     `${project.name} — Site check`,
-    `<main><a href="#results">Skip to results</a><header><h1>${escape(project.name)} — Site check</h1><p>${escape(options.tier)} · ${escape(data.startedAt)} · ${number(data.durationMs / 1000, 1)} seconds · ${escape(data.state)}</p></header>${missing.length ? `<div class="notice"><strong>${missing.length} page/device checks skipped.</strong><ul>${missing.map((r) => `<li>${escape(project.labels[r.target.side])} / ${escape(r.target.label)} / ${escape(r.target.device)}: ${escape(r.error)}</li>`).join("")}</ul></div>` : ""}${data.failure ? `<p class="notice">Collection stopped: ${escape(data.failure)}</p>` : ""}<div class="cards${project.sites?.length === 1 ? " single" : ""}">${cards}</div><div id="results">${sections}</div><section><h2>How this was measured</h2><p>Only public pages were read. Availability checks require a successful response and a visible main heading. Failed pages are skipped, never scored as healthy. Collection success means measurements were saved; review the observations for site problems.</p><p>${options.tier === "minimal" ? "Performance uses one Google PageSpeed Insights request per available page and device; its viewport and throttling are Google’s presets, not the capture viewport. Visitor measurements, when returned, describe a historical 28-day period and may cover the whole origin." : "Performance uses three serial Lighthouse audits per available page and device, with site order rotated each repetition. Each audit uses a new browser and context, the project viewport and recorded simulated network/CPU settings. Medians and ranges describe this session. Cold and repeat browser loads use the host connection without imposed throttling; cold means browser state, not an origin/CDN cache reset."}</p><p>Cache: two plain requests and two unique-query requests per URL, without cookies; times include connection setup and redirects. A query string does not guarantee cache bypass: cache state comes from response headers. HTTP requests are device-independent. ${options.tier === "standard" ? "Sitemap work is bounded to six XML documents and twelve evenly distributed sample URLs per site; discovery checks at most fifty internal links per page. Coverage is recorded in results.json." : "Checks cover the project’s listed pages."}</p><p>Accessibility uses axe WCAG 2 A/AA and 2.1 A/AA rules. ${options.tier === "standard" ? "Keyboard probes test recognised skip links and menu controls; unrecognised interactions and visual focus require review." : ""} Header presence and DNS records are observations, not a security certification. No forms were submitted.</p><p><a href="conditions.json">Versions and conditions</a> · <a href="results.json">All results and coverage</a>. Rebuild this report from saved JSON without measuring again.</p></section><footer>Generated ${escape(data.finishedAt || data.startedAt)}</footer></main>`,
+    `<main>${lead({ title: `${project.name} — Site check`, at: data.startedAt, checked, findings: siteCheckFindings(data), devices, notes: data.notices || [] })}<section><h2>By area</h2><div class="cards${sites.length === 1 ? " single" : ""}">${cards}</div></section><div id="results">${sections}</div><section id="method"><h2>How this was measured</h2><p>${escape(options.tier[0].toUpperCase() + options.tier.slice(1))} check, ${escape(humanDuration(data.durationMs))}. ${escape(accounting)}.</p>${missing.length ? `<p>${missing.length} page and device combinations could not be checked:</p><ul>${missing.map((r) => `<li>${escape(project.labels[r.target.side])} / ${escape(r.target.label)} / ${escape(r.target.device)}: ${escape(r.error)}</li>`).join("")}</ul>` : ""}${data.failure ? `<p>Collection stopped: ${escape(data.failure)}</p>` : ""}<p>Only public pages were read. Availability checks require a successful response and a visible main heading. Failed pages are skipped, never scored as healthy. Collection success means measurements were saved; review the observations for site problems.</p><p>${options.tier === "minimal" ? "Performance uses one Google PageSpeed Insights request per available page and device; its viewport and throttling are Google’s presets, not the capture viewport. Visitor measurements, when returned, describe a historical 28-day period and may cover the whole origin." : "Performance uses three serial Lighthouse audits per available page and device, with site order rotated each repetition. Each audit uses a new browser and context, the project viewport and recorded simulated network/CPU settings. Medians and ranges describe this session. Cold and repeat browser loads use the host connection without imposed throttling; cold means browser state, not an origin/CDN cache reset."}</p><p>Cache: two plain requests and two unique-query requests per URL, without cookies; times include connection setup and redirects. A query string does not guarantee cache bypass: cache state comes from response headers. HTTP requests are device-independent. ${options.tier === "standard" ? "Sitemap work is bounded to six XML documents and twelve evenly distributed sample URLs per site; discovery checks at most fifty internal links per page. Coverage is recorded in results.json." : "Checks cover the project’s listed pages."}</p><p>Accessibility uses axe WCAG 2 A/AA and 2.1 A/AA rules. ${options.tier === "standard" ? "Keyboard probes test recognised skip links and menu controls; unrecognised interactions and visual focus require review." : ""} Header presence and DNS records are observations, not a security certification. No forms were submitted.</p><details class="internal"><summary>Run record</summary><p><a href="conditions.json">Versions and conditions</a> · <a href="results.json">All results and coverage</a>. Rebuild this report from saved JSON without measuring again.</p></details></section></main>`,
   );
 }
 export async function writeReport(dir, data) {

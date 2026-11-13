@@ -1,8 +1,10 @@
 import { readFile, writeFile, mkdir, copyFile } from "node:fs/promises";
 import { resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseArgs } from "node:util";
-import { randomUUID } from "node:crypto";
+import { help, parseTool } from "./cli/grammar.mjs";
+import { nextRunName } from "./cli/runs.mjs";
+import { writeRedirectReport } from "./content/report.mjs";
+import { report as reportError, CliError } from "./cli/errors.mjs";
 import { build } from "esbuild";
 import { loadProject, projectDir } from "./project.mjs";
 import { hash } from "./inventory/core.mjs";
@@ -18,35 +20,23 @@ const e = (s) =>
         c
       ],
   );
-async function main() {
-  const { values: o, positionals } = parseArgs({
-    allowPositionals: true,
-    options: {
-      inventory: { type: "string" },
-      site: { type: "string" },
-      run: { type: "string" },
-      map: { type: "string" },
-      base: { type: "string" },
-      "allow-partial": { type: "boolean" },
-      help: { type: "boolean" },
-    },
-  });
-  const action = positionals[0] || "prepare";
+export async function main(args = process.argv.slice(2)) {
+  const { values: o, action } = parseTool("content", args);
   if (o.help) {
-    console.log(
-      "Prepare: PROJECT=<id> npm run content -- [prepare] [--inventory <inventory-run>] [--site before|after|live] [--run unique-name]\nCheck: PROJECT=<id> npm run content -- check --map <exported-map.json> [--base https://preview.example] [--allow-partial] [--run unique-name]\nOutputs are immutable local evidence. No redirect is installed.",
-    );
+    console.log(help("content"));
     return;
   }
-  if (!["prepare", "check"].includes(action) || positionals.length > 1)
-    throw Error("Use content prepare or content check");
+  if (o.inventory === "latest") delete o.inventory;
   for (const name of ["run", "inventory", "site"])
     if (o[name] && !/^[a-z0-9][a-z0-9-]{0,79}$/.test(o[name]))
       throw Error(`Invalid --${name}`);
   const project = await loadProject({ siteCheck: true }),
     name =
       o.run ||
-      `${new Date().toISOString().slice(0, 10)}-content-${action}-${randomUUID().slice(0, 8)}`;
+      nextRunName(
+        projectDir,
+        action === "prepare" ? "content-review" : "redirect-check",
+      );
   let source, sourceBytes, manifest, map;
   if (action === "prepare") {
     let inventoryRun = o.inventory;
@@ -56,7 +46,11 @@ async function main() {
         (project.sites.length === 1
           ? project.sites[0].id
           : project.inventory?.site);
-      if (!site) throw Error("Choose --site or --inventory");
+      if (!site)
+        throw new CliError(
+          "This project has more than one site and no default inventory site",
+          `wt content ${project.id} --site ${project.sites[0].id}`,
+        );
       const pointer = JSON.parse(
         await readFile(resolve(projectDir, "inventory", `${site}.json`)),
       );
@@ -116,7 +110,11 @@ async function main() {
     )
       throw Error("Inventory contains duplicate URLs");
   } else {
-    if (!o.map) throw Error("Check needs --map <exported-file.json>");
+    if (!o.map)
+      throw new CliError(
+        "Check needs the redirect map exported from the review page",
+        `wt content ${project.id} check --map <downloaded-map.json>`,
+      );
     const raw = await readFile(resolve(o.map), "utf8");
     if (raw.length > 10000000) throw Error("Map exceeds 10MB");
     map = validateMap(JSON.parse(raw));
@@ -131,8 +129,9 @@ async function main() {
     if (map.projectId !== project.id)
       throw Error("Map belongs to another project");
     if (!map.complete && !o["allow-partial"])
-      throw Error(
-        "Map is partial; finish decisions or explicitly use --allow-partial",
+      throw new CliError(
+        "This map still has undecided pages",
+        `Finish the decisions and export again, or add --allow-partial to check only the decided rules`,
       );
     if (o.base) {
       const u = new URL(o.base);
@@ -242,14 +241,7 @@ async function main() {
       ? "passed"
       : "failed";
     await json("results.json", data);
-    await writeFile(
-      resolve(dir, "report.html"),
-      reportDocument(
-        `${project.name} — Redirect check`,
-        `<main><h1>${e(project.name)} — Redirect check</h1><p>${e(data.state)} · ${data.rows.filter((r) => r.status === "pass").length}/${data.rows.length} rules passed · ${map.complete ? "Complete decision map" : "Partial map: only exported rules checked"}</p><p>Request base: ${e(data.base)}. Coverage: ${e(JSON.stringify(map.coverage))}.</p><div class="scroll" tabindex="0" role="region" aria-label="Redirect results"><table><thead><tr><th>Source</th><th>Expected</th><th>Result</th><th>Observed chain</th></tr></thead><tbody>${data.rows.map((r) => `<tr><td>${e(r.source)}</td><td>${r.expectedStatus} ${e(r.expectedDestination)}</td><td>${r.status}: ${e(r.error || "matched")}</td><td>${e(JSON.stringify(r.chain))}</td></tr>`).join("")}</tbody></table></div><p>GET requests only. Retained URLs require an initial 200; removal requires its exact 404/410; consolidation requires the specified initial status, one redirect to the exact destination, and HTTP 200 there. Every hop is recorded; unexpected origins, loops, chains and failed destinations fail the check.</p><p><a href="results.json">Results</a> · <a href="map.json">Checked rules</a> · <a href="conditions.json">Conditions</a></p></main>`,
-        `main{overflow-wrap:anywhere}table{table-layout:fixed;min-width:700px}`,
-      ),
-    );
+    await writeRedirectReport(dir, data);
     console.log(`Report: ${dir}/report.html`);
     if (data.state !== "passed") process.exitCode = 2;
   }
@@ -259,6 +251,6 @@ if (
   resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 )
   main().catch((e) => {
-    console.error(`Content: ${e.message}`);
+    reportError(e, { tool: "content", project: process.env.PROJECT });
     process.exitCode = 1;
   });

@@ -108,7 +108,7 @@ test("CLI exports inspectable check evidence, rejects partial maps by default an
           join(dir, "projects/fixture/evidence/good/report.html"),
           "utf8",
         )
-      ).includes("3/3 rules passed"),
+      ).includes("3 of 3 as planned"),
     );
     const bad = structuredClone(map);
     for (const path of ["wrong", "loop", "chain", "bad"])
