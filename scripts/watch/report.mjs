@@ -47,7 +47,7 @@ export function watchReport(data) {
   const changes = (data.siteCheckChanges || []).map((c) => {
     const [, kind, text] = /^(New|Resolved): (.+)$/.exec(c) || [, "", c],
       f = findingType(text);
-    return `<li>${e(kind === "New" ? "New" : "Gone")}: ${e(describe(f.type).say)} (${e(f.page)}${f.device ? ", " + e(f.device) : ""}) <span class="internal">${e(text)}</span></li>`;
+    return `<li>${e(kind === "New" ? "New" : "Gone")}: ${e(describe(f.type).say)} (${e(f.page)}${f.device ? ", " + e(f.device) : ""})</li>`;
   });
   const accept = `wt watch ${data.project.id} accept --run ${data.run}`;
   return reportDocument(
