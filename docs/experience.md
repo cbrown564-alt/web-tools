@@ -4,14 +4,16 @@ Written 12 November 2026. This document owns the work that turns six working too
 
 ## Status
 
-| Path | Name                        | State       |
-| ---- | --------------------------- | ----------- |
-| 0    | Secure the base             | Not started |
-| 1    | One front door              | Not started |
-| 2    | Runs you can live with      | Not started |
-| 3    | Reports a client can act on | Not started |
-| 4    | Unattended watch            | Gated       |
-| 5    | Shared client review        | Gated       |
+| Path | Name                        | State                                         |
+| ---- | --------------------------- | --------------------------------------------- |
+| 0    | Secure the base             | Built; gate open on CI (needs a push)         |
+| 1    | One front door              | Built; gate passed on machine time only       |
+| 2    | Runs you can live with      | Built; gate open on the 1 GB target and prune |
+| 3    | Reports a client can act on | Built; gate open on the three-reader test     |
+| 4    | Unattended watch            | Gated                                         |
+| 5    | Shared client review        | Gated                                         |
+
+Gate results are recorded under [Gate results, 13 November 2026](#gate-results-13-november-2026). A path is not marked passed while any line of its gate is open.
 
 ## Position
 
@@ -160,6 +162,51 @@ The experience work is finished, and attention returns to plan.md's parked tools
 3. Every report sent to the client was sent as produced, with no explanatory covering note needed.
 4. Total evidence for the job is backed up and under an agreed size.
 
+## Gate results, 13 November 2026
+
+Observed on the owner's machine. "Open" means not met or not testable yet, with the reason.
+
+### Path 0
+
+| Gate line                     | Result                                                                                 |
+| ----------------------------- | -------------------------------------------------------------------------------------- |
+| Clean `git status`            | Met. The tree is committed in phase commits followed by one commit per path.           |
+| Twenty consecutive green runs | Met. 20 of 20 runs of `npm test` passed in a row (59 tests each) on the final code.    |
+| Unit tests under five seconds | Met. `npm run test:unit`: 25 tests in 1.6 seconds.                                     |
+| CI green on main              | Open. `.github/workflows/check.yml` exists but has never run; nothing has been pushed. |
+
+### Path 1
+
+| Gate line                                        | Result                                                                                                                                                                                                                                                                             |
+| ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cold start under ten minutes                     | Met for machine time, open for a person. Fresh clone, `npm ci`, `wt doctor`, `wt new iana --url https://www.iana.org`, `wt site-check iana`: 13 seconds to a written report, with a warm npm and browser cache and no API key. No newcomer has been timed reading the quick start. |
+| Every subcommand's error paths print a next step | Met. `tests/cli.test.mjs` runs about 75 cases: missing project, unknown project and unknown option for every tool, plus each tool's missing prerequisite. Each exits 1 with a cause and a `Next:` line and no stack trace.                                                         |
+| Option table with no synonyms                    | Met. One vocabulary in `scripts/cli/grammar.mjs`, checked by the same test. `--sites` is answered with "Use --site".                                                                                                                                                               |
+| Five existing records load unchanged             | Met. All five load through the one loader; no `project.json` was edited.                                                                                                                                                                                                           |
+
+Two bullets were built differently from how they were written. Stack traces are shown with `WT_DEBUG=1`, not a `--debug` option. Version 1 (paired) and version 2 (live) records both remain valid and load through one loader; no single new record version was introduced, so no record needed migrating.
+
+### Path 2
+
+| Gate line                                          | Result                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| London Potters workflow with nothing typed by hand | Met with two stated limits. Pack, verify, rehearse, reverse, forms, site check, watch, accept, inventory and content review ran on defaults; every run name, package pin, journal pin and baseline was found by the tool. Limits: the inventory covered the demonstration site only, and the redirect check needs the exported map file, which is a download path by nature. The redirect check ran all 1,155 rules of the saved partial map against the live addresses: 1,144 as planned, 11 not (ten answer 302 or 403 where 200 or 301 was planned, one is a 404). |
+| `wt status` under two seconds, correct next step   | Met. 0.13 seconds on London Potters with a cold cache. The next step was correct after each of the ten commands.                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| London Potters under 1 GB after prune              | Open, and not reachable as written. After the workflow repeat the folder holds 11.3 GB. The dry run removes 21 runs nothing depends on (4.9 GB) and stores 19,014 duplicate files once (4.1 GB), leaving about 2.2 GB. The release candidate (952 MB) and its pinned archive (847 MB) are each protected and unique, so 1 GB would mean deleting cited evidence. Nothing has been pruned: removal waits for the owner's confirmation.                                                                                                                                 |
+| Archive restores on a clean checkout, offline      | Met on Velocity. A 177 MB archive restored into a fresh clone with networking disabled, rebuilt 16 of 16 reports, and the restored evidence folder is byte-identical to the original. A test covers the same loop on a fixture.                                                                                                                                                                                                                                                                                                                                       |
+
+### Path 3
+
+| Gate line                              | Result                                                                                                                                                                                                                   |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Three-reader test on five report types | Open. Needs three people who have not worked on the project.                                                                                                                                                             |
+| First screen free of machine detail    | Met. All 97 saved tool reports across the five projects were rebuilt and checked at 1440×900 and 390×844: no hash, rule id, ISO timestamp, run name or raw file name on the first screen. A fixture test holds the line. |
+| Every finding type has wording         | Met. `tests/wording.test.mjs` fails when `scripts/report/findings.mjs` can emit a type, an accessibility rule, a header or a watch assertion that `scripts/report/wording.mjs` does not cover.                           |
+| Shared bundle is portable and clean    | Met on a fixture. Served from a static host with every other host blocked: no external request, no broken link or image, no `conditions.json`, raw results, operator command or other project's content.                 |
+| No approval or status disclaimer       | Met. Tested on every report type and on the shared bundle.                                                                                                                                                               |
+
+Reports keep each tool's existing detail and method sections below the three opening blocks. The "For the operator" and "Run record" parts are folded shut and are removed from shared bundles.
+
 ## Open decisions
 
 - **Is a second operator in scope?** If yes, the cold-start gate in path 1 is tested on that person and onboarding weight goes up. If no, "two weeks away" is the proxy.
@@ -170,4 +217,6 @@ The experience work is finished, and attention returns to plan.md's parked tools
 
 - 12 November 2026: experience work is organised by the seams between tools, not tool by tool, because each tool already passed its own acceptance.
 - 12 November 2026: gates are observed tasks and timings on real projects. A feature existing does not pass a gate.
+- 13 November 2026: `wt prune` removes nothing without confirmation and treats any run named in a verification record as protected. The 1 GB target in path 2 should be restated as "duplicates stored once and no unprotected run left", or the release candidate needs a home outside the evidence folder.
+- 13 November 2026: reports keep rule ids, hashes and run names, but only in folded detail. The wording table is the single place client-facing sentences are written.
 - 12 November 2026: scheduling and shared storage, both deferred in plan.md, stay deferred behind entry gates rather than being scheduled now.
