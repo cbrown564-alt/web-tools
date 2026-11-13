@@ -7,6 +7,7 @@ import {
   inspectHtml,
   captureSelection,
   reconcile,
+  scopeReconciliation,
   selectSite,
 } from "../scripts/inventory/core.mjs";
 import { network } from "../scripts/inventory/network.mjs";
@@ -177,6 +178,90 @@ test("bounded HTTP crawl: nested sitemaps, redirects, links, robots, byte sizes,
   } finally {
     await new Promise((r) => server.close(r));
   }
+});
+
+test("history on another host is not reported as missing pages", () => {
+  const preview = "https://preview.example.dev/",
+    production = "https://example.com/",
+    rows = ["/", "/about/", "/new/"].map((p) => ({
+      url: new URL(p, preview).href,
+      status: 200,
+      collection: "ok",
+    })),
+    history = {
+      source: "census",
+      urls: [production, production + "about/", production + "gone/"],
+    };
+  const cross = reconcile(rows, history, preview);
+  assert.equal(cross.compared, false);
+  assert.equal(cross.historicalCount, 0);
+  assert.deepEqual(cross.absent, []);
+  assert.deepEqual(cross.added, []);
+  assert.deepEqual(cross.otherHost, { count: 3, hosts: ["example.com"] });
+  assert.match(cross.note, /not compared/);
+
+  // A mixed record compares only the crawled host's URLs, exactly.
+  const mixed = reconcile(
+    rows,
+    { urls: [...history.urls, "/about/", "/old/", preview + "new"] },
+    preview,
+  );
+  assert.equal(mixed.compared, true);
+  assert.equal(mixed.historicalCount, 3);
+  assert.equal(mixed.shared, 1);
+  assert.deepEqual(mixed.absent, [preview + "new", preview + "old/"]);
+  assert.deepEqual(mixed.added, [preview, preview + "new/"]);
+  assert.equal(mixed.otherHost.count, 3);
+
+  // Same host stays an exact-URL comparison with the original note.
+  const same = reconcile(rows, { urls: ["/", "/gone/"] }, preview);
+  assert.equal(same.compared, true);
+  assert.equal(same.shared, 1);
+  assert.deepEqual(same.absent, [preview + "gone/"]);
+  assert.equal(same.otherHost.count, 0);
+  assert.doesNotMatch(same.note, /left out/);
+
+  // Runs saved before the host check are rescoped when rebuilt offline.
+  const legacy = {
+    historicalCount: 3,
+    currentCount: 3,
+    shared: 0,
+    added: rows.map((r) => r.url),
+    absent: history.urls,
+    absentDetails: history.urls.map((url) => ({ url, reason: "external" })),
+  };
+  const rescoped = scopeReconciliation(legacy, preview);
+  assert.equal(rescoped.compared, false);
+  assert.deepEqual(rescoped.absent, []);
+  assert.deepEqual(rescoped.added, []);
+  assert.equal(scopeReconciliation(cross, preview), cross);
+  const html = inventoryReport({
+    project: { id: "x", name: "X" },
+    site: { id: "after", label: "Preview", baseUrl: preview },
+    run: "r",
+    state: "complete",
+    startedAt: "now",
+    options: {
+      depth: 2,
+      "max-urls": 2000,
+      "max-sitemaps": 40,
+      captures: "none",
+    },
+    rows: rows.map((r) => ({ ...r, captures: [] })),
+    coverage: {
+      complete: true,
+      uniqueSitemapUrls: 3,
+      errors: [],
+      limits: [],
+      exclusions: {},
+      documents: [],
+    },
+    captureCoverage: { selectedPages: 0, eligiblePages: 3, devices: [] },
+    reconciliation: legacy,
+  });
+  assert.ok(!html.includes("recorded earlier were not found"));
+  assert.ok(!html.includes("absent from this crawl"));
+  assert.ok(html.includes("were not compared"));
 });
 
 test("inventory browser captures both devices, records provenance, blocks writes and reports HTTP failures", async () => {

@@ -1,6 +1,7 @@
 import { collector } from "./lead.mjs";
 import { describe } from "./wording.mjs";
 import { aggregatePerformance, stats } from "../site-check/core.mjs";
+import { scopeReconciliation } from "../inventory/core.mjs";
 
 // One function per report turns saved results into findings.
 // Every type passed to add() must have an entry in wording.mjs;
@@ -223,7 +224,8 @@ export function inventoryFindings(d) {
           href: "#inventory",
         });
   }
-  for (const url of d.reconciliation?.absent || [])
+  const history = scopeReconciliation(d.reconciliation, d.site?.baseUrl);
+  for (const url of history?.absent || [])
     c.add("inventory:history-absent", path(url.url || url), {
       href: "#history",
     });

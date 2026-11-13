@@ -53,7 +53,7 @@ After a finished run, `projects/<id>/inventory/<site>.json` points to that run's
 
 ## Historical URLs
 
-London Potters and Elizabeth Norman also have a dated `inventory-history.json`. The project record links it through `inventory.history`. Those historical URLs are supplied as seeds, subject to the same exclusions and robots rules, and the report compares exact URL sets and historical HTTP outcomes. An old URL absent from a current sitemap is not presumed deleted. Historical counts include redirects and error pages; compare like scopes before interpreting a change in total.
+London Potters and Elizabeth Norman also have a dated `inventory-history.json`. The project record links it through `inventory.history`. Those historical URLs are supplied as seeds, subject to the same exclusions and robots rules, and the report compares exact URL sets and historical HTTP outcomes. An old URL absent from a current sitemap is not presumed deleted. Historical counts include redirects and error pages; compare like scopes before interpreting a change in total. Only historical URLs on the crawled host are compared. A record of another host, such as the production census against a crawl of the redesign preview, is named in the report but not compared, so its addresses are never listed as missing. Older runs are rescoped the same way when rebuilt with `--render`.
 
 ## Competitors and comparison sheets
 

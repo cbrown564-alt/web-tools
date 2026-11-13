@@ -246,9 +246,27 @@ export function inspectHtml(html, url, rules = []) {
     },
   };
 }
+const HISTORY_NOTE =
+  "Historical URLs are also supplied as seeds, subject to the same exclusions and robots rules. Counts describe URLs observed, including redirects and errors, not only live pages. Absence is not proof of deletion.";
+const hostsOf = (urls) => [...new Set(urls.map((u) => new URL(u).host))].sort();
+function otherHostNote(otherHost, base, compared) {
+  if (!otherHost.count) return HISTORY_NOTE;
+  const where = otherHost.hosts.join(", "),
+    here = new URL(base).host;
+  return compared
+    ? `${otherHost.count} historical URLs are on ${where}, not ${here}, and were left out of the comparison. ${HISTORY_NOTE}`
+    : `The earlier record lists addresses on ${where}; this crawl was of ${here}. Exact addresses on different hosts cannot match, so the two lists were not compared.`;
+}
+// Exact-URL comparison only means something on the crawled host. History
+// URLs on another host (a production record against a redesign preview) are
+// counted and named but never reported as absent or used to call rows added.
 export function reconcile(rows, history, base) {
-  const before = new Set(history.urls.map((u) => new URL(u, base).href)),
-    now = new Map(rows.map((r) => [r.url, r]));
+  const all = [...new Set(history.urls.map((u) => new URL(u, base).href))],
+    before = new Set(all.filter((u) => inScope(u, base))),
+    elsewhere = all.filter((u) => !inScope(u, base)),
+    now = new Map(rows.map((r) => [r.url, r])),
+    compared = before.size > 0,
+    otherHost = { count: elsewhere.length, hosts: hostsOf(elsewhere) };
   const absent = [...before].filter((u) => !now.has(u)).sort();
   const absentDetails = absent.map((url) => {
     const n = normalize(url, base, base);
@@ -273,14 +291,39 @@ export function reconcile(rows, history, base) {
     source: history.source,
     sourceSha256: history.sourceSha256,
     recordedAt: history.recordedAt,
+    compared,
     historicalCount: before.size,
+    otherHost,
     currentCount: now.size,
     shared: [...now.keys()].filter((u) => before.has(u)).length,
-    added: [...now.keys()].filter((u) => !before.has(u)).sort(),
+    added: compared ? [...now.keys()].filter((u) => !before.has(u)).sort() : [],
     absent,
     absentDetails,
     historicalStatus: observedStatus,
-    note: "Historical URLs are also supplied as seeds, subject to the same exclusions and robots rules. Counts describe URLs observed, including redirects and errors, not only live pages. Absence is not proof of deletion.",
+    note: otherHostNote(otherHost, base, compared),
+  };
+}
+// Runs saved before the host check stored every off-host history URL as
+// absent. Rescope them on render so an offline rebuild does not repeat that.
+export function scopeReconciliation(r, base) {
+  if (!r || !base || "compared" in r) return r;
+  const keep = (u) => inScope(u, base),
+    elsewhere = r.absent.filter((u) => !keep(u));
+  if (!elsewhere.length)
+    return { ...r, compared: true, otherHost: { count: 0, hosts: [] } };
+  const absent = r.absent.filter(keep),
+    historicalCount = r.shared + absent.length,
+    compared = historicalCount > 0,
+    otherHost = { count: elsewhere.length, hosts: hostsOf(elsewhere) };
+  return {
+    ...r,
+    compared,
+    historicalCount,
+    otherHost,
+    added: compared ? r.added : [],
+    absent,
+    absentDetails: (r.absentDetails || []).filter((a) => keep(a.url)),
+    note: otherHostNote(otherHost, base, compared),
   };
 }
 export function captureSelection(rows, project, site, mode, limit) {
