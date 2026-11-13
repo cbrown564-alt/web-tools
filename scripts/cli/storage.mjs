@@ -79,9 +79,12 @@ export async function prunePlan(id) {
   let cited = "";
   for (const file of [
     "README.md",
-    ...(await readdir("docs", { recursive: true })).map((f) => `docs/${f}`),
+    ...(await readdir("docs", { recursive: true }).catch(() => [])).map(
+      (f) => `docs/${f}`,
+    ),
   ])
-    if (file.endsWith(".md")) cited += await readFile(file, "utf8");
+    if (file.endsWith(".md"))
+      cited += await readFile(file, "utf8").catch(() => "");
   let own = "";
   for (const file of ["project.json", "release.json", "maximum.json"])
     try {
@@ -143,7 +146,7 @@ export async function duplicatePlan(dir, skip = new Set()) {
     const file = resolve(e.parentPath, e.name);
     if (skip.has(relative(root, file).split("/")[0])) continue;
     const s = await stat(file);
-    if (s.size < 1_000_000) continue;
+    if (s.size < 16_384) continue;
     const key = `${s.size}/${s.mode}`;
     bySize.set(key, [
       ...(bySize.get(key) || []),

@@ -16,7 +16,7 @@
     "inventory": "node scripts/wt.mjs inventory",
     "content": "node scripts/wt.mjs content",
     "release": "node scripts/wt.mjs release",
-    "test:unit": "node --test tests/content.test.mjs tests/inventory.test.mjs tests/lighthouse-history.test.mjs tests/model.test.mjs tests/release.test.mjs",
+    "test:unit": "node --test tests/content.test.mjs tests/inventory.test.mjs tests/lighthouse-history.test.mjs tests/model.test.mjs tests/release.test.mjs tests/wording.test.mjs",
     "format": "prettier --check .",
     "wt": "node scripts/wt.mjs"
   },
