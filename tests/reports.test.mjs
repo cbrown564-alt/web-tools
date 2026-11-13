@@ -322,7 +322,26 @@ test("wt share writes a portable bundle with nothing internal and nothing from a
     }
     assert.deepEqual(external, []);
     assert.deepEqual(failed, []);
-    // A project with no finished report gets a next step, not a stack trace.
+    // Archive, restore into a folder with no evidence, and rebuild offline.
+    const archived = await wt(dir, ["archive", "fixture"]);
+    assert.equal(archived.code, 0, archived.output);
+    const file = /Archive: (\S+\.tar\.gz)/.exec(archived.output)[1];
+    const refused = await wt(dir, ["restore", "--from", file]);
+    assert.equal(refused.code, 1);
+    assert.match(refused.output, /never overwrites/);
+    const before = await readFile(join(dir, run, "report.html"), "utf8");
+    await rm(join(dir, "projects/fixture/evidence"), { recursive: true });
+    const restored = await wt(dir, ["restore", "--from", file]);
+    assert.equal(restored.code, 0, restored.output);
+    assert.match(restored.output, /1 runs, 1 reports rebuilt offline/);
+    assert.equal(await readFile(join(dir, run, "report.html"), "utf8"), before);
+    assert.ok(
+      (
+        await readFile(join(dir, "projects/fixture/index.html"), "utf8")
+      ).includes(fx.watchChanged.run),
+    );
+    // A run that does not exist gets a next step, not a stack trace.
+
     const none = await wt(dir, ["share", "other", "--run", "nothing-here"]);
     assert.equal(none.code, 1);
     assert.match(none.output, /Next: wt status other/);
