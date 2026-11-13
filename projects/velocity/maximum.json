@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "projectId": "velocity",
+  "question": "What controls home-to-gallery readiness, and does a font-request ablation preserve the visible pages?",
+  "repetitions": 3,
+  "crawl": {
+    "depth": 2,
+    "maxUrls": 2000,
+    "maxSitemaps": 40
+  },
+  "journeys": [
+    {
+      "id": "home-gallery",
+      "label": "Open the homepage and follow its gallery link",
+      "steps": [
+        {
+          "page": "home",
+          "ready": "h1"
+        },
+        {
+          "page": "gallery",
+          "via": "a[href=\"/gallery.html\"]:visible",
+          "ready": "h1"
+        }
+      ]
+    }
+  ],
+  "parity": {
+    "selectors": ["h1", "header", "main"],
+    "maxGeometryDeltaPx": 1,
+    "maxPixelChangeRatio": 0.001
+  },
+  "experiments": [
+    {
+      "id": "primary-font",
+      "kind": "ablation",
+      "question": "Does suppressing this observed font request shorten readiness without detected layout change?",
+      "journey": "home-gallery",
+      "site": "live",
+      "block": [
+        {
+          "url": "https://researchvelocity.co.uk/_assets/plus-jakarta-sans-latin-wght-normal.eXO_dkmS.woff2",
+          "type": "font"
+        }
+      ],
+      "minEffectMs": 100,
+      "minEffectRatio": 0.1
+    }
+  ]
+}
