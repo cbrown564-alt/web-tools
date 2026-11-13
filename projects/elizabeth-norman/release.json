@@ -3,6 +3,7 @@
   "projectId": "elizabeth-norman",
   "platform": "static-files",
   "source": "evidence/2026-11-12-content-review-ready",
+  "baseline": "evidence/2026-11-12-content-acceptance",
   "files": [
     "index.html",
     "manifest.json",

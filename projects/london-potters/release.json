@@ -3,6 +3,7 @@
   "projectId": "london-potters",
   "platform": "static-files",
   "source": "evidence/2026-11-12-workflow-release-candidate",
+  "baseline": "evidence/2026-11-12-workflow-release-candidate",
   "files": [
     "assets/.assetsignore",
     "assets/_astro/CodeEditor-UHsDaao9.hWa-TKsH.js",
