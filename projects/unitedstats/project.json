@@ -1,0 +1,85 @@
+{
+  "version": 2,
+  "kind": "site-check",
+  "id": "unitedstats",
+  "name": "Red Thread",
+  "site": {
+    "id": "live",
+    "label": "Live website",
+    "baseUrl": "https://www.utdred.com"
+  },
+  "devices": {
+    "desktop": {
+      "width": 1440,
+      "height": 1050
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844
+    }
+  },
+  "pages": [
+    {
+      "id": "home",
+      "label": "Home",
+      "path": "/"
+    },
+    {
+      "id": "explore",
+      "label": "Discover",
+      "path": "/explore"
+    },
+    {
+      "id": "matches",
+      "label": "Match archive",
+      "path": "/matches"
+    },
+    {
+      "id": "transfers",
+      "label": "Transfers",
+      "path": "/transfers"
+    },
+    {
+      "id": "data",
+      "label": "Data and sources",
+      "path": "/data"
+    }
+  ],
+  "watch": {
+    "pixelThreshold": 0.15,
+    "maxChangedRatio": 0,
+    "masks": [],
+    "assertions": [
+      {
+        "id": "home-heading",
+        "page": "home",
+        "type": "visible",
+        "selector": "main h1, main [role=\"heading\"][aria-level=\"1\"]"
+      },
+      {
+        "id": "explore-heading",
+        "page": "explore",
+        "type": "visible",
+        "selector": "main h1, main [role=\"heading\"][aria-level=\"1\"]"
+      },
+      {
+        "id": "matches-heading",
+        "page": "matches",
+        "type": "visible",
+        "selector": "main h1, main [role=\"heading\"][aria-level=\"1\"]"
+      },
+      {
+        "id": "transfers-heading",
+        "page": "transfers",
+        "type": "visible",
+        "selector": "main h1, main [role=\"heading\"][aria-level=\"1\"]"
+      },
+      {
+        "id": "data-heading",
+        "page": "data",
+        "type": "visible",
+        "selector": "main h1, main [role=\"heading\"][aria-level=\"1\"]"
+      }
+    ]
+  }
+}

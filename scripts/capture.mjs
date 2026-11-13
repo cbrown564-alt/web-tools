@@ -1,3 +1,4 @@
+import { settleVisibleAssets } from "./capture-page.mjs";
 import { chromium } from "playwright";
 import { readFile, writeFile, mkdir, rename } from "node:fs/promises";
 import { createHash } from "node:crypto";
@@ -43,36 +44,7 @@ try {
             timeout: 60000,
           });
           if (!response?.ok()) throw new Error(`HTTP ${response?.status()}`);
-          await page.evaluate(async () => {
-            await Promise.race([
-              Promise.all([
-                document.fonts.ready,
-                ...[...document.images]
-                  .filter((i) => {
-                    const r = i.getBoundingClientRect();
-                    return (
-                      r.width > 0 &&
-                      r.height > 0 &&
-                      r.top < innerHeight &&
-                      r.bottom > 0
-                    );
-                  })
-                  .map((i) => i.decode().catch(() => {})),
-              ]),
-              new Promise((_, reject) =>
-                setTimeout(
-                  () =>
-                    reject(
-                      new Error(
-                        "Visible assets did not settle within 15 seconds",
-                      ),
-                    ),
-                  15000,
-                ),
-              ),
-            ]);
-          });
-          await page.waitForTimeout(1200);
+          await settleVisibleAssets(page, 15000);
           const title = await page.title();
           if (/just a moment|access denied|attention required/i.test(title))
             throw new Error(`Challenge page: ${title}`);

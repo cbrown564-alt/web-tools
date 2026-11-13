@@ -1,3 +1,4 @@
+import { validateSiteCheckProject } from "../scripts/site-check/core.mjs";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
@@ -80,7 +81,8 @@ test("every project record is complete, and incomplete records are rejected", as
     const record = JSON.parse(
       await readFile(new URL(`${id}/project.json`, root)),
     );
-    assert.equal(validateProject(record).id, id);
+    assert.equal(validateSiteCheckProject(record).id, id);
+    if (record.version === 1) assert.equal(validateProject(record).id, id);
   }
   for (const bad of [
     { ...project, labels: { ...project.labels, after: "" } },

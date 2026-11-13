@@ -3,3 +3,9 @@ dist/
 output/
 tmp/
 .DS_Store
+.env
+.env.*
+!.env.example
+projects/*/evidence/
+projects/*/watch/
+projects/*/inventory/

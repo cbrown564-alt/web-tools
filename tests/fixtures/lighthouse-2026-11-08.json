@@ -1,0 +1,2384 @@
+{
+  "source": "London Potters performance-gateway, 8 November 2026; existing independent Python summary",
+  "summarySha256": "225b149042f49df496c485bbc1656f2f92c4b41fbff14656e7f2aeb82e6189bb",
+  "samples": [
+    {
+      "source": "lh-day-cloudflare-1.json.gz",
+      "sha256": "a100079ce8db5dd06936ee284548b27138a84b23b147edc9f7d948525b571202",
+      "page": "day",
+      "side": "cloudflare",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/2026-11-18/",
+        "categories": {
+          "performance": {
+            "score": 0.85
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2560.7429
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3460.7429
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 4215.186902812054
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-day-cloudflare-2.json.gz",
+      "sha256": "28231459ac0ea3839ea32083da68cbfe27fdc705ce468028a6a110beb0df3769",
+      "page": "day",
+      "side": "cloudflare",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/2026-11-18/",
+        "categories": {
+          "performance": {
+            "score": 0.86
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2764.53312
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3364.53312
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 4183.865722024236
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-day-cloudflare-3.json.gz",
+      "sha256": "fff6776f837d0726be9db6a787dbf51f6c9bf855b442bb6614a63966a21f4f5e",
+      "page": "day",
+      "side": "cloudflare",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/2026-11-18/",
+        "categories": {
+          "performance": {
+            "score": 0.86
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2774.7977300000002
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3374.7977300000002
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 3878.8231039696857
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-day-production-1.json.gz",
+      "sha256": "9d24d2186d54920f5a8cf55c3bf42f285022f2a4ea0778c57e50f95f4af2c9ef",
+      "page": "day",
+      "side": "production",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://londonpotters.com/events/2026-11-18/",
+        "categories": {
+          "performance": {
+            "score": 0.72
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 3413.306
+          },
+          "largest-contentful-paint": {
+            "numericValue": 5327.999999999999
+          },
+          "total-blocking-time": {
+            "numericValue": 13
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 3944.815725161605
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-day-production-2.json.gz",
+      "sha256": "dc57cd24fb72ece39069b28e3cda5fc50e2ec0b20bff4345b184de2ca6aab057",
+      "page": "day",
+      "side": "production",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://londonpotters.com/events/2026-11-18/",
+        "categories": {
+          "performance": {
+            "score": 0.72
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 3417.8469999999998
+          },
+          "largest-contentful-paint": {
+            "numericValue": 5341.802
+          },
+          "total-blocking-time": {
+            "numericValue": 7
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 4049.4013094470447
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-day-production-3.json.gz",
+      "sha256": "f83013b703b82361f66350e23a2de4b89fab324ef41a4cafcc6d2f4e1f1ef023",
+      "page": "day",
+      "side": "production",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://londonpotters.com/events/2026-11-18/",
+        "categories": {
+          "performance": {
+            "score": 0.67
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 3408.3869999999997
+          },
+          "largest-contentful-paint": {
+            "numericValue": 5398.584999999999
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 6750.327569024146
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-day-wordpress-1.json.gz",
+      "sha256": "d4337fc67a31590415d6337170aa066cc5ea01573232c042d06f5f7fa94e5baa",
+      "page": "day",
+      "side": "wordpress",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "http://london-potters-prototype.local/events/2026-11-18/",
+        "categories": {
+          "performance": {
+            "score": 0.89
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2455.5658499999995
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3326.1993
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.038399525087267954
+          },
+          "speed-index": {
+            "numericValue": 2455.5658499999995
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-day-wordpress-2.json.gz",
+      "sha256": "82d1752e797db8d905919367e2fa023ea258e0dd5503fbf85e9fbe00b97d082c",
+      "page": "day",
+      "side": "wordpress",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "http://london-potters-prototype.local/events/2026-11-18/",
+        "categories": {
+          "performance": {
+            "score": 0.89
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2465.8898
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3335.0484000000006
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.038399525087267954
+          },
+          "speed-index": {
+            "numericValue": 2465.8898
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-day-wordpress-3.json.gz",
+      "sha256": "aaf528f2898f08e14a30372cf4aadb748bb8b83675a30eb9edafa5e07574ead7",
+      "page": "day",
+      "side": "wordpress",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "http://london-potters-prototype.local/events/2026-11-18/",
+        "categories": {
+          "performance": {
+            "score": 0.89
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2465.4427499999993
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3330.3795
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.038399525087267954
+          },
+          "speed-index": {
+            "numericValue": 2465.4427499999993
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-empty-day-cloudflare-1.json.gz",
+      "sha256": "d819f9407332b984e562a7c0efe271723b673617d005f2608d09e7b33bb045d0",
+      "page": "empty-day",
+      "side": "cloudflare",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/2026-11-08/",
+        "categories": {
+          "performance": {
+            "score": 0.83
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2811.49966
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3261.49966
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 6128.840490004636
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-empty-day-cloudflare-2.json.gz",
+      "sha256": "a821c7aa5bdc2149cf011fb0f066e4570a1071505513b4fe88a5667159301da5",
+      "page": "empty-day",
+      "side": "cloudflare",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/2026-11-08/",
+        "categories": {
+          "performance": {
+            "score": 0.88
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2809.44486
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3259.44486
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 3106.4205639859974
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-empty-day-cloudflare-3.json.gz",
+      "sha256": "fcd54c66b4a9c606ce16373bfb566a7cd7e3c57e8fab48824e6fa5ff5b55f0e4",
+      "page": "empty-day",
+      "side": "cloudflare",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/2026-11-08/",
+        "categories": {
+          "performance": {
+            "score": 0.87
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2786.50049
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3236.50049
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 3433.844129986902
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-empty-day-production-1.json.gz",
+      "sha256": "2976df3636fdb23f3d06ec1519adf3367e79622f8161c8d1315debf9be9a4d74",
+      "page": "empty-day",
+      "side": "production",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://londonpotters.com/events/2026-11-08/",
+        "categories": {
+          "performance": {
+            "score": 0.75
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 3433.093
+          },
+          "largest-contentful-paint": {
+            "numericValue": 4295.093
+          },
+          "total-blocking-time": {
+            "numericValue": 1
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 5067.607304873837
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-empty-day-production-2.json.gz",
+      "sha256": "50f496973a670ff22db0c846ff36fee3c5bbe0f50f5dd54a939b8c467151027a",
+      "page": "empty-day",
+      "side": "production",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://londonpotters.com/events/2026-11-08/",
+        "categories": {
+          "performance": {
+            "score": 0.77
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 3375.331
+          },
+          "largest-contentful-paint": {
+            "numericValue": 4455.331
+          },
+          "total-blocking-time": {
+            "numericValue": 17
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 3685.9236850016932
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-empty-day-production-3.json.gz",
+      "sha256": "11ec81927344b4476aee9a2055769ed2d2e7271a8ad3546e2af29aade0559dba",
+      "page": "empty-day",
+      "side": "production",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://londonpotters.com/events/2026-11-08/",
+        "categories": {
+          "performance": {
+            "score": 0.77
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 3612.7559999999994
+          },
+          "largest-contentful-paint": {
+            "numericValue": 4294.756000000001
+          },
+          "total-blocking-time": {
+            "numericValue": 1
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 3833.057614069011
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-empty-day-wordpress-1.json.gz",
+      "sha256": "fdded8c3206704dda0adde3360ff38bd3f3977cb744e2a1ae34011909f84e453",
+      "page": "empty-day",
+      "side": "wordpress",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "http://london-potters-prototype.local/events/2026-11-08/",
+        "categories": {
+          "performance": {
+            "score": 0.89
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2451.5558000000005
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3249.4764000000005
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.038399525087267954
+          },
+          "speed-index": {
+            "numericValue": 2451.5558000000005
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-empty-day-wordpress-2.json.gz",
+      "sha256": "de7c07624db3c3a1eb357dbaa8ad77f1cf55d79615e70a900e67062887b15789",
+      "page": "empty-day",
+      "side": "wordpress",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "http://london-potters-prototype.local/events/2026-11-08/",
+        "categories": {
+          "performance": {
+            "score": 0.89
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2481.9768000000004
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3250.6944000000008
+          },
+          "total-blocking-time": {
+            "numericValue": 2
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.001111834864445992
+          },
+          "speed-index": {
+            "numericValue": 2481.9768000000004
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-empty-day-wordpress-3.json.gz",
+      "sha256": "98676b87a573f9d6b87cb349a3a3de330bc94a08377ee9fc1e63907cb6f9911c",
+      "page": "empty-day",
+      "side": "wordpress",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "http://london-potters-prototype.local/events/2026-11-08/",
+        "categories": {
+          "performance": {
+            "score": 0.89
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2460.18335
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3256.0143
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.038399525087267954
+          },
+          "speed-index": {
+            "numericValue": 2460.18335
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-events-cloudflare-1.json.gz",
+      "sha256": "03d2e94421bd8fa05d3008eb4a4adc340a210f6502d6ec4ae89ed6d0c9026b83",
+      "page": "events",
+      "side": "cloudflare",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/",
+        "categories": {
+          "performance": {
+            "score": 0.86
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2886.74282
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3146.74282
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 4515.333046399994
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-events-cloudflare-2.json.gz",
+      "sha256": "f7641b96774c1533ef85103503f74ecbe9b1764efbf9e3362ce7e64d8f89801f",
+      "page": "events",
+      "side": "cloudflare",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/",
+        "categories": {
+          "performance": {
+            "score": 0.87
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2793.82532
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3093.82532
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.000667100918667595
+          },
+          "speed-index": {
+            "numericValue": 4075.0309399745256
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-events-cloudflare-3.json.gz",
+      "sha256": "1bedfbabb28f6f2d72fe080693211c8e37d4901140ec35a19b5ddb3b61e7d695",
+      "page": "events",
+      "side": "cloudflare",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/",
+        "categories": {
+          "performance": {
+            "score": 0.85
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2701.64506
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3399.64506
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 4328.07567999978
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-events-production-1.json.gz",
+      "sha256": "08e280be82422a96973407c83e73e44ca8b82d0712f46457044876d815d2c0e5",
+      "page": "events",
+      "side": "production",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://londonpotters.com/events/",
+        "categories": {
+          "performance": {
+            "score": 0.73
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 3198.643
+          },
+          "largest-contentful-paint": {
+            "numericValue": 5322.21
+          },
+          "total-blocking-time": {
+            "numericValue": 74
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 3844.0080993890615
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-events-production-2.json.gz",
+      "sha256": "c868172fee100eac3f505adcf812876f3a643d178148308ddcc670e6a4feef7b",
+      "page": "events",
+      "side": "production",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://londonpotters.com/events/",
+        "categories": {
+          "performance": {
+            "score": 0.71
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 3433.7949999999996
+          },
+          "largest-contentful-paint": {
+            "numericValue": 5382.311
+          },
+          "total-blocking-time": {
+            "numericValue": 10
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 4610.8104379199585
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-events-production-3.json.gz",
+      "sha256": "f6169d782cc9f750ae81a15d30d07c997ef59c69bcaddc3a3dfa674a3d068a82",
+      "page": "events",
+      "side": "production",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://londonpotters.com/events/",
+        "categories": {
+          "performance": {
+            "score": 0.72
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 3407.721
+          },
+          "largest-contentful-paint": {
+            "numericValue": 5327.1
+          },
+          "total-blocking-time": {
+            "numericValue": 18
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 3938.0604706135346
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-events-wordpress-1.json.gz",
+      "sha256": "f1b11ce5427e0339f64e607a19f902373e631398c27a7b623a487efa9e254de9",
+      "page": "events",
+      "side": "wordpress",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "http://london-potters-prototype.local/events/",
+        "categories": {
+          "performance": {
+            "score": 0.89
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2483.04095
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3348.0351
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.038399525087267954
+          },
+          "speed-index": {
+            "numericValue": 2483.04095
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-events-wordpress-2.json.gz",
+      "sha256": "4c479ad31905fe1cff7a500452b1da21cbec3b5943853f459713b124cebc5b6a",
+      "page": "events",
+      "side": "wordpress",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "http://london-potters-prototype.local/events/",
+        "categories": {
+          "performance": {
+            "score": 0.89
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2500.514199999999
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3347.5835999999995
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.038399525087267954
+          },
+          "speed-index": {
+            "numericValue": 2500.514199999999
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-events-wordpress-3.json.gz",
+      "sha256": "8d8478b6c5118e5593702b33cd421c9ff91636a074f58bed87e4d2c82034fa3b",
+      "page": "events",
+      "side": "wordpress",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "http://london-potters-prototype.local/events/",
+        "categories": {
+          "performance": {
+            "score": 0.89
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2465.259349999999
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3330.2222999999994
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.038399525087267954
+          },
+          "speed-index": {
+            "numericValue": 2465.259349999999
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-gallery-cloudflare-1.json.gz",
+      "sha256": "27211e0176d4796b6a6959524999da883c8636e1c860c0702d4474015626f056",
+      "page": "gallery",
+      "side": "cloudflare",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/members-gallery/",
+        "categories": {
+          "performance": {
+            "score": 0.92
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2194.6005701841395
+          },
+          "largest-contentful-paint": {
+            "numericValue": 2682.1005701841395
+          },
+          "total-blocking-time": {
+            "numericValue": 137.5
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.01159028622026684
+          },
+          "speed-index": {
+            "numericValue": 3361.5865183499477
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-gallery-cloudflare-2.json.gz",
+      "sha256": "d4a0b43f6d0fd89a1cab3f63a84573339f0a8f2381488fce9b9d3a7ad05d34df",
+      "page": "gallery",
+      "side": "cloudflare",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/members-gallery/",
+        "categories": {
+          "performance": {
+            "score": 0.86
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2087.4975499560614
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3249.4975499560614
+          },
+          "total-blocking-time": {
+            "numericValue": 197
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 4206.4689348813645
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-gallery-cloudflare-3.json.gz",
+      "sha256": "22505c9fd6e461f605e949061e6f05be11930dd6125a4433b9c0417beb785c78",
+      "page": "gallery",
+      "side": "cloudflare",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/members-gallery/",
+        "categories": {
+          "performance": {
+            "score": 0.86
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2092.1154345107707
+          },
+          "largest-contentful-paint": {
+            "numericValue": 2725.6154345107707
+          },
+          "total-blocking-time": {
+            "numericValue": 312.5
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 3420.116073163037
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-gallery-production-1.json.gz",
+      "sha256": "a723272660d882f5ebb386b99c24cb4d80c2a5abcc65e8a3a6aef3fc17914505",
+      "page": "gallery",
+      "side": "production",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://londonpotters.com/members-gallery/",
+        "categories": {
+          "performance": {
+            "score": 0.71
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2613.8405000000002
+          },
+          "largest-contentful-paint": {
+            "numericValue": 5314.378000000001
+          },
+          "total-blocking-time": {
+            "numericValue": 248.00000000000045
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.04935660359285937
+          },
+          "speed-index": {
+            "numericValue": 2613.8405000000002
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-gallery-production-2.json.gz",
+      "sha256": "f1da88a04204fee1ade57f67af23d39ca8a63da0b9add64d553b3a10ae928804",
+      "page": "gallery",
+      "side": "production",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://londonpotters.com/members-gallery/",
+        "categories": {
+          "performance": {
+            "score": 0.72
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2613.6510000000007
+          },
+          "largest-contentful-paint": {
+            "numericValue": 5309.283000000001
+          },
+          "total-blocking-time": {
+            "numericValue": 237.99999999999955
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 2613.6510000000007
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-gallery-production-3.json.gz",
+      "sha256": "dc25142c948d039bc00d2fab969cb89b7d5afda0b8ed7f6c6528745e6bcdf17d",
+      "page": "gallery",
+      "side": "production",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://londonpotters.com/members-gallery/",
+        "categories": {
+          "performance": {
+            "score": 0.74
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2609.2615000000005
+          },
+          "largest-contentful-paint": {
+            "numericValue": 5325.732
+          },
+          "total-blocking-time": {
+            "numericValue": 177.00000000000045
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 2609.2615000000005
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-gallery-wordpress-1.json.gz",
+      "sha256": "44afdf433eb0d8d6be69b942f3da5a1b32a5c7cf2a6f37f75177496d82214587",
+      "page": "gallery",
+      "side": "wordpress",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "http://london-potters-prototype.local/members-gallery/",
+        "categories": {
+          "performance": {
+            "score": 0.93
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 1225.8115
+          },
+          "largest-contentful-paint": {
+            "numericValue": 2813.7172499999997
+          },
+          "total-blocking-time": {
+            "numericValue": 179
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 1918.86469171458
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-gallery-wordpress-2.json.gz",
+      "sha256": "d35bc193d74caa018ff8d1de1bcfb60c2e7134e1f920822f5caac65c55a4f0cf",
+      "page": "gallery",
+      "side": "wordpress",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "http://london-potters-prototype.local/members-gallery/",
+        "categories": {
+          "performance": {
+            "score": 0.93
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 1215.756
+          },
+          "largest-contentful-paint": {
+            "numericValue": 2798.634
+          },
+          "total-blocking-time": {
+            "numericValue": 180
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.04051054383043957
+          },
+          "speed-index": {
+            "numericValue": 1428.320096563199
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-gallery-wordpress-3.json.gz",
+      "sha256": "203affd9477c6aa7376620b14ed56b73f2ad494292a9c9b68e84433bf16f3d6e",
+      "page": "gallery",
+      "side": "wordpress",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "http://london-potters-prototype.local/members-gallery/",
+        "categories": {
+          "performance": {
+            "score": 0.93
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 1210.4514
+          },
+          "largest-contentful-paint": {
+            "numericValue": 2790.6771
+          },
+          "total-blocking-time": {
+            "numericValue": 193
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.01159028622026684
+          },
+          "speed-index": {
+            "numericValue": 1533.1270357855365
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-month-cloudflare-1.json.gz",
+      "sha256": "21151491e69fc3e9b4cb76fc36d600ddd8d55aac14bebb477aec067452b49a1f",
+      "page": "month",
+      "side": "cloudflare",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/month/2026-11/",
+        "categories": {
+          "performance": {
+            "score": 0.86
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2726.40244
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3096.40244
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 4867.440701204532
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-month-cloudflare-2.json.gz",
+      "sha256": "96d8cbffb466852d16dbfbc8dc9c685f2a03f832696b04ddb64331e9b085f994",
+      "page": "month",
+      "side": "cloudflare",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/month/2026-11/",
+        "categories": {
+          "performance": {
+            "score": 0.87
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2798.19214
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3248.19214
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 3596.642277995521
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-month-cloudflare-3.json.gz",
+      "sha256": "455fce5cf741b24be033c7dfac6606ef66034def76695dc933811ddfba833cdb",
+      "page": "month",
+      "side": "cloudflare",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/month/2026-11/",
+        "categories": {
+          "performance": {
+            "score": 0.89
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2543.77799
+          },
+          "largest-contentful-paint": {
+            "numericValue": 2843.77799
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.000667100918667595
+          },
+          "speed-index": {
+            "numericValue": 4793.922562842395
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-month-production-1.json.gz",
+      "sha256": "d9b6e6345f0557541098c8012152dfc9d2572ae4d4b045cbb9ff7211de92993a",
+      "page": "month",
+      "side": "production",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://londonpotters.com/events/month/2026-11/",
+        "categories": {
+          "performance": {
+            "score": 0.77
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 3274.384
+          },
+          "largest-contentful-paint": {
+            "numericValue": 4399.884
+          },
+          "total-blocking-time": {
+            "numericValue": 40.5
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 3730.040527469014
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-month-production-2.json.gz",
+      "sha256": "660f0522dae2219d83b95d768869428726a55a2e67016f5550609d12221b143a",
+      "page": "month",
+      "side": "production",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://londonpotters.com/events/month/2026-11/",
+        "categories": {
+          "performance": {
+            "score": 0.77
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 3580.17
+          },
+          "largest-contentful-paint": {
+            "numericValue": 4287.17
+          },
+          "total-blocking-time": {
+            "numericValue": 4
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 4168.306364708838
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-month-production-3.json.gz",
+      "sha256": "2eaed5873a0fe851620ed013adc771914169725ddab39b5da362e6f8ad3f77b2",
+      "page": "month",
+      "side": "production",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://londonpotters.com/events/month/2026-11/",
+        "categories": {
+          "performance": {
+            "score": 0.77
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 3404.2210000000005
+          },
+          "largest-contentful-paint": {
+            "numericValue": 4443.721
+          },
+          "total-blocking-time": {
+            "numericValue": 18
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 3821.418531839876
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-month-wordpress-1.json.gz",
+      "sha256": "6e5ce7363a94128ace5b2a22d95e85ea8173a0c3f973c8925680ce88244548b1",
+      "page": "month",
+      "side": "wordpress",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "http://london-potters-prototype.local/events/month/2026-11/",
+        "categories": {
+          "performance": {
+            "score": 0.89
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2271.2199999999993
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3400.464
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.038399525087267954
+          },
+          "speed-index": {
+            "numericValue": 2271.2199999999993
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-month-wordpress-2.json.gz",
+      "sha256": "edc6404bc1b7b22577683ce230d8c38bacbcb3b598f8241df6bd9114d0adeaa8",
+      "page": "month",
+      "side": "wordpress",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "http://london-potters-prototype.local/events/month/2026-11/",
+        "categories": {
+          "performance": {
+            "score": 0.88
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2428.3797500000005
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3409.055700000001
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.038399525087267954
+          },
+          "speed-index": {
+            "numericValue": 2428.3797500000005
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-month-wordpress-3.json.gz",
+      "sha256": "a4b0795bc2891ab086d206f77aaa315965c0cdd8571c23bfe5a3b726a4a5c364",
+      "page": "month",
+      "side": "wordpress",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "http://london-potters-prototype.local/events/month/2026-11/",
+        "categories": {
+          "performance": {
+            "score": 0.89
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2422.8430000000008
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3402.411600000001
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.038399525087267954
+          },
+          "speed-index": {
+            "numericValue": 2422.8430000000008
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-previous-month-cloudflare-1.json.gz",
+      "sha256": "2c3d8106aa8eb5fc8754f93edaecbdfae645c5cd9c1e923d13286617b9d49907",
+      "page": "previous-month",
+      "side": "cloudflare",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/month/2026-10/",
+        "categories": {
+          "performance": {
+            "score": 0.87
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2733.37236532479
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3268.37236532479
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.0001655801727677921
+          },
+          "speed-index": {
+            "numericValue": 3477.8720160003486
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-previous-month-cloudflare-2.json.gz",
+      "sha256": "c99d87c55d3aaf504bb5580f682acb26d0ff0f07e63d2a6f9b9181179ecf31c2",
+      "page": "previous-month",
+      "side": "cloudflare",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/month/2026-10/",
+        "categories": {
+          "performance": {
+            "score": 0.88
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2790.6648468951153
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3090.6648468951153
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 3620.758222776324
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-previous-month-cloudflare-3.json.gz",
+      "sha256": "bcdc62fe001bdd07c3e8c3b3edad1d3437f4aba661b9c33e057baa8349cd6d78",
+      "page": "previous-month",
+      "side": "cloudflare",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://london-potters-emdash-demo.empty-union-f39d.workers.dev/events/month/2026-10/",
+        "categories": {
+          "performance": {
+            "score": 0.86
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2765.83768
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3215.83768
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 4624.683640020285
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-previous-month-production-1.json.gz",
+      "sha256": "b7bbd240fc80cddf2bfeb1fcd97830151bf8e250045f2e6829d7984fa2ef19b9",
+      "page": "previous-month",
+      "side": "production",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://londonpotters.com/events/month/2026-10/",
+        "categories": {
+          "performance": {
+            "score": 0.76
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 3430.879
+          },
+          "largest-contentful-paint": {
+            "numericValue": 4464.878999999999
+          },
+          "total-blocking-time": {
+            "numericValue": 7
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 4230.522432501237
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-previous-month-production-2.json.gz",
+      "sha256": "5a3e8cce3087c99c5418d4a4d551d665283b142f36dfc15b6b720915ce8873f1",
+      "page": "previous-month",
+      "side": "production",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://londonpotters.com/events/month/2026-10/",
+        "categories": {
+          "performance": {
+            "score": 0.77
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 3410.89
+          },
+          "largest-contentful-paint": {
+            "numericValue": 4369.89
+          },
+          "total-blocking-time": {
+            "numericValue": 6
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 3781.3095301202106
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-previous-month-production-3.json.gz",
+      "sha256": "cf6a1ed933059cc18289bafb3985ec8c6b9a0d2cc3519ae3096f89893c73eba3",
+      "page": "previous-month",
+      "side": "production",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "https://londonpotters.com/events/month/2026-10/",
+        "categories": {
+          "performance": {
+            "score": 0.76
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 3409.783
+          },
+          "largest-contentful-paint": {
+            "numericValue": 4514.782999999999
+          },
+          "total-blocking-time": {
+            "numericValue": 15
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0
+          },
+          "speed-index": {
+            "numericValue": 4227.065884299032
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-previous-month-wordpress-1.json.gz",
+      "sha256": "7aa21b8851e475d7102502093206c2420e84ee43141dbbce4a0e1e4dcdee2150",
+      "page": "previous-month",
+      "side": "wordpress",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "http://london-potters-prototype.local/events/month/2026-10/",
+        "categories": {
+          "performance": {
+            "score": 0.89
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2422.0375
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3401.4449999999997
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.038399525087267954
+          },
+          "speed-index": {
+            "numericValue": 2422.0375
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-previous-month-wordpress-2.json.gz",
+      "sha256": "d1d20438e8364791e5b9d25304e347a46ebce0d2e1809dc828ab73812fca57c6",
+      "page": "previous-month",
+      "side": "wordpress",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "http://london-potters-prototype.local/events/month/2026-10/",
+        "categories": {
+          "performance": {
+            "score": 0.88
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2457.9662499999995
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3401.542499999999
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.038399525087267954
+          },
+          "speed-index": {
+            "numericValue": 2457.9662499999995
+          }
+        }
+      }
+    },
+    {
+      "source": "lh-previous-month-wordpress-3.json.gz",
+      "sha256": "674775bfce6f114e2c242edbb2b97d8c531c0b3dd5568ee132cb2a5c5ad24050",
+      "page": "previous-month",
+      "side": "wordpress",
+      "lhr": {
+        "lighthouseVersion": "13.6.0",
+        "requestedUrl": "http://london-potters-prototype.local/events/month/2026-10/",
+        "categories": {
+          "performance": {
+            "score": 0.88
+          }
+        },
+        "audits": {
+          "first-contentful-paint": {
+            "numericValue": 2605.5899500000005
+          },
+          "largest-contentful-paint": {
+            "numericValue": 3402.077100000001
+          },
+          "total-blocking-time": {
+            "numericValue": 0
+          },
+          "cumulative-layout-shift": {
+            "numericValue": 0.038399525087267954
+          },
+          "speed-index": {
+            "numericValue": 2605.5899500000005
+          }
+        }
+      }
+    }
+  ],
+  "expected": [
+    {
+      "name": "gallery",
+      "target": "wordpress",
+      "score": {
+        "median": 93.0,
+        "min": 93.0,
+        "max": 93.0,
+        "n": 3
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "median": 2798.634,
+          "min": 2790.6771,
+          "max": 2813.7172499999997,
+          "n": 3
+        },
+        "total-blocking-time": {
+          "median": 180,
+          "min": 179,
+          "max": 193,
+          "n": 3
+        },
+        "cumulative-layout-shift": {
+          "median": 0.01159028622026684,
+          "min": 0,
+          "max": 0.04051054383043957,
+          "n": 3
+        },
+        "speed-index": {
+          "median": 1533.1270357855365,
+          "min": 1428.320096563199,
+          "max": 1918.86469171458,
+          "n": 3
+        }
+      }
+    },
+    {
+      "name": "gallery",
+      "target": "cloudflare",
+      "score": {
+        "median": 86.0,
+        "min": 86.0,
+        "max": 92.0,
+        "n": 3
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "median": 2725.6154345107707,
+          "min": 2682.1005701841395,
+          "max": 3249.4975499560614,
+          "n": 3
+        },
+        "total-blocking-time": {
+          "median": 197,
+          "min": 137.5,
+          "max": 312.5,
+          "n": 3
+        },
+        "cumulative-layout-shift": {
+          "median": 0,
+          "min": 0,
+          "max": 0.01159028622026684,
+          "n": 3
+        },
+        "speed-index": {
+          "median": 3420.116073163037,
+          "min": 3361.5865183499477,
+          "max": 4206.4689348813645,
+          "n": 3
+        }
+      }
+    },
+    {
+      "name": "gallery",
+      "target": "production",
+      "score": {
+        "median": 72.0,
+        "min": 71.0,
+        "max": 74.0,
+        "n": 3
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "median": 5314.378000000001,
+          "min": 5309.283000000001,
+          "max": 5325.732,
+          "n": 3
+        },
+        "total-blocking-time": {
+          "median": 237.99999999999955,
+          "min": 177.00000000000045,
+          "max": 248.00000000000045,
+          "n": 3
+        },
+        "cumulative-layout-shift": {
+          "median": 0,
+          "min": 0,
+          "max": 0.04935660359285937,
+          "n": 3
+        },
+        "speed-index": {
+          "median": 2613.6510000000007,
+          "min": 2609.2615000000005,
+          "max": 2613.8405000000002,
+          "n": 3
+        }
+      }
+    },
+    {
+      "name": "events",
+      "target": "wordpress",
+      "score": {
+        "median": 89.0,
+        "min": 89.0,
+        "max": 89.0,
+        "n": 3
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "median": 3347.5835999999995,
+          "min": 3330.2222999999994,
+          "max": 3348.0351,
+          "n": 3
+        },
+        "total-blocking-time": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "cumulative-layout-shift": {
+          "median": 0.038399525087267954,
+          "min": 0.038399525087267954,
+          "max": 0.038399525087267954,
+          "n": 3
+        },
+        "speed-index": {
+          "median": 2483.04095,
+          "min": 2465.259349999999,
+          "max": 2500.514199999999,
+          "n": 3
+        }
+      }
+    },
+    {
+      "name": "events",
+      "target": "cloudflare",
+      "score": {
+        "median": 86.0,
+        "min": 85.0,
+        "max": 87.0,
+        "n": 3
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "median": 3146.74282,
+          "min": 3093.82532,
+          "max": 3399.64506,
+          "n": 3
+        },
+        "total-blocking-time": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "cumulative-layout-shift": {
+          "median": 0,
+          "min": 0,
+          "max": 0.000667100918667595,
+          "n": 3
+        },
+        "speed-index": {
+          "median": 4328.07567999978,
+          "min": 4075.0309399745256,
+          "max": 4515.333046399994,
+          "n": 3
+        }
+      }
+    },
+    {
+      "name": "events",
+      "target": "production",
+      "score": {
+        "median": 72.0,
+        "min": 71.0,
+        "max": 73.0,
+        "n": 3
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "median": 5327.1,
+          "min": 5322.21,
+          "max": 5382.311,
+          "n": 3
+        },
+        "total-blocking-time": {
+          "median": 18,
+          "min": 10,
+          "max": 74,
+          "n": 3
+        },
+        "cumulative-layout-shift": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "speed-index": {
+          "median": 3938.0604706135346,
+          "min": 3844.0080993890615,
+          "max": 4610.8104379199585,
+          "n": 3
+        }
+      }
+    },
+    {
+      "name": "month",
+      "target": "wordpress",
+      "score": {
+        "median": 89.0,
+        "min": 88.0,
+        "max": 89.0,
+        "n": 3
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "median": 3402.411600000001,
+          "min": 3400.464,
+          "max": 3409.055700000001,
+          "n": 3
+        },
+        "total-blocking-time": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "cumulative-layout-shift": {
+          "median": 0.038399525087267954,
+          "min": 0.038399525087267954,
+          "max": 0.038399525087267954,
+          "n": 3
+        },
+        "speed-index": {
+          "median": 2422.8430000000008,
+          "min": 2271.2199999999993,
+          "max": 2428.3797500000005,
+          "n": 3
+        }
+      }
+    },
+    {
+      "name": "month",
+      "target": "cloudflare",
+      "score": {
+        "median": 87.0,
+        "min": 86.0,
+        "max": 89.0,
+        "n": 3
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "median": 3096.40244,
+          "min": 2843.77799,
+          "max": 3248.19214,
+          "n": 3
+        },
+        "total-blocking-time": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "cumulative-layout-shift": {
+          "median": 0,
+          "min": 0,
+          "max": 0.000667100918667595,
+          "n": 3
+        },
+        "speed-index": {
+          "median": 4793.922562842395,
+          "min": 3596.642277995521,
+          "max": 4867.440701204532,
+          "n": 3
+        }
+      }
+    },
+    {
+      "name": "month",
+      "target": "production",
+      "score": {
+        "median": 77.0,
+        "min": 77.0,
+        "max": 77.0,
+        "n": 3
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "median": 4399.884,
+          "min": 4287.17,
+          "max": 4443.721,
+          "n": 3
+        },
+        "total-blocking-time": {
+          "median": 18,
+          "min": 4,
+          "max": 40.5,
+          "n": 3
+        },
+        "cumulative-layout-shift": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "speed-index": {
+          "median": 3821.418531839876,
+          "min": 3730.040527469014,
+          "max": 4168.306364708838,
+          "n": 3
+        }
+      }
+    },
+    {
+      "name": "day",
+      "target": "wordpress",
+      "score": {
+        "median": 89.0,
+        "min": 89.0,
+        "max": 89.0,
+        "n": 3
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "median": 3330.3795,
+          "min": 3326.1993,
+          "max": 3335.0484000000006,
+          "n": 3
+        },
+        "total-blocking-time": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "cumulative-layout-shift": {
+          "median": 0.038399525087267954,
+          "min": 0.038399525087267954,
+          "max": 0.038399525087267954,
+          "n": 3
+        },
+        "speed-index": {
+          "median": 2465.4427499999993,
+          "min": 2455.5658499999995,
+          "max": 2465.8898,
+          "n": 3
+        }
+      }
+    },
+    {
+      "name": "day",
+      "target": "cloudflare",
+      "score": {
+        "median": 86.0,
+        "min": 85.0,
+        "max": 86.0,
+        "n": 3
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "median": 3374.7977300000002,
+          "min": 3364.53312,
+          "max": 3460.7429,
+          "n": 3
+        },
+        "total-blocking-time": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "cumulative-layout-shift": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "speed-index": {
+          "median": 4183.865722024236,
+          "min": 3878.8231039696857,
+          "max": 4215.186902812054,
+          "n": 3
+        }
+      }
+    },
+    {
+      "name": "day",
+      "target": "production",
+      "score": {
+        "median": 72.0,
+        "min": 67.0,
+        "max": 72.0,
+        "n": 3
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "median": 5341.802,
+          "min": 5327.999999999999,
+          "max": 5398.584999999999,
+          "n": 3
+        },
+        "total-blocking-time": {
+          "median": 7,
+          "min": 0,
+          "max": 13,
+          "n": 3
+        },
+        "cumulative-layout-shift": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "speed-index": {
+          "median": 4049.4013094470447,
+          "min": 3944.815725161605,
+          "max": 6750.327569024146,
+          "n": 3
+        }
+      }
+    },
+    {
+      "name": "empty-day",
+      "target": "wordpress",
+      "score": {
+        "median": 89.0,
+        "min": 89.0,
+        "max": 89.0,
+        "n": 3
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "median": 3250.6944000000008,
+          "min": 3249.4764000000005,
+          "max": 3256.0143,
+          "n": 3
+        },
+        "total-blocking-time": {
+          "median": 0,
+          "min": 0,
+          "max": 2,
+          "n": 3
+        },
+        "cumulative-layout-shift": {
+          "median": 0.038399525087267954,
+          "min": 0.001111834864445992,
+          "max": 0.038399525087267954,
+          "n": 3
+        },
+        "speed-index": {
+          "median": 2460.18335,
+          "min": 2451.5558000000005,
+          "max": 2481.9768000000004,
+          "n": 3
+        }
+      }
+    },
+    {
+      "name": "empty-day",
+      "target": "cloudflare",
+      "score": {
+        "median": 87.0,
+        "min": 83.0,
+        "max": 88.0,
+        "n": 3
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "median": 3259.44486,
+          "min": 3236.50049,
+          "max": 3261.49966,
+          "n": 3
+        },
+        "total-blocking-time": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "cumulative-layout-shift": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "speed-index": {
+          "median": 3433.844129986902,
+          "min": 3106.4205639859974,
+          "max": 6128.840490004636,
+          "n": 3
+        }
+      }
+    },
+    {
+      "name": "empty-day",
+      "target": "production",
+      "score": {
+        "median": 77.0,
+        "min": 75.0,
+        "max": 77.0,
+        "n": 3
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "median": 4295.093,
+          "min": 4294.756000000001,
+          "max": 4455.331,
+          "n": 3
+        },
+        "total-blocking-time": {
+          "median": 1,
+          "min": 1,
+          "max": 17,
+          "n": 3
+        },
+        "cumulative-layout-shift": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "speed-index": {
+          "median": 3833.057614069011,
+          "min": 3685.9236850016932,
+          "max": 5067.607304873837,
+          "n": 3
+        }
+      }
+    },
+    {
+      "name": "previous-month",
+      "target": "wordpress",
+      "score": {
+        "median": 88.0,
+        "min": 88.0,
+        "max": 89.0,
+        "n": 3
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "median": 3401.542499999999,
+          "min": 3401.4449999999997,
+          "max": 3402.077100000001,
+          "n": 3
+        },
+        "total-blocking-time": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "cumulative-layout-shift": {
+          "median": 0.038399525087267954,
+          "min": 0.038399525087267954,
+          "max": 0.038399525087267954,
+          "n": 3
+        },
+        "speed-index": {
+          "median": 2457.9662499999995,
+          "min": 2422.0375,
+          "max": 2605.5899500000005,
+          "n": 3
+        }
+      }
+    },
+    {
+      "name": "previous-month",
+      "target": "cloudflare",
+      "score": {
+        "median": 87.0,
+        "min": 86.0,
+        "max": 88.0,
+        "n": 3
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "median": 3215.83768,
+          "min": 3090.6648468951153,
+          "max": 3268.37236532479,
+          "n": 3
+        },
+        "total-blocking-time": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "cumulative-layout-shift": {
+          "median": 0,
+          "min": 0,
+          "max": 0.0001655801727677921,
+          "n": 3
+        },
+        "speed-index": {
+          "median": 3620.758222776324,
+          "min": 3477.8720160003486,
+          "max": 4624.683640020285,
+          "n": 3
+        }
+      }
+    },
+    {
+      "name": "previous-month",
+      "target": "production",
+      "score": {
+        "median": 76.0,
+        "min": 76.0,
+        "max": 77.0,
+        "n": 3
+      },
+      "metrics": {
+        "largest-contentful-paint": {
+          "median": 4464.878999999999,
+          "min": 4369.89,
+          "max": 4514.782999999999,
+          "n": 3
+        },
+        "total-blocking-time": {
+          "median": 7,
+          "min": 6,
+          "max": 15,
+          "n": 3
+        },
+        "cumulative-layout-shift": {
+          "median": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "speed-index": {
+          "median": 4227.065884299032,
+          "min": 3781.3095301202106,
+          "max": 4230.522432501237,
+          "n": 3
+        }
+      }
+    }
+  ]
+}

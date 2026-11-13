@@ -1,0 +1,85 @@
+{
+  "version": 2,
+  "kind": "site-check",
+  "id": "velocity",
+  "name": "Velocity",
+  "site": {
+    "id": "live",
+    "label": "Live website",
+    "baseUrl": "https://www.researchvelocity.co.uk"
+  },
+  "devices": {
+    "desktop": {
+      "width": 1440,
+      "height": 1050
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844
+    }
+  },
+  "pages": [
+    {
+      "id": "home",
+      "label": "Home",
+      "path": "/"
+    },
+    {
+      "id": "method",
+      "label": "Method",
+      "path": "/method.html"
+    },
+    {
+      "id": "gallery",
+      "label": "Report gallery",
+      "path": "/gallery.html"
+    },
+    {
+      "id": "pricing",
+      "label": "Pricing",
+      "path": "/pricing.html"
+    },
+    {
+      "id": "help",
+      "label": "Help",
+      "path": "/help.html"
+    }
+  ],
+  "watch": {
+    "pixelThreshold": 0.15,
+    "maxChangedRatio": 0,
+    "masks": [],
+    "assertions": [
+      {
+        "id": "home-heading",
+        "page": "home",
+        "type": "visible",
+        "selector": "main h1, main [role=\"heading\"][aria-level=\"1\"]"
+      },
+      {
+        "id": "method-heading",
+        "page": "method",
+        "type": "visible",
+        "selector": "main h1, main [role=\"heading\"][aria-level=\"1\"]"
+      },
+      {
+        "id": "gallery-heading",
+        "page": "gallery",
+        "type": "visible",
+        "selector": "main h1, main [role=\"heading\"][aria-level=\"1\"]"
+      },
+      {
+        "id": "pricing-heading",
+        "page": "pricing",
+        "type": "visible",
+        "selector": "main h1, main [role=\"heading\"][aria-level=\"1\"]"
+      },
+      {
+        "id": "help-heading",
+        "page": "help",
+        "type": "visible",
+        "selector": "main h1, main [role=\"heading\"][aria-level=\"1\"]"
+      }
+    ]
+  }
+}
