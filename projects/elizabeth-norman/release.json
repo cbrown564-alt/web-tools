@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "projectId": "elizabeth-norman",
+  "platform": "static-files",
+  "source": "evidence/2026-11-12-content-review-ready",
+  "files": [
+    "index.html",
+    "manifest.json",
+    "captures/0001.png",
+    "captures/0002.png",
+    "captures/0003.png",
+    "captures/0004.png",
+    "captures/0005.png",
+    "captures/0006.png",
+    "captures/0007.png",
+    "captures/0008.png",
+    "captures/0009.png",
+    "captures/0010.png",
+    "captures/0011.png",
+    "captures/0012.png",
+    "captures/0013.png",
+    "captures/0014.png"
+  ],
+  "delete": []
+}
