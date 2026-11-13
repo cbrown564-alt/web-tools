@@ -127,8 +127,11 @@ test("the first screen of every report is three plain blocks at desktop and phon
 test("findings are grouped by cause, ordered by consequence and linked to evidence", async () => {
   const html = siteCheckReport(fx.siteCheck);
   const lead = /<header class="lead">.*?<\/header>/s.exec(html)[0];
+  const found = /<h2>What was found<\/h2>.*?<h2>What needs a decision/s.exec(
+    lead,
+  )[0];
   // One entry for contrast although it is on four page and device combinations.
-  assert.equal(lead.split("hard to read against its background").length, 2);
+  assert.equal(found.split("hard to read against its background").length, 2);
   assert.match(lead, /Where: Home; Gallery/);
   // Mobile-only slowness names the device; an all-device finding does not.
   assert.match(lead, /Home \(mobile\): 41 out of 100/);
@@ -139,14 +142,85 @@ test("findings are grouped by cause, ordered by consequence and linked to eviden
   ].map((s) => lead.indexOf(s));
   assert.ok(order.every((n) => n > 0));
   assert.ok(order[0] < order[2] && order[1] < order[2]);
-  assert.match(lead, /href="#accessibility">See the evidence/);
+  assert.match(lead, /href="#accessibility">Evidence/);
+  // Each decision names the finding it comes from.
   assert.match(
     lead,
-    /Ask whoever manages hosting to add the missing security headers/,
+    /Ask whoever manages hosting to add the missing security headers\.<span class="about">From: Browsers are not told to always use the secure connection/,
   );
   // Rule ids stay available in the detail.
   assert.ok(html.includes("color-contrast"));
   assert.ok(!lead.includes("color-contrast"));
+});
+
+test("a two-site check shows findings by site and page, and loading times on one scale", () => {
+  // The fixture's live site becomes the current site; a copy with no
+  // accessibility problems and a faster home page becomes the redesign.
+  const data = structuredClone(fx.siteCheck);
+  data.project = {
+    ...data.project,
+    labels: { before: "Current website", after: "Proposed redesign" },
+    sites: [
+      { id: "before", baseUrl: "https://www.fixture.example/" },
+      { id: "after", baseUrl: "https://new.fixture.example/" },
+    ],
+  };
+  const move = (rows, side) =>
+    rows.map((r) => ({ ...r, target: { ...r.target, side } }));
+  for (const [module, rows] of Object.entries(data.results)) {
+    const after = move(rows, "after");
+    if (module === "accessibility")
+      after.forEach((r) => (r.result = { ...r.result, violations: [] }));
+    if (module === "performance")
+      after.forEach((r) => {
+        r.result = structuredClone(r.result);
+        r.result.metrics["largest-contentful-paint"] = 900;
+      });
+    data.results[module] = [...move(rows, "before"), ...after];
+  }
+  // The redesign's gallery could not be checked: unknown, not clean.
+  data.preflight = [
+    ...move(data.preflight, "before"),
+    ...move(data.preflight, "after").map((r) =>
+      r.target.page === "gallery"
+        ? { ...r, status: "error", error: "No main heading" }
+        : r,
+    ),
+  ];
+  for (const m of Object.keys(data.results))
+    data.results[m] = data.results[m].filter(
+      (r) => !(r.target.side === "after" && r.target.page === "gallery"),
+    );
+  data.sites = { before: data.sites.live, after: data.sites.live };
+
+  const html = siteCheckReport(data);
+  const found = /<h2>What was found<\/h2>.*?<h2>What needs a decision/s.exec(
+    html,
+  )[0];
+  assert.match(found, /<th scope="colgroup"[^>]*>Current website<\/th>/);
+  assert.match(found, /<th scope="colgroup"[^>]*>Proposed redesign<\/th>/);
+  assert.match(found, /only on the Current website/);
+  // Contrast row: found on both current pages, not on the redesign's home,
+  // and the redesign's gallery is marked as not checked.
+  const contrast =
+    /<tr><th scope="row" class="finding"><strong>Some text is hard to read.*?<\/tr>/s.exec(
+      found,
+    )[0];
+  assert.equal(contrast.split('class="dot"').length - 1, 2);
+  assert.equal(contrast.split("Not found").length - 1, 1);
+  assert.equal(contrast.split("Not checked").length - 1, 2);
+  // A mobile-only score is shown as its value and names the device.
+  assert.match(
+    found,
+    /<span class="hit value part"[^>]*>41<span class="only">mobile<\/span>/,
+  );
+  // A domain-wide email finding spans the site.
+  assert.match(found, /Whole site/);
+
+  const chart = /<figure class="lcp">.*?<\/figure>/s.exec(html)[0];
+  assert.match(chart, /1\.2 s faster/);
+  assert.match(chart, /aria-label="Proposed redesign: 0\.9 s"/);
+  assert.match(chart, /Not measured/);
 });
 
 test("a quiet watch says so in one line and holds small differences below the fold", () => {

@@ -92,12 +92,15 @@ export function lead({
   devices = [],
   quiet = "Nothing that needs attention.",
   notes = [],
+  show,
 }) {
-  const decisions = [
-    ...new Set(
-      findings.filter((f) => f.rank < 5 && f.decide).map((f) => f.decide),
-    ),
-  ];
+  // Each decision names the findings it comes from, so "Confirm this is
+  // intended" is never read without knowing what "this" is.
+  const decisions = new Map();
+  for (const f of findings.filter((f) => f.rank < 5 && f.decide)) {
+    if (!decisions.has(f.decide)) decisions.set(f.decide, []);
+    decisions.get(f.decide).push(f.say);
+  }
   const item = (f) => {
     const where = places(f, devices);
     return `<li><strong>${esc(f.say)}.</strong> ${esc(f.why)}${where.length ? `<br><span class="where">Where: ${esc(where.join("; "))}</span>` : ""}${f.href ? ` <a href="${esc(f.href)}">See the evidence</a>` : ""}</li>`;
@@ -106,11 +109,18 @@ export function lead({
     smaller = findings.filter((f) => f.rank === 4);
   return `<header class="lead"><h1>${esc(title)}</h1><p class="when">${esc(humanDate(at))}</p><div class="block"><h2>What was checked</h2><p>${checked}</p>${notes.map((n) => `<p>${esc(n)}</p>`).join("")}</div><div class="block"><h2>What was found</h2>${
     shown.length
-      ? `<ol class="found">${shown.map(item).join("")}</ol>`
+      ? show
+        ? show(shown)
+        : `<ol class="found">${shown.map(item).join("")}</ol>`
       : `<p>${esc(smaller.length ? "Nothing serious." : quiet)}</p>`
-  }${smaller.length ? `<details><summary>${plural(smaller.length, "smaller thing")}</summary><ul class="found">${smaller.map(item).join("")}</ul></details>` : ""}</div><div class="block"><h2>What needs a decision</h2>${
-    decisions.length
-      ? `<ul>${decisions.map((d) => `<li>${esc(d)}</li>`).join("")}</ul>`
+  }${smaller.length ? `<details><summary>${plural(smaller.length, "smaller thing")}</summary>${show ? show(smaller, { smaller: true }) : `<ul class="found">${smaller.map(item).join("")}</ul>`}</details>` : ""}</div><div class="block"><h2>What needs a decision</h2>${
+    decisions.size
+      ? `<ul class="decisions">${[...decisions]
+          .map(
+            ([d, about]) =>
+              `<li>${esc(d)}<span class="about">From: ${esc(about.join("; "))}</span></li>`,
+          )
+          .join("")}</ul>`
       : "<p>Nothing.</p>"
   }</div></header>`;
 }
