@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { randomUUID } from "node:crypto";
-import { parseArgs } from "node:util";
+import { parseTool } from "../cli/grammar.mjs";
+import { nextRunName } from "../cli/runs.mjs";
 import { validateProject } from "../../src/model.js";
 
 export const modules = [
@@ -12,28 +12,18 @@ export const modules = [
   "discovery",
 ];
 export function options(args = process.argv.slice(2)) {
-  const { values } = parseArgs({
-    args,
-    options: {
-      tier: { type: "string", default: "minimal" },
-      modules: { type: "string", default: modules.join(",") },
-      pages: { type: "string" },
-      devices: { type: "string" },
-      sites: { type: "string" },
-      run: { type: "string" },
-      render: { type: "string" },
-      profile: { type: "string" },
-      help: { type: "boolean", default: false },
-    },
-  });
+  const { values, given } = parseTool("site-check", args);
+  values.help = Boolean(values.help);
+  const modulesGiven = given("modules");
+  values.modules ??= modules.join(",");
+  values.modulesChosen = modulesGiven;
+  values.sites = values.site;
+  delete values.site;
   if (!["minimal", "standard", "maximum"].includes(values.tier))
     throw new Error("Tier must be minimal, standard or maximum");
   if (values.profile && values.tier !== "maximum")
     throw Error("--profile requires --tier maximum");
-  if (
-    values.tier === "maximum" &&
-    args.some((a) => a === "--modules" || a.startsWith("--modules="))
-  )
+  if (values.tier === "maximum" && modulesGiven)
     throw Error("Maximum investigations use a profile, not --modules");
   values.modules = [...new Set(values.modules.split(","))];
   if (values.modules.some((m) => !modules.includes(m)))
@@ -199,13 +189,10 @@ export function redact(value, secret = process.env.PAGESPEED_INSIGHTS_API_KEY) {
   }
   return value;
 }
-export async function evidence(projectDir, run) {
+export async function evidence(projectDir, run, label = "site-check") {
   const root = resolve(projectDir, "evidence");
   await mkdir(root, { recursive: true });
-  const dir = resolve(
-    root,
-    run || `${now().slice(0, 10)}-site-check-${randomUUID().slice(0, 8)}`,
-  );
+  const dir = resolve(root, run || nextRunName(projectDir, label));
   // Non-recursive mkdir is the overwrite guard. An empty existing run also fails.
   await mkdir(dir);
   return {

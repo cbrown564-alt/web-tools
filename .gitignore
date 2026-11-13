@@ -9,3 +9,5 @@ tmp/
 projects/*/evidence/
 projects/*/watch/
 projects/*/inventory/
+projects/*/index.html
+projects/*/.runs-cache.json

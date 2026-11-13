@@ -2,11 +2,15 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { validateProject } from "../src/model.js";
 import { validateSiteCheckProject } from "./site-check/core.mjs";
+import { CliError } from "./cli/errors.mjs";
 
 // One project per command and per build: a hosted review never carries another client's material.
 export const projectId = process.env.PROJECT || "research-network";
 if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(projectId))
-  throw new Error(`PROJECT must be a folder name in projects/: ${projectId}`);
+  throw new CliError(
+    `${projectId} is not a project id (lowercase letters, digits and hyphens)`,
+    "wt projects",
+  );
 export const projectDir = resolve("projects", projectId);
 
 export async function loadProject({ siteCheck = false } = {}) {
@@ -15,15 +19,25 @@ export async function loadProject({ siteCheck = false } = {}) {
     text = await readFile(resolve(projectDir, "project.json"), "utf8");
   } catch (e) {
     if (e.code === "ENOENT")
-      throw new Error(
-        `No project record at projects/${projectId}/project.json`,
+      throw new CliError(
+        `No project named ${projectId} (looked for projects/${projectId}/project.json)`,
+        `wt projects   (to list them)   or   wt new ${projectId} --url https://...`,
       );
     throw e;
   }
-  const record = JSON.parse(text);
+  let record;
+  try {
+    record = JSON.parse(text);
+  } catch (e) {
+    throw new CliError(
+      `projects/${projectId}/project.json is not valid JSON: ${e.message}`,
+      `Fix that file, then wt status ${projectId}`,
+    );
+  }
   if (!siteCheck && record.kind === "site-check")
-    throw new Error(
-      `${projectId} is a live-site check record. Use npm run site-check; comparison builds need paired pages and captures.`,
+    throw new CliError(
+      `${projectId} records one live site; the before and after comparison needs a paired record`,
+      `wt site-check ${projectId}   or   wt watch ${projectId}`,
     );
   const project = siteCheck
     ? validateSiteCheckProject(record)

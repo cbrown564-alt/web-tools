@@ -1,6 +1,10 @@
 import { readFile, cp } from "node:fs/promises";
 import { resolve } from "node:path";
 import { spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
+import { help } from "./cli/grammar.mjs";
+import { nextRunName, resolveRun } from "./cli/runs.mjs";
+import { report as reportError, CliError } from "./cli/errors.mjs";
 import { chromium } from "playwright";
 import { collectWatchCapture } from "./watch/capture.mjs";
 import { loadProject, projectDir } from "./project.mjs";
@@ -57,7 +61,7 @@ async function minimalCheck(project, selected, out) {
     "minimal",
     "--run",
     run,
-    "--sites",
+    "--site",
     selected[0].side,
     "--pages",
     [...new Set(selected.map((t) => t.page))].join(","),
@@ -88,23 +92,30 @@ async function minimalCheck(project, selected, out) {
     findings: checkFindings(data),
   };
 }
-async function main() {
-  const opts = watchOptions();
+export async function main(args = process.argv.slice(2)) {
+  const opts = watchOptions(args);
   if (opts.help) {
-    console.log(
-      "Watch: PROJECT=<id> npm run watch -- [run] [--site live|before|after] [--pages home] [--devices mobile] [--run unique-name]\nAccept: npm run watch -- accept --run <reviewed-run>\nOffline report: npm run watch -- --render <run-name>\n--skip-site-check explicitly runs visual/assertion checks only.",
-    );
+    console.log(help("watch"));
     return;
   }
   const project = await loadProject({ siteCheck: true });
   if (opts.action === "accept") {
-    if (!opts.run) throw new Error("Accept needs --run <reviewed-run>");
-    const pointer = await acceptBaseline(projectDir, opts.run, project);
+    const site =
+      opts.site ||
+      (project.sites.length === 1 ? project.sites[0].id : project.watch?.site);
+    const run = await resolveRun(projectDir, opts.run, "watch", {
+      purpose: "accept",
+      test: (r) => !site || r.site === site,
+    });
+    const pointer = await acceptBaseline(projectDir, run, project);
     console.log(`Accepted baseline: ${pointer.run} (${pointer.site})`);
     return;
   }
   if (opts.render) {
-    const { dir, data } = await readWatchRun(projectDir, opts.render);
+    const { dir, data } = await readWatchRun(
+      projectDir,
+      await resolveRun(projectDir, opts.render, "watch"),
+    );
     await writeWatchReport(dir, data);
     console.log(`Rebuilt ${dir}/report.html`);
     return;
@@ -114,11 +125,15 @@ async function main() {
       siteCheck: !opts["skip-site-check"],
     });
   if (policy.siteCheck && !process.env.PAGESPEED_INSIGHTS_API_KEY)
-    throw new Error(
-      "Set PAGESPEED_INSIGHTS_API_KEY in .env, or explicitly use --skip-site-check",
+    throw new CliError(
+      "The watch includes a minimal site check, which needs PAGESPEED_INSIGHTS_API_KEY in .env",
+      "wt doctor   (or add --skip-site-check for captures and assertions only)",
     );
   const site = selected[0].side,
-    out = await createWatchRun(projectDir, opts.run);
+    out = await createWatchRun(
+      projectDir,
+      opts.run || nextRunName(projectDir, "watch"),
+    );
   const pointer = await baselineFor(projectDir, site);
   let baseline = null,
     baselineProblem;
@@ -236,9 +251,9 @@ async function main() {
 }
 if (
   process.argv[1] &&
-  resolve(process.argv[1]) === new URL(import.meta.url).pathname
+  resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 )
   main().catch((error) => {
-    console.error(`Watch: ${error.message}`);
+    reportError(error, { tool: "watch", project: process.env.PROJECT });
     process.exitCode = 1;
   });

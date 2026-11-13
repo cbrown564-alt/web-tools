@@ -1,26 +1,11 @@
-import { createHash, randomUUID } from "node:crypto";
-import { parseArgs } from "node:util";
+import { createHash } from "node:crypto";
+import { parseTool } from "../cli/grammar.mjs";
 import { load } from "cheerio";
 import { safeUrl } from "../site-check/core.mjs";
 export const agent = "WebToolsInventory/1.0";
 export const hash = (value) => createHash("sha256").update(value).digest("hex");
 export function inventoryOptions(args = process.argv.slice(2)) {
-  const { values } = parseArgs({
-    args,
-    options: {
-      site: { type: "string" },
-      run: { type: "string" },
-      render: { type: "string" },
-      compare: { type: "string" },
-      help: { type: "boolean" },
-      depth: { type: "string", default: "2" },
-      "max-urls": { type: "string", default: "2000" },
-      "max-sitemaps": { type: "string", default: "40" },
-      captures: { type: "string", default: "all" },
-      devices: { type: "string" },
-      "capture-limit": { type: "string", default: "24" },
-    },
-  });
+  const { values } = parseTool("inventory", args);
   for (const [key, max] of [
     ["depth", 5],
     ["max-urls", 10000],
@@ -40,8 +25,6 @@ export function inventoryOptions(args = process.argv.slice(2)) {
   values.devices = values.devices?.split(",");
   return values;
 }
-export const inventoryName = () =>
-  `${new Date().toISOString().slice(0, 10)}-inventory-${randomUUID().slice(0, 8)}`;
 export function selectSite(project, options) {
   const competitors = project.inventory?.competitors || [];
   const ids = new Set(project.sites.map((s) => s.id));

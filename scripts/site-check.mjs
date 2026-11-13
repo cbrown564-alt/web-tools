@@ -1,7 +1,11 @@
 import { runMaximum } from "./site-check/maximum.mjs";
 import { writeMaximumReport } from "./site-check/maximum-report.mjs";
 import { readFile } from "node:fs/promises";
-import { resolve, sep } from "node:path";
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { help } from "./cli/grammar.mjs";
+import { resolveRun } from "./cli/runs.mjs";
+import { report as reportError, CliError } from "./cli/errors.mjs";
 import { hostname, platform, release, arch, cpus, totalmem } from "node:os";
 import { createRequire } from "node:module";
 import { loadProject, projectDir } from "./project.mjs";
@@ -33,21 +37,18 @@ import {
 import { writeReport } from "./site-check/report.mjs";
 import { collectorProvenance } from "./site-check/provenance.mjs";
 const require = createRequire(import.meta.url);
-async function main() {
-  const opts = options();
+export async function main(args = process.argv.slice(2)) {
+  const opts = options(args);
   if (opts.help) {
-    console.log(
-      `Site check: --tier minimal|standard|maximum --modules performance,cache,accessibility,security,discovery\nOptional: --pages home,gallery --devices mobile,desktop --sites before,after --run unique-name\nMaximum: --tier maximum [--profile projects/<id>/maximum.json] (investigation profile, no --modules)\nRebuild a saved report: --render projects/<id>/evidence/<run>\nPROJECT selects a project; PAGESPEED_INSIGHTS_API_KEY is loaded from .env.\nExit 0: collection complete (findings may need review); 2: collection partial; 1: setup failure.`,
-    );
+    console.log(help("site-check"));
     return;
   }
   if (opts.render) {
-    const dir = resolve(opts.render),
-      root = resolve(projectDir, "evidence") + sep;
-    if (!dir.startsWith(root))
-      throw new Error(
-        "--render must name an evidence folder in the selected project",
-      );
+    const dir = resolve(
+      projectDir,
+      "evidence",
+      await resolveRun(projectDir, opts.render, ["site-check", "maximum"]),
+    );
     const data = JSON.parse(
       await readFile(resolve(dir, "results.json"), "utf8"),
     );
@@ -59,7 +60,9 @@ async function main() {
   let project = await loadProject({ siteCheck: true });
   if (opts.sites) {
     if (opts.sites.some((id) => !project.sites.some((s) => s.id === id)))
-      throw new Error("Unknown site selection");
+      throw new Error(
+        `Unknown site; choose ${project.sites.map((s) => s.id).join(",")}`,
+      );
     project = {
       ...project,
       sites: project.sites.filter((s) => opts.sites.includes(s.id)),
@@ -72,10 +75,22 @@ async function main() {
   }
   const allTargets = targets(project, opts),
     key = process.env.PAGESPEED_INSIGHTS_API_KEY;
-  if (opts.tier === "minimal" && opts.modules.includes("performance") && !key)
-    throw new Error(
-      "Set PAGESPEED_INSIGHTS_API_KEY in .env (or the environment) for minimal performance checks",
+  const notices = [];
+  if (opts.tier === "minimal" && opts.modules.includes("performance") && !key) {
+    if (opts.modulesChosen)
+      throw new CliError(
+        "Minimal performance checks use Google PageSpeed Insights, which needs PAGESPEED_INSIGHTS_API_KEY in .env",
+        "wt doctor",
+      );
+    // A first run should still produce a report; say plainly what it leaves out.
+    opts.modules = opts.modules.filter((m) => m !== "performance");
+    notices.push(
+      "Performance was not measured in this run because no PageSpeed Insights key is set.",
     );
+    console.log(
+      "No PageSpeed key: checking everything except performance. wt doctor explains how to add one.",
+    );
+  }
   const out = await evidence(projectDir, opts.run),
     started = performance.now();
   const sideIds = project.sites.map((s) => s.id);
@@ -93,6 +108,7 @@ async function main() {
     options: opts,
     startedAt: now(),
     state: "running",
+    notices,
     preflight: [],
     results: Object.fromEntries(opts.modules.map((m) => [m, []])),
     sites: {},
@@ -507,7 +523,11 @@ async function main() {
     if (data.state !== "complete") process.exitCode = 2;
   }
 }
-main().catch((e) => {
-  console.error(`Site check: ${e.message}`);
-  process.exitCode = 1;
-});
+if (
+  process.argv[1] &&
+  resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+)
+  main().catch((e) => {
+    reportError(e, { tool: "site-check", project: process.env.PROJECT });
+    process.exitCode = 1;
+  });

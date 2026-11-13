@@ -1,7 +1,9 @@
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseArgs } from "node:util";
+import { help, parseTool } from "./cli/grammar.mjs";
+import { nextRunName, resolveRun, RUN_NAME } from "./cli/runs.mjs";
+import { report as reportError, CliError } from "./cli/errors.mjs";
 import { randomUUID } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { hostname, platform, release, arch } from "node:os";
@@ -25,34 +27,18 @@ import { applyPackage, reverseJournal } from "./release/journal.mjs";
 import { checklist, checklistMarkdown } from "./release/checklist.mjs";
 import { runFormRehearsal, validateFormProfile } from "./release/forms.mjs";
 import { releaseReport } from "./release/report.mjs";
-async function main() {
-  const { values: o, positionals } = parseArgs({
-    allowPositionals: true,
-    options: {
-      spec: { type: "string" },
-      profile: { type: "string" },
-      package: { type: "string" },
-      archive: { type: "string" },
-      sha: { type: "string" },
-      baseline: { type: "string" },
-      journal: { type: "string" },
-      target: { type: "string" },
-      run: { type: "string" },
-      help: { type: "boolean" },
-    },
-  });
-  const action = positionals[0] || "pack";
+// Read a pin or path that an earlier run of this tool recorded, so nobody copies it by hand.
+async function recorded(run) {
+  return JSON.parse(
+    await readFile(resolve(projectDir, "evidence", run, "results.json")),
+  );
+}
+export async function main(args = process.argv.slice(2)) {
+  const { values: o, action } = parseTool("release", args);
   if (o.help) {
-    console.log(
-      "PROJECT=<id> npm run release -- pack [--spec projects/<id>/release.json] [--run name]\nVerify archive: release verify --archive <tar.gz> --sha <archive-sha>\nVerify files: release verify --package <folder> --sha <pinned-manifest-sha>\nRehearse: release rehearse --package <folder> --sha <pin> --baseline <project-folder> [--run name]\nReverse an owned rehearsal: release reverse --journal <folder> --sha <journal-pin> --target <rehearsal-target>\nLocal forms: release forms [--profile projects/<id>/local-forms.json] [--run name]\nThis prototype packages files and rehearses only in disposable local copies.",
-    );
+    console.log(help("release"));
     return;
   }
-  if (
-    !["pack", "verify", "rehearse", "forms", "reverse"].includes(action) ||
-    positionals.length > 1
-  )
-    throw Error("Use pack, verify, rehearse, reverse or forms");
   if (o.run && !/^[a-z0-9][a-z0-9-]{0,79}$/.test(o.run))
     throw Error("Invalid run name");
   const project = await loadProject({ siteCheck: true });
@@ -75,7 +61,19 @@ async function main() {
     validateFormProfile(profile, project.id);
   }
   if (action === "verify" || action === "rehearse") {
-    if (!o.package) throw Error("Supply --package and --sha");
+    if (!o.package) {
+      const run = await resolveRun(projectDir, "latest", "release-pack", {
+        purpose: action,
+      });
+      o.package = resolve(projectDir, "evidence", run, "package");
+      o.sha ||= (await recorded(run)).packageSha256;
+      console.log(`Pinned manifest SHA-256 from that run: ${o.sha}`);
+    }
+    if (!o.sha)
+      throw new CliError(
+        "A package folder you name yourself needs its trusted pin",
+        `Add --sha <manifest-sha256>, or leave out --package to use the latest package run`,
+      );
     verified = await verifyPackage(resolve(o.package), o.sha);
     if (verified.projectId !== project.id)
       throw Error("Package belongs to another project");
@@ -85,7 +83,26 @@ async function main() {
       );
       return;
     }
-    if (!o.baseline) throw Error("Rehearsal needs --baseline");
+    if (!o.baseline) {
+      let own = {};
+      try {
+        own = JSON.parse(await readFile(resolve(projectDir, "release.json")));
+      } catch (error) {
+        if (error.code !== "ENOENT") throw error;
+      }
+      if (!own.baseline)
+        throw new CliError(
+          "Rehearsal needs the files the release is applied over",
+          `Add "baseline": "evidence/<run>" to projects/${project.id}/release.json, or pass --baseline <run>`,
+        );
+      o.baseline = resolve(projectDir, own.baseline);
+      console.log(`Baseline from release.json: ${own.baseline}`);
+    } else if (RUN_NAME.test(o.baseline))
+      o.baseline = resolve(
+        projectDir,
+        "evidence",
+        await resolveRun(projectDir, o.baseline, "other", { quiet: true }),
+      );
     baseline = resolve(o.baseline);
     if (!baseline.startsWith(projectDir + sep))
       throw Error("Baseline must be inside the selected project");
@@ -102,8 +119,20 @@ async function main() {
       throw Error("Candidate source must be inside this project");
   }
   if (action === "reverse") {
-    if (!o.journal || !o.target)
-      throw Error("Reverse needs --journal, --sha and --target");
+    if (!o.journal && !o.target) {
+      const run = await resolveRun(projectDir, "latest", "release-rehearse", {
+        purpose: "reverse",
+      });
+      o.journal = resolve(projectDir, "evidence", run, "journal");
+      o.target = resolve(projectDir, "evidence", run, "target");
+      o.sha ||= (await recorded(run)).rehearsal.journalSha256;
+      console.log(`Pinned journal SHA-256 from that run: ${o.sha}`);
+    }
+    if (!o.journal || !o.target || !o.sha)
+      throw new CliError(
+        "Reverse needs --journal, --target and --sha together",
+        `Leave all three out to reverse the latest rehearsal: wt release ${project.id} reverse`,
+      );
     const target = resolve(o.target);
     if (
       !target.startsWith(resolve(projectDir, "evidence") + sep) ||
@@ -116,9 +145,7 @@ async function main() {
     if (j.projectId !== project.id)
       throw Error("Journal belongs to another project");
   }
-  const run =
-      o.run ||
-      `${new Date().toISOString().slice(0, 10)}-release-${action}-${randomUUID().slice(0, 8)}`,
+  const run = o.run || nextRunName(projectDir, `release-${action}`),
     root = resolve(projectDir, "evidence");
   await mkdir(root, { recursive: true });
   const out = resolve(root, run);
@@ -289,6 +316,6 @@ if (
   resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 )
   main().catch((error) => {
-    console.error(`Release kit: ${error.message}`);
+    reportError(error, { tool: "release", project: process.env.PROJECT });
     process.exitCode = 1;
   });

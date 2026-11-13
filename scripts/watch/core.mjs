@@ -1,4 +1,5 @@
 import { createHash, randomUUID } from "node:crypto";
+import { parseTool } from "../cli/grammar.mjs";
 import {
   readFile,
   mkdir,
@@ -8,29 +9,12 @@ import {
   copyFile,
 } from "node:fs/promises";
 import { resolve, sep, basename } from "node:path";
-import { parseArgs } from "node:util";
 import { targets, redact } from "../site-check/core.mjs";
 export const digest = (buffer) =>
   createHash("sha256").update(buffer).digest("hex");
-export const runName = () =>
-  `${new Date().toISOString().slice(0, 10)}-watch-${randomUUID().slice(0, 8)}`;
 export function watchOptions(args = process.argv.slice(2)) {
-  const { values, positionals } = parseArgs({
-    args,
-    allowPositionals: true,
-    options: {
-      site: { type: "string" },
-      pages: { type: "string" },
-      devices: { type: "string" },
-      run: { type: "string" },
-      render: { type: "string" },
-      help: { type: "boolean" },
-      "skip-site-check": { type: "boolean", default: false },
-    },
-  });
-  const action = positionals[0] || "run";
-  if (!["run", "accept"].includes(action) || positionals.length > 1)
-    throw new Error("Use watch [run|accept]");
+  const { values, action } = parseTool("watch", args);
+  values["skip-site-check"] = Boolean(values["skip-site-check"]);
   if (values.run && !/^[a-z0-9][a-z0-9-]{0,73}$/.test(values.run))
     throw new Error("--run must be a short lowercase name");
   return {
@@ -202,7 +186,7 @@ export async function assertionsFor(page, target, assertions) {
   }
   return rows;
 }
-export async function createWatchRun(projectDir, name = runName()) {
+export async function createWatchRun(projectDir, name) {
   if (!/^[a-z0-9][a-z0-9-]{0,79}$/.test(name))
     throw new Error("Invalid watch run name");
   const root = resolve(projectDir, "evidence");

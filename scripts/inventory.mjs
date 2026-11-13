@@ -15,7 +15,6 @@ import { evidence, redact, safeUrl } from "./site-check/core.mjs";
 import { captureInventoryPage } from "./inventory/capture.mjs";
 import {
   inventoryOptions,
-  inventoryName,
   selectSite,
   captureSelection,
   reconcile,
@@ -25,25 +24,31 @@ import {
 import { network } from "./inventory/network.mjs";
 import { crawl } from "./inventory/crawl.mjs";
 import { writeInventoryReport } from "./inventory/report.mjs";
-async function main() {
-  const opts = inventoryOptions();
+import { help } from "./cli/grammar.mjs";
+import { nextRunName, resolveRun } from "./cli/runs.mjs";
+import { report as reportError } from "./cli/errors.mjs";
+export async function main(args = process.argv.slice(2)) {
+  const opts = inventoryOptions(args);
   if (opts.help) {
-    console.log(
-      "PROJECT=<id> npm run inventory -- --site before|after|live [--depth 2] [--max-urls 2000] [--captures all|representative|none] [--capture-limit 24] [--devices desktop,mobile] [--run unique-name]\nRebuild offline: --render <run-name>\nExit 0: selected collection complete; 2: incomplete; 1: setup failure.",
-    );
+    console.log(help("inventory"));
     return;
   }
   const project = await loadProject({ siteCheck: true });
   if (opts.render) {
-    const dir = resolve(projectDir, "evidence", opts.render),
+    const dir = resolve(
+        projectDir,
+        "evidence",
+        await resolveRun(projectDir, opts.render, "inventory"),
+      ),
       data = JSON.parse(await readFile(resolve(dir, "results.json")));
     if (data.tool !== "inventory" || data.project.id !== project.id)
       throw Error("Not an inventory for this project");
     await writeInventoryReport(dir, data);
+    console.log(`Rebuilt ${dir}/report.html`);
     return;
   }
   const site = selectSite(project, opts),
-    run = opts.run || inventoryName(),
+    run = opts.run || nextRunName(projectDir, "inventory"),
     out = await evidence(projectDir, run);
   await mkdir(resolve(out.dir, "captures"));
   const startedAt = new Date().toISOString(),
@@ -204,7 +209,13 @@ async function main() {
     };
   }
   if (opts.compare) {
-    const previousDir = resolve(projectDir, "evidence", opts.compare),
+    const previousDir = resolve(
+        projectDir,
+        "evidence",
+        await resolveRun(projectDir, opts.compare, "inventory", {
+          test: (r) => r.name !== run,
+        }),
+      ),
       prior = JSON.parse(await readFile(resolve(previousDir, "results.json")));
     if (
       prior.tool !== "inventory" ||
@@ -288,6 +299,6 @@ if (
   resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 )
   main().catch((e) => {
-    console.error(`Inventory: ${e.message}`);
+    reportError(e, { tool: "inventory", project: process.env.PROJECT });
     process.exitCode = 1;
   });

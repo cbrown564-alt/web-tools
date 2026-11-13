@@ -29,7 +29,7 @@ export async function runMaximum(project, projectDir, opts) {
   const devices = opts.devices || Object.keys(project.devices);
   if (devices.some((d) => !project.devices[d]))
     throw Error("Unknown maximum investigation device");
-  const out = await evidence(projectDir, opts.run);
+  const out = await evidence(projectDir, opts.run, "maximum");
   out.profile = profile;
   const data = {
     version: 1,
