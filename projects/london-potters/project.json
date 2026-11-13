@@ -70,5 +70,83 @@
       "beforeNote": "An introduction and a checklist of member benefits lead into the membership options.",
       "afterNote": "The same introduction, benefits and options appear in the same order."
     }
-  ]
+  ],
+  "inventory": {
+    "site": "before",
+    "history": "inventory-history.json",
+    "seeds": [
+      "/cart",
+      "/my-account",
+      "/members-gallery",
+      "/my-account/lost-password/",
+      "/events/list/",
+      "/events/month/"
+    ],
+    "outputs": {
+      "before": "inventory/before.json"
+    }
+  },
+  "watch": {
+    "site": "after",
+    "pixelThreshold": 0.15,
+    "maxChangedRatio": 0,
+    "masks": [],
+    "assertions": [
+      {
+        "id": "home-heading",
+        "page": "home",
+        "type": "visible",
+        "selector": "h1, main [role=\"heading\"][aria-level=\"1\"]"
+      },
+      {
+        "id": "gallery-heading",
+        "page": "gallery",
+        "type": "visible",
+        "selector": "h1, main [role=\"heading\"][aria-level=\"1\"]"
+      },
+      {
+        "id": "events-heading",
+        "page": "events",
+        "type": "visible",
+        "selector": "h1, main [role=\"heading\"][aria-level=\"1\"]"
+      },
+      {
+        "id": "news-heading",
+        "page": "news",
+        "type": "visible",
+        "selector": "h1, main [role=\"heading\"][aria-level=\"1\"]"
+      },
+      {
+        "id": "membership-heading",
+        "page": "membership",
+        "type": "visible",
+        "selector": "h1, main [role=\"heading\"][aria-level=\"1\"]"
+      },
+      {
+        "id": "gallery-filter-form",
+        "page": "gallery",
+        "type": "visible",
+        "selector": "form.prototype-filters"
+      },
+      {
+        "id": "gallery-cards",
+        "page": "gallery",
+        "type": "visible",
+        "selector": "#member-archive-card-grid .uk-card",
+        "minCount": 1
+      },
+      {
+        "id": "site-script",
+        "page": "home",
+        "type": "script",
+        "selector": "script[src^=\"/static/site-\"]"
+      },
+      {
+        "id": "gallery-script",
+        "page": "gallery",
+        "type": "script",
+        "selector": "script[src^=\"/static/gallery-\"]"
+      }
+    ]
+  }
 }

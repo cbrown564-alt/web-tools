@@ -1,0 +1,46 @@
+# London Potters public URL repairs — 12 November 2026
+
+**Verified: all 223 previously failing URL expectations now pass on the deployed demonstration.** The [final URL report](../projects/london-potters/evidence/2026-11-12-url-fix-final-routes/report.html) passes all 1,136 decided rules; nineteen decisions remain undecided. This follows the [complete workflow record](verification-london-potters-workflow-2026-11-12.md), whose earlier failures remain a historical result. The [EmDash README](../../london-potters/emdash/README.md) owns migration scope and operation. No production migration is claimed.
+
+## Repair
+
+The previous 223 failures comprised 213 area/discipline archives, eight canonical redirects and two missing public profiles. Of the archives, 172 contained `/page/N/`. The old catch-all extracted only the taxonomy and slug, then returned a 302 to the main gallery, losing the requested page.
+
+The demo now serves each valid archive directly at its original path. A shared server-rendered gallery reads the taxonomy and page from that path, uses the source archive's twenty profiles per page, and preserves the path in pagination links and profile return links. It retains the reconstructed directory's order. The main gallery retains twenty-four profiles per page. A filter change opens the main gallery with the selected values. Browser Back restores archive filters and results; paging also works without JavaScript. Unknown terms, malformed page numbers and out-of-range pages return 404. The stylesheet purge reads the shared component so pagination styles survive the build.
+
+Eight source-observed slash-canonical aliases now return 301 for GET/HEAD, retaining query strings: `/contacts`, `/events`, `/join-london-potters`, `/lp-exhibition`, `/lp-magazine`, `/members-gallery`, `/members-hub` and `/members-resources`. Other request methods and administration/API paths are excluded from this alias rule.
+
+Brenda and Valmai Barclay still returned 200 on the public source but were absent from the reconstructed dataset. Dated public snapshots restore their profile URLs and directory cards, bringing the directory to 446 profiles. The source HTML and source image hashes are recorded; three bundled images match the hosted bytes. The Worker image service accepts this explicit local folder for its normal derivatives. No remote image delivery is introduced.
+
+These two snapshots are read-only public archive content, not native editable CMS records or member accounts. A native published entry wins. A stored native draft or soft-deleted row suppresses its snapshot; database errors fail closed. Permanently deleting the native row also requires retiring the source snapshot to prevent fallback reappearance. Unit checks cover native priority and suppression, while the actual public browser check covers rendering and artwork.
+
+## Deployment and verification
+
+Final demo version: `9ecc7100-46be-4be6-b770-8fdee55264f6`, replacing `77d74aef-7a07-43b3-a7d2-c16d701f959b` through the intermediate URL repair version `6dc30d8d-eb0c-42be-aef3-dae8bfe3085a`. The second deployment fixes transformed snapshot images discovered by hosted browser verification. Target: [existing public demo](https://london-potters-emdash-demo.empty-union-f39d.workers.dev/). It retains noindex, native CMS administration sign-in, demo D1/R2 bindings and inactive services. No CMS content import, schema migration, account creation, real form submission or production configuration change was performed. Public reads may populate the existing page/image caches.
+
+Evidence is in [the verification directory](../projects/london-potters/evidence/2026-11-12-url-fix-verification/).
+
+| Check | Result |
+| --- | --- |
+| Route and snapshot unit checks | 4 passed |
+| Astro typecheck | 35 files; zero errors, warnings or hints |
+| Build and Wrangler dry run | Passed; existing bundle-size advisory remains |
+| Read-only native migration preflight | No pending/unknown migrations; none executed |
+| Complete content/filter verification | 5,143 passed locally and hosted; 804 entry paths and 309 filter combinations |
+| Legacy archive contents | All 213 passed locally and hosted: twenty-card slices and exact profile return context; final hosted check also compares every page's profile identities against the retained directory's full filtered list |
+| Existing hosted visitor suite | 96 passed, including native images, filters, artwork, menu, update failure/recovery and no-JavaScript layouts |
+| Final hosted archive/profile journeys | Desktop and mobile passed; history, profile returns, next-page navigation, no-JavaScript paging, 404s, restored profile images and Brenda's enlarged artwork |
+| Archive accessibility sample | Zero axe WCAG A/AA violations on the tested desktop and mobile archive page |
+| Restored source image hashes | All three hosted files match their recorded SHA-256 hashes |
+| Image source restrictions | Restored local derivative returns 200; external sources and unlisted local folders return 400 |
+| Final full URL map | All 1,136 decided rules passed; all 223 original failures independently matched to passing results; nineteen decisions remain undecided |
+
+The 5,143 hosted checks, 96-check visitor suite and all-archive content check ran on the intermediate version; the final change only adds the snapshot folder to the existing image service. Final hosted journeys explicitly exercise the repaired images and artwork. The local full visitor suite timed out on native gallery images because local demo mode bypasses the existing Cloudflare derivative route; the hosted suite passed. Local archive screenshots therefore do not establish hosted image delivery. Final hosted screenshots were inspected.
+
+## Watch and limits
+
+The [watch comparison](../projects/london-potters/evidence/2026-11-12-url-fix-watch/report.html) passed all 18 assertions. Only the gallery count changed, from 444 to 446: 47 changed pixels on each gallery capture, inside the final count digit; the other eight captures were identical. There were no new site-check findings; the existing 42 remain. This reviewed change was accepted as the new demo baseline. The [full repeat](../projects/london-potters/evidence/2026-11-12-url-fix-watch-repeat/report.html) against the final version is quiet: all ten captures are identical, all 18 assertions pass and the same 42 findings remain. No masks or pixel allowance were added. An earlier visual-only capture is supplemental and was not accepted as a replacement for the full watch policy.
+
+Nineteen content decisions remain undecided, the source inventory remains partial following its earlier rate limit, and there is still no complete operational or production migration evidence. The retained directory's ordering is not identical to the live archive sample captured today: `/area/central-london/page/2/` begins with Monica Caballo-Baldominos on the live source and Miranda Clayton in the reconstruction. The repair checks paging against the retained directory; it does not reconcile live profile membership or ordering. That content reconciliation remains an exception for review. Only two public profile pages and one representative source archive were fetched for this repair, without rate-limit bypass. The earlier Worker/assets release package remains a snapshot of the preceding deployment; this repair does not prove D1/R2 restore, production membership, bookings, payments, email or private-access behaviour.
+
+**Later on 12 November:** the [content/order follow-up](verification-london-potters-content-order-2026-11-12.md) reconciles all 446 gallery profiles and 213 archive pages with captured live ordering, resolves six of the nineteen decisions and passes all 1,142 decided URL checks. Thirteen service/access decisions remain; the final watch is quiet. This earlier record retains its historical results and deployment identity.

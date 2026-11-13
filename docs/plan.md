@@ -4,16 +4,16 @@ Written 12 November 2026. This document owns the sequence of tools to build, wha
 
 ## Status
 
-| Phase | Tool                             | State       |
-| ----- | -------------------------------- | ----------- |
-| 0     | Before & after comparison        | Working     |
-| 1     | Site check, minimal and standard | Not started |
-| 2     | Post-launch watch                | Not started |
-| 3     | Page inventory and discovery kit | Not started |
-| 4     | Content decisions and redirects  | Not started |
-| 5     | Release kit and form tests       | Not started |
-| 6     | Site check, maximum tier         | Not started |
-| Later | EmDash starter, promo studio     | Parked      |
+| Phase | Tool                             | State   |
+| ----- | -------------------------------- | ------- |
+| 0     | Before & after comparison        | Working |
+| 1     | Site check, minimal and standard | Working |
+| 2     | Post-launch watch                | Working |
+| 3     | Page inventory and discovery kit | Working |
+| 4     | Content decisions and redirects  | Working |
+| 5     | Release kit and form tests       | Working |
+| 6     | Site check, maximum tier         | Working |
+| Later | EmDash starter, promo studio     | Parked  |
 
 ## Where this comes from
 
@@ -24,6 +24,8 @@ Three completed or active jobs supplied the evidence:
 - **Elizabeth Norman International** (`~/code/liz`) is the most complete job: discovery, content review with the client, release without a staging site, and six weeks of post-launch fixes. It has about 213 scripts, nearly all tied to that one site.
 
 Script paths cited below were confirmed to exist on 12 November 2026. Descriptions of what they do come from a survey of those repositories, not from reading every script; read a script before porting it.
+
+Velocity (`www.researchvelocity.co.uk`, repository `~/code/Velocity`) and Red Thread (`www.utdred.com`, repository `~/code/unitedstats`) are also active projects owned by the tool's owner. They join phase 1 as live-site checks only. Velocity's public website is separate from its desktop research app; the app is outside this check record. The initial reusable methods above came from the three client jobs, not from a completed audit of these two products.
 
 ## Principles
 
@@ -40,13 +42,15 @@ Script paths cited below were confirmed to exist on 12 November 2026. Descriptio
 
 These are built as the first tool that needs them requires, not ahead of time.
 
-- **Project record** (exists). Sites, page pairs, devices. Phase 1 adds nothing; phase 3 adds a link to the inventory.
+- **Project record** (exists). Sites, page pairs, devices. Phase 1 also accepts a single live site for checks without a comparison; phase 3 adds a link to the inventory.
 - **Capture pipeline** (exists: `scripts/capture.mjs`). Records URL, time, viewport and hash for every screenshot. Phase 2 needs full-page capture and handling of lazy-loaded images, which dropped out of full-page captures in Liz.
 - **Evidence folder.** Each run writes to `projects/<id>/evidence/<date>-<tool>/`: raw results as JSON, a `conditions.json` (tool versions, settings, machine), and nothing containing credentials. Reports are rendered from this JSON and can be rebuilt without re-measuring.
 - **Report renderer.** One plain HTML template family shared by every tool, printable to PDF, in the same style as the comparison page.
 - **Page inventory** (phase 3). A crawl of a site's sitemap into one file per site: URL, status, title, template group, size.
 
 ## Phase 1: site check, minimal and standard
+
+**Completed 12 November 2026.** Minimal and standard ran on London Potters and Research Network with one recorded collector digest; the same minimal command ran on Velocity and Red Thread. The archived Lighthouse replay matches all 54 audits and 18 historical groups. Changed photographs, pagination, image delivery, layout and access conditions explain why the older ranges are different observations. Source failures remain visible in the reports. [Verification](verification-site-check-2026-11-12.md) records the acceptance runs, reconciliation and limits.
 
 **Why first.** It is useful on every job, it needs only the project record, and London Potters already has results to validate it against.
 
@@ -56,11 +60,11 @@ These are built as the first tool that needs them requires, not ahead of time.
 PROJECT=london-potters npm run site-check -- --tier standard --modules performance,cache
 ```
 
-Each module runs against every site in the record (before and after) on the record's pages and devices.
+Each module runs against every site in the record on the record's pages and devices. London Potters and Research Network have before/after pairs; Velocity and Red Thread have one live site each.
 
 | Module        | Minimal: is anything obviously wrong?                                                                          | Standard: how do before and after compare?                                                                                                                         |
 | ------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Performance   | One PageSpeed Insights API call per page and device: lab scores and visitor data                               | Three Lighthouse runs per page and device, order rotated between sites; median and range. One cold and one repeat browser load with request and transfer breakdown |
+| Performance   | One PageSpeed Insights API call per page and device: lab scores and visitor data when available                | Three Lighthouse runs per page and device, order rotated between sites; median and range. One cold and one repeat browser load with request and transfer breakdown |
 | Cache         | For each page, two plain requests and two with a unique query string; compare response times and cache headers | The same across a sample of the sitemap, grouped by cache state                                                                                                    |
 | Accessibility | Automated scan (axe) of each page                                                                              | Scan on both devices plus a keyboard pass: skip link, menu, focus return                                                                                           |
 | Security      | Response headers and redirects for each page                                                                   | Adds form destinations, TLS and email-authentication records                                                                                                       |
@@ -72,7 +76,7 @@ Each module runs against every site in the record (before and after) on the reco
 - Rotate the order of sites on each repetition.
 - Keep the tab in the foreground and use a fresh browser context per run.
 - Wait on conditions, never fixed delays.
-- Record the throttling settings and tool versions with the results.
+- Record the collector digest, throttling settings and tool versions with the results.
 - Refuse to overwrite an existing evidence folder.
 
 **Outputs.**
@@ -86,12 +90,15 @@ Each module runs against every site in the record (before and after) on the reco
 - Minimal and standard run on London Potters and Research Network with no code changes between them.
 - On London Potters, the cache module shows the same fast-cached and slow-uncached split recorded on 5 to 9 November, and Lighthouse medians fall inside the ranges in `london-potters/docs/performance-comparison-2026-11-08.html`, or the difference is explained.
 - Minimal completes in under five minutes for five pages.
+- The same minimal command also runs on the live-only Velocity public website and Red Thread records without code changes between them.
 
 **Start from.** In `~/code/london-potters`: `emdash/scripts/lighthouse-phase1.mjs` and `summarise-phase1.mjs` (already driven by settings), `docs/evidence/2026-11-08/performance/scripts/browser.cjs`, `docs/evidence/2026-11-05/follow-up/scripts/paired.py` and `hitmiss.py`, `docs/evidence/2026-11-08/security/scripts/collect.py`. In `~/code/liz/tools`: `a11y-frontend.mjs`, `check-share-metadata.py`.
 
 **Not in this phase.** Full crawls, user journeys, cause-finding experiments, filmstrips. Those are phase 6.
 
 ## Phase 2: post-launch watch
+
+**Completed 12 November 2026 as a manual prototype.** Capture, compare, review, accept and repeat work with immutable evidence and portable reports. The three saved Liz defects are detected, identical and restored copies produce zero changes, and the same collector ran on Velocity and Red Thread. All twenty final live captures and assertions passed; live reports retain changing axe findings and video-indicator differences for review. [Verification](verification-watch-2026-11-12.md) records the runs, capture recovery, checks and limits.
 
 **Why.** Liz had defects found days or weeks after launch: a survey script missing from the new header, gallery styles missing, Word CV attachments broken, new posts missing from a listing, stale sharing metadata. Most were visible on a public page.
 
@@ -104,9 +111,11 @@ Each module runs against every site in the record (before and after) on the reco
 
 **Done when.** Replaying three of the Liz defects against saved copies of the pages makes the watch report each one, and a run with no real change reports nothing.
 
-**Open question.** Where the scheduled run lives: this machine, a scheduled cloud job, or run by hand weekly.
+**Operation.** Run by hand with `npm run watch`; accept a reviewed run with `npm run watch -- accept --run <name>`. Scheduling and notifications are deferred until the manual reports have been used in normal work.
 
 ## Phase 3: page inventory and discovery kit
+
+**Completed 12 November 2026 as a manual prototype.** The same collector produced London Potters and Elizabeth Norman inventories, with the historical 1,186 / 176 URL differences reconciled. Live verification used explicit representative captures on both devices; all-page capture is available but was not run over the full catalogues. London Potters retains its partial state for blocked redirects and failed captures. [Verification](verification-inventory-2026-11-12.md) records coverage, results, checks and limits.
 
 **Why.** The inventory is the "before" for everything else: the comparison picks its pages from it, the watch samples it, and content decisions are made on it.
 
@@ -118,15 +127,19 @@ Each module runs against every site in the record (before and after) on the reco
 
 ## Phase 4: content decisions and redirects
 
+**Completed 12 November 2026 as a static prototype.** Reviews prepared from both real inventories support explicit dispositions, notes, browser persistence and JSON/CSV exchange. Decision maps retain undecided and partial-source coverage; the read-only checker detects exact status/destination errors, loops, chains and failed targets. All real editorial choices remain undecided. [Verification](verification-content-2026-11-12.md) records the complete fixture workflow, real-page checks and limits.
+
 **Why.** In Liz the content review was a chain: the client sorted 176 URLs into keep, rewrite, consolidate or remove; those decisions became the redirect map; the redirect map became a launch check.
 
 **Shape.** A review page over the inventory with a screenshot per page, a decision per page and a notes field. Decisions export to a spreadsheet and to a redirect map. A checker verifies every old URL lands where the map says.
 
-**Open question, to settle before building.** Liz's review app let the client record decisions through a private link, which needed a hosted database. The comparison tool is static by decision. Either the client's decisions are collected in a spreadsheet and imported, or this tool gets a small backend. Read `liz/review/PRODUCT.md` first.
+**Operation.** Keep this phase static: local browser edits, JSON backup and CSV spreadsheet exchange. Read Liz’s review product before porting the workflow; its server persistence is not required for this bounded prototype. Shared hosted storage remains a later choice.
 
 **Start from.** `liz/tools/build-redirect-review.py`, `check-release-urls.py`.
 
 ## Phase 5: release kit and form tests
+
+**Completed 12 November 2026 as a local manual prototype.** The same collector packaged two real static content-review bundles, verified their pins, restored backups, applied selected files and reversed them while preserving synthetic incoming data. All 36 local form cases passed with independent capture receipts and scoped cleanup. Ten launch areas remain pending; client CMS deployment, database/media restore and actual staff-mailbox delivery are separate production work. [Verification](verification-release-2026-11-12.md) records the exact artifacts, checks and limits.
 
 **Why.** Liz was released without a staging site and then patched six or more times using the same pattern. The pattern worked and is worth keeping.
 
@@ -144,6 +157,8 @@ Each module runs against every site in the record (before and after) on the reco
 
 ## Phase 6: site check, maximum tier
 
+**Completed 12 November 2026 as a bounded manual prototype.** Profiles now drive full discovery within explicit bounds, repeat cache probes, timed public journeys, alternating ablation/deployment comparisons, Chrome performance traces, actual filmstrips and selected layout/pixel parity. A controlled delayed-script fixture proves the causal investigation loop; the same collector ran on Velocity live and the Research Network demonstration. All 28 real journey samples completed. Research Network retains its `/home` 404 as partial, and all four real font-ablation assessments remain unresolved. No production fix is claimed. [Verification](verification-maximum-2026-11-12.md) records sources, scope, results and checks.
+
 **Question it answers.** Why is it slow, and is the fix proven?
 
 Built when a job needs it, not before. Adds a full crawl with cache-state analysis, timed user journeys, interleaved experiments on a suspected cause, filmstrips, layout-parity checks between before and after, and full traces. The report is numbered findings, each labelled confirmed, strongly supported or unresolved, with an evidence map.
@@ -156,15 +171,28 @@ Built when a job needs it, not before. Adds a full crawl with cache-state analys
 - **Promo studio.** No precedent in any project. Revisit when a client asks for launch media.
 - **Option boards.** Comparing three or more design alternatives in rounds, as Liz did. Likely a small extension of the comparison tool; do it when the next design round needs it.
 
-## Open questions for the owner
-
-1. Is there a PageSpeed Insights API key to use, or should the minimal tier run Lighthouse locally instead?
-2. Will clients see site-check reports, or are they internal? This decides how much plain-language explanation the standard report carries.
-3. Where should the post-launch watch run on a schedule?
-4. Is a small hosted backend acceptable for the content review, or must it stay static?
-
 ## Decisions
 
 - 12 November 2026: tiers are defined by the question they answer. Minimal and standard are built first; maximum waits for a job that needs it.
 - 12 November 2026: the site check comes before the post-launch watch, because the watch reuses its minimal tier.
 - 12 November 2026: scripts from earlier jobs are reference material. Tools here are written fresh against the project record.
+
+- 12 November 2026: phase 1 uses PageSpeed Insights for minimal performance checks, with a local `.env` key. Reports use plain explanations suitable for client review, with conditions and raw results in the evidence folder. Visitor data is optional because Google plans to remove it from the PageSpeed API; a separate CrUX integration is deferred.
+
+- 12 November 2026: added the owner’s Velocity public website and Red Thread (repository ID `unitedstats`) as live-site records, at the owner’s request. Single-site checks use a version 2 record instead of duplicating one live URL as a before/after pair; the existing comparison records remain version 1.
+
+- 12 November 2026: completed phase 1. The historical comparison is reconciled by a 54-audit replay against the independent archived summary and raw evidence of changed page inputs after the 10 November EmDash optimisation. Historical ranges remain dated references; they are not fixed regression bounds for different page content. Fresh paired-project runs used the same checksummed collector, preserving source failures rather than changing limits to obtain a clean report.
+
+- 12 November 2026: completed the manual post-launch watch before choosing a scheduler. The command reuses minimal site checks and the shared plain HTML report template. Saved-section replays use actual Liz content and repairs with inactive local assets; live proof uses Velocity and Red Thread. Explicit baseline acceptance preserves evidence and refuses failed or stale runs. Scheduling and notifications remain deferred.
+
+- 12 November 2026: phase 3 keeps one generated inventory per site and a local per-site index in the project record. Dated inventories provide optional historical seeds and exact URL reconciliation; they are not assumed to describe today's live pages. Full-page capture defaults to all successful HTML URLs, with explicit representative/none modes for bounded runs. The two real acceptance runs use representative captures and retain London Potters' source and capture failures. Competitor configuration and a portable comparison sheet reuse the same collector; no external competitor was selected for the proof.
+
+- 12 November 2026: phase 4 uses static review pages with local browser persistence and JSON/CSV exchange. A hosted database is deferred. Decisions are bound to the project and inventory snapshot; none are inferred from historical recommendations or HTTP errors. Exact redirect maps and read-only checks are separate from installing rules. The same preparer ran on London Potters and Elizabeth Norman; editorial decisions and production URL changes remain separate work.
+
+- 12 November 2026: phase 5 proves the platform-neutral procedure on two real static review bundles, with marked synthetic local form delivery. Explicit file lists, trusted manifest/archive pins, restored backups and selective reversal precede any future CMS adapter. Isolated loopback profiles reuse the form harness; production mail and database recovery are not inferred from fixture success. WordPress and EmDash operating notes live in README; no production deployer is added speculatively.
+
+- 12 November 2026: phase 6 uses explicit investigation profiles and the existing inventory crawler rather than duplicating the standard tier. Exact resource suppression is a browser-only diagnostic; different deployments remain confounded. Numbered findings require matched interventions, alternating pairs, meaningful repeated effects and selected parity before labelling an ablation strongly supported. Maximum does not call PageSpeed or automatically approve a production optimisation. Failed sources and incomplete investigations retain partial reports.
+
+## Complete workflow use
+
+12 November 2026: ran London Potters through preservation decisions, URL checks, an actual Worker/assets file package and restore, public journeys and a manual demo watch. The initial 223 URL failures were repaired. The nineteen exceptions now all have **demo-only** treatment: retain the cart canonical redirect and Clare's archive, return 404 for four missing URLs, show six inactive service notices, preserve six public event summaries and canonicalise the account alias. All 1,155 URLs in the recorded snapshot have demo decisions and pass checks; the source inventory itself remains partial. The 446-profile gallery and 213 area/discipline archive pages match captured live ordering. The current watch is quiet. Production release still needs the thirteen real service/access policies, operational implementations, broader source inventory, accessibility work and D1/R2 recovery. [Workflow evidence](verification-london-potters-workflow-2026-11-12.md), [URL repairs](verification-london-potters-url-fixes-2026-11-12.md), [content/order verification](verification-london-potters-content-order-2026-11-12.md) and [demo service decisions](verification-london-potters-demo-services-2026-11-12.md) record the distinct stages. The London Potters EmDash README owns migration scope. The earlier release artifact remains historical.
