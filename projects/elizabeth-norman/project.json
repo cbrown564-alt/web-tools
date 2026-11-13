@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "kind": "site-check",
+  "id": "elizabeth-norman",
+  "name": "Elizabeth Norman International",
+  "site": {
+    "id": "live",
+    "label": "Live website",
+    "baseUrl": "https://elizabethnorman.com"
+  },
+  "devices": {
+    "desktop": {
+      "width": 1440,
+      "height": 1050
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844
+    }
+  },
+  "pages": [
+    {
+      "id": "home",
+      "label": "Home",
+      "path": "/"
+    },
+    {
+      "id": "vacancies",
+      "label": "Vacancies",
+      "path": "/vacancies"
+    },
+    {
+      "id": "resources",
+      "label": "Resources",
+      "path": "/resources"
+    },
+    {
+      "id": "find-talent",
+      "label": "Find talent",
+      "path": "/find-talent"
+    },
+    {
+      "id": "contact",
+      "label": "Contact",
+      "path": "/contact"
+    }
+  ],
+  "inventory": {
+    "history": "inventory-history.json",
+    "outputs": {
+      "live": "inventory/live.json"
+    }
+  }
+}
